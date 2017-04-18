@@ -3,7 +3,7 @@ site_description: Documenation for the Gluu Server Cluster
 site_favicon: '/img/gluu_favicon.ico'
 copyright: Copyright &copy; 2017, Gluu, Inc.
 docs_dir: sources
-repo_url: https://github.com/GluuFederation/docs-cluster
+repo_url: https://github.com/GluuFederation/docs-de-prod/tree/3.0.0/3.0.0
 #theme: spacelab
 theme_dir: ./theme/material/
 extra:
