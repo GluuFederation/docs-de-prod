@@ -1,0 +1,42 @@
+site_name: Gluu Cluster Docs
+site_description: Documenation for the Gluu Server Cluster
+site_favicon: '/img/gluu_favicon.ico'
+copyright: Copyright &copy; 2017, Gluu, Inc.
+docs_dir: sources
+repo_url: https://github.com/GluuFederation/docs-cluster
+#theme: spacelab
+theme_dir: ./theme/material/
+extra:
+    version: 'Alpha'
+    logo: 'gluu.jpg'
+markdown_extensions:
+- admonition
+- toc:
+     permalink: '#'
+pages:
+- Home: 'index.md'
+- Admin Guide:
+    - Overview: 'admin-guide/overview/index.md'
+    - Installation: 'admin-guide/installation/index.md'
+    - Getting Started: 'admin-guide/getting-started/index.md'
+    - Cluster Management: 'admin-guide/cluster-management/index.md'
+    - Components: 'admin-guide/components/index.md'
+# - [admin-guide/monitoring/index.md, Admin Guide, Monitoring]
+#- [admin-guide/testing/index.md, Admin Guide, Testing]
+#- [admin-guide/tuning/index.md, Admin Guide, Tuning]
+    - Web Interface: 'admin-guide/webui/index.md'
+#- [admin-guide/logs/index.md, Admin Guide, Logs]
+    - Troubleshooting: 'admin-guide/troubleshooting/index.md'
+    - Recovery: 'admin-guide/recovery/index.md'
+    - Migration: 'admin-guide/migration/index.md'
+    - Known Issues: 'admin-guide/known-issues/index.md'
+
+- API Section:
+    - Cluster: 'reference/api/cluster.md'
+    - Provider: 'reference/api/provider.md'
+    - Node: 'reference/api/node.md'
+    - Container: 'reference/api/container.md'
+    - Container Log: 'reference/api/container_log.md'
+    - License Key: 'reference/api/license_key.md'
+
+# Articles Sections
