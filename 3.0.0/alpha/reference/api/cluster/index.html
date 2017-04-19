@@ -1,0 +1,895 @@
+
+<!DOCTYPE html>
+<html class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documenation for the Gluu Server Cluster">
+      
+      
+      
+      
+        <link rel="shortcut icon" href="../../..//img/gluu_favicon.ico">
+      
+      <meta name="generator" content="mkdocs+mkdocs-material#1.0.3">
+    
+    
+      
+        <title>Cluster - Gluu Cluster Docs</title>
+      
+    
+    
+      <script src="../../../assets/javascripts/modernizr-facb31f4a3.js"></script>
+    
+    
+      
+        
+        
+        
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/application-f3ab63f78a.css">
+      
+      
+    
+    
+  </head>
+  
+  
+  
+  
+    <body>
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="drawer">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
+    <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
+    
+      <header class="md-header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+	 <div class="md-flex__cell md-flex__cell--shrink">
+	    <a href="https://gluu.org/docs/" title="Gluu Cluster Docs" class=" md-logo  md-header-nav__button">
+          
+            <img src="../../../gluu.jpg" width="24" height="24">
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <span class="md-flex__ellipsis md-header-nav__title">
+          
+            
+              
+                <span class="md-header-nav__parent">
+                  API Section
+                </span>
+              
+            
+            Cluster
+          
+        </span>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="search"></label>
+          
+<div class="md-search" data-md-component="search">
+  <div class="md-search__overlay"></div>
+  <div class="md-search__inner">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" accesskey="s" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false">
+      <label class="md-icon md-search__icon" for="search"></label>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+              
+
+
+  
+
+
+  <a href="https://github.com/GluuFederation/docs-de-prod/tree/3.0.0/3.0.0" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+            
+          </div>
+      </div>
+    </div>
+   </nav>
+</header>
+    
+    <div class="md-container">
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary">
+
+  <label class="md-nav__title md-nav__title--site" for="drawer">
+    <i class=" md-logo  md-nav__button">
+      
+        <img src="../../../gluu.jpg">
+      
+    </i>
+    Gluu Cluster Docs
+	<label for="Versions">Ver:
+	  <select id="versions" onchange="window.location.href=this.value;" style="
+		position: inherit;
+		display: inline;
+		min-width: 25%;
+		/* width: 120%; */
+		height: 22px;
+		padding: 5px 15px 5px 5px;
+		color: black;
+		border: none;
+		background: transparent;
+		outline: none;
+		-webkit-appearance: none;
+		z-index: 99;
+		cursor: pointer;
+		font-size: 10px;
+		margin-bottom: 10px;
+		border: 1px solid black;
+		overflow: auto
+	">
+	  <option value="/docs/de/alpha">Alpha Release</option>
+	  <!-- <option value="/docs/2.4.4">2.4.4</option> -->
+		</select> 
+	</label>
+  </label>
+    
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/GluuFederation/docs-de-prod/tree/3.0.0/3.0.0" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  <li class="md-nav__item">
+    
+      <a href="../../.." title="Home" class="md-nav__link">
+        Home
+      </a>
+    
+  </li>
+
+    
+      
+      
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Admin Guide
+    </label>
+    <nav class="md-nav" data-md-component="collapsible">
+      <label class="md-nav__title" for="nav-2">
+        Admin Guide
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+  <li class="md-nav__item">
+    
+      <a href="../../../admin-guide/overview/" title="Overview" class="md-nav__link">
+        Overview
+      </a>
+    
+  </li>
+
+        
+          
+          
+  <li class="md-nav__item">
+    
+      <a href="../../../admin-guide/installation/" title="Installation" class="md-nav__link">
+        Installation
+      </a>
+    
+  </li>
+
+        
+          
+          
+  <li class="md-nav__item">
+    
+      <a href="../../../admin-guide/getting-started/" title="Getting Started" class="md-nav__link">
+        Getting Started
+      </a>
+    
+  </li>
+
+        
+          
+          
+  <li class="md-nav__item">
+    
+      <a href="../../../admin-guide/cluster-management/" title="Cluster Management" class="md-nav__link">
+        Cluster Management
+      </a>
+    
+  </li>
+
+        
+          
+          
+  <li class="md-nav__item">
+    
+      <a href="../../../admin-guide/components/" title="Components" class="md-nav__link">
+        Components
+      </a>
+    
+  </li>
+
+        
+          
+          
+  <li class="md-nav__item">
+    
+      <a href="../../../admin-guide/webui/" title="Web Interface" class="md-nav__link">
+        Web Interface
+      </a>
+    
+  </li>
+
+        
+          
+          
+  <li class="md-nav__item">
+    
+      <a href="../../../admin-guide/troubleshooting/" title="Troubleshooting" class="md-nav__link">
+        Troubleshooting
+      </a>
+    
+  </li>
+
+        
+          
+          
+  <li class="md-nav__item">
+    
+      <a href="../../../admin-guide/recovery/" title="Recovery" class="md-nav__link">
+        Recovery
+      </a>
+    
+  </li>
+
+        
+          
+          
+  <li class="md-nav__item">
+    
+      <a href="../../../admin-guide/migration/" title="Migration" class="md-nav__link">
+        Migration
+      </a>
+    
+  </li>
+
+        
+          
+          
+  <li class="md-nav__item">
+    
+      <a href="../../../admin-guide/known-issues/" title="Known Issues" class="md-nav__link">
+        Known Issues
+      </a>
+    
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" checked>
+    
+    <label class="md-nav__link" for="nav-3">
+      API Section
+    </label>
+    <nav class="md-nav" data-md-component="collapsible">
+      <label class="md-nav__title" for="nav-3">
+        API Section
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+  <li class="md-nav__item">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        Cluster
+      </label>
+    
+    <a href="./" title="Cluster" class="md-nav__link md-nav__link--active">
+      Cluster
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#cluster-api" title="Cluster API" class="md-nav__link">
+    Cluster API
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview" title="Overview" class="md-nav__link">
+    Overview
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-new-cluster" title="Create New Cluster" class="md-nav__link">
+    Create New Cluster
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-a-cluster" title="Get A Cluster" class="md-nav__link">
+    Get A Cluster
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list-all-clusters" title="List All Clusters" class="md-nav__link">
+    List All Clusters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-a-cluster" title="Delete A Cluster" class="md-nav__link">
+    Delete A Cluster
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+  <li class="md-nav__item">
+    
+      <a href="../provider/" title="Provider" class="md-nav__link">
+        Provider
+      </a>
+    
+  </li>
+
+        
+          
+          
+  <li class="md-nav__item">
+    
+      <a href="../node/" title="Node" class="md-nav__link">
+        Node
+      </a>
+    
+  </li>
+
+        
+          
+          
+  <li class="md-nav__item">
+    
+      <a href="../container/" title="Container" class="md-nav__link">
+        Container
+      </a>
+    
+  </li>
+
+        
+          
+          
+  <li class="md-nav__item">
+    
+      <a href="../container_log/" title="Container Log" class="md-nav__link">
+        Container Log
+      </a>
+    
+  </li>
+
+        
+          
+          
+  <li class="md-nav__item">
+    
+      <a href="../license_key/" title="License Key" class="md-nav__link">
+        License Key
+      </a>
+    
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#cluster-api" title="Cluster API" class="md-nav__link">
+    Cluster API
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview" title="Overview" class="md-nav__link">
+    Overview
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-new-cluster" title="Create New Cluster" class="md-nav__link">
+    Create New Cluster
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-a-cluster" title="Get A Cluster" class="md-nav__link">
+    Get A Cluster
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list-all-clusters" title="List All Clusters" class="md-nav__link">
+    List All Clusters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-a-cluster" title="Delete A Cluster" class="md-nav__link">
+    Delete A Cluster
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+               
+                 <a href="https://github.com/GluuFederation/docs-de-prod/tree/3.0.0/3.0.0/source/reference\api\cluster.md" title="Edit this page" class="md-icon md-content__edit">edit</a>
+               
+              
+                
+                  <h1>Cluster</h1>
+                
+                <div class="toc">
+<ul>
+<li><a href="#cluster-api">Cluster API</a><ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#create-new-cluster">Create New Cluster</a></li>
+<li><a href="#get-a-cluster">Get A Cluster</a></li>
+<li><a href="#list-all-clusters">List All Clusters</a></li>
+<li><a href="#delete-a-cluster">Delete A Cluster</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<h2 id="cluster-api">Cluster API<a class="headerlink" href="#cluster-api" title="Permanent link">#</a></h2>
+<h3 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">#</a></h3>
+<p>Cluster holds all <code>docker</code> containers within <code>weave</code> network.</p>
+<hr />
+<h3 id="create-new-cluster">Create New Cluster<a class="headerlink" href="#create-new-cluster" title="Permanent link">#</a></h3>
+<pre><code>POST /clusters
+</code></pre>
+<p>Note, currently the API only allow 1 cluster. This may change in the future.</p>
+<p><strong>URL:</strong></p>
+<pre><code>http://localhost:8080/clusters
+</code></pre>
+<p><strong>Form parameters:</strong></p>
+<ul>
+<li>
+<p><code>name</code> (required)</p>
+<p>The name of the cluster.</p>
+<p>Rules:</p>
+<ul>
+<li>Minimum 3 characters.</li>
+<li>Accepts alphanumeric (case-insensitive), dash, underscore, and dot characters.</li>
+<li>Cannot use dash, underscore, or dot as leading or traling character.</li>
+</ul>
+</li>
+<li>
+<p><code>description</code> (optional)</p>
+</li>
+<li>
+<p><code>org_name</code> (required)</p>
+<p>Organization name for X.509 certificate.</p>
+</li>
+<li>
+<p><code>org_short_name</code> (required)</p>
+<p>Organization short name for X.509 certificate.</p>
+</li>
+<li>
+<p><code>city</code> (required)</p>
+<p>City for X.509 certificate.</p>
+</li>
+<li>
+<p><code>state</code> (required)</p>
+<p>State or province name for X.509 certificate.</p>
+</li>
+<li>
+<p><code>country_code</code> (required)</p>
+<p>ISO 3166-1 alpha-2 country code.</p>
+</li>
+<li>
+<p><code>admin_email</code> (required)</p>
+<p>Admin email address for X.509 certificate.</p>
+</li>
+<li>
+<p><code>ox_cluster_hostname</code> (required)</p>
+<p>Domain name to use for the admin interface website.</p>
+</li>
+<li>
+<p><code>admin_pw</code> (required)</p>
+<p>Default password for default Admin account. Minimum password length is 6 characters.</p>
+</li>
+</ul>
+<p><strong>Request example:</strong></p>
+<pre><code class="sh">curl http://localhost:8080/clusters \
+    -d name=cluster1 \
+    -d org_name=my-org \
+    -d org_short_name=my-org \
+    -d city=Austin \
+    -d state=TX \
+    -d country_code=US \
+    -d admin_email='info@example.com' \
+    -d ox_cluster_hostname=ox.example.com \
+    -d admin_pw=secret \
+    -X POST -i
+</code></pre>
+
+<p><strong>Response example:</strong></p>
+<pre><code class="http">HTTP/1.0 201 CREATED
+Content-Type: application/json
+Location: http://localhost:8080/clusters/1279de28-b6d0-4052-bd0c-cc46a6fd5f9f
+
+{
+    &quot;inum_org&quot;: &quot;@!FDF8.652A.6EFF.F5A3!0001!DA7B.9EB2&quot;,
+    &quot;oxauth_containers&quot;: [],
+    &quot;inum_appliance&quot;: &quot;@!FDF8.652A.6EFF.F5A3!0002!FA83.4368&quot;,
+    &quot;admin_email&quot;: &quot;info@example.com&quot;,
+    &quot;inum_appliance_fn&quot;: &quot;FDF8652A6EFFF5A30002FA834368&quot;,
+    &quot;description&quot;: null,
+    &quot;city&quot;: &quot;Austin&quot;,
+    &quot;base_inum&quot;: &quot;@!FDF8.652A.6EFF.F5A3&quot;,
+    &quot;inum_org_fn&quot;: &quot;FDF8652A6EFFF5A30001DA7B9EB2&quot;,
+    &quot;ldaps_port&quot;: &quot;1636&quot;,
+    &quot;ox_cluster_hostname&quot;: &quot;ox.example.com&quot;,
+    &quot;state&quot;: &quot;TX&quot;,
+    &quot;country_code&quot;: &quot;US&quot;,
+    &quot;ldap_containers&quot;: [],
+    &quot;nginx_containers&quot;: [],
+    &quot;org_short_name&quot;: &quot;my-org&quot;,
+    &quot;org_name&quot;: &quot;my-org&quot;,
+    &quot;id&quot;: &quot;1279de28-b6d0-4052-bd0c-cc46a6fd5f9f&quot;,
+    &quot;oxtrust_containers&quot;: [],
+    &quot;name&quot;: &quot;cluster1&quot;,
+    &quot;oxidp_containers&quot;: []
+}
+</code></pre>
+
+<p><strong>Status Code:</strong></p>
+<ul>
+<li><code>201</code>: Cluster is successfully created.</li>
+<li><code>400</code>: Bad request. Possibly malformed/incorrect parameter value.</li>
+<li><code>403</code>: Access denied. Possibly unable to create more cluster.</li>
+<li><code>500</code>: The server having errors.</li>
+</ul>
+<hr />
+<h3 id="get-a-cluster">Get A Cluster<a class="headerlink" href="#get-a-cluster" title="Permanent link">#</a></h3>
+<pre><code>GET /clusters/{id}
+</code></pre>
+<p><strong>URL:</strong></p>
+<pre><code>http://localhost:8080/clusters/{id}
+</code></pre>
+<p><strong>Request example:</strong></p>
+<pre><code class="sh">curl http://localhost:8080/clusters/1279de28-b6d0-4052-bd0c-cc46a6fd5f9f -i
+</code></pre>
+
+<p><strong>Response example:</strong></p>
+<pre><code class="http">HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+    &quot;inum_org&quot;: &quot;@!FDF8.652A.6EFF.F5A3!0001!DA7B.9EB2&quot;,
+    &quot;oxauth_containers&quot;: [],
+    &quot;inum_appliance&quot;: &quot;@!FDF8.652A.6EFF.F5A3!0002!FA83.4368&quot;,
+    &quot;admin_email&quot;: &quot;info@example.com&quot;,
+    &quot;inum_appliance_fn&quot;: &quot;FDF8652A6EFFF5A30002FA834368&quot;,
+    &quot;description&quot;: null,
+    &quot;city&quot;: &quot;Austin&quot;,
+    &quot;base_inum&quot;: &quot;@!FDF8.652A.6EFF.F5A3&quot;,
+    &quot;inum_org_fn&quot;: &quot;FDF8652A6EFFF5A30001DA7B9EB2&quot;,
+    &quot;ldaps_port&quot;: &quot;1636&quot;,
+    &quot;ox_cluster_hostname&quot;: &quot;ox.example.com&quot;,
+    &quot;state&quot;: &quot;TX&quot;,
+    &quot;country_code&quot;: &quot;US&quot;,
+    &quot;ldap_containers&quot;: [],
+    &quot;nginx_containers&quot;: [],
+    &quot;org_short_name&quot;: &quot;my-org&quot;,
+    &quot;org_name&quot;: &quot;my-org&quot;,
+    &quot;id&quot;: &quot;1279de28-b6d0-4052-bd0c-cc46a6fd5f9f&quot;,
+    &quot;oxtrust_containers&quot;: [],
+    &quot;name&quot;: &quot;cluster1&quot;,
+    &quot;oxidp_containers&quot;: []
+}
+</code></pre>
+
+<p><strong>Status Code:</strong></p>
+<ul>
+<li><code>200</code>: Cluster is exist.</li>
+<li><code>404</code>: Cluster is not exist.</li>
+<li><code>500</code>: The server having errors.</li>
+</ul>
+<hr />
+<h3 id="list-all-clusters">List All Clusters<a class="headerlink" href="#list-all-clusters" title="Permanent link">#</a></h3>
+<p><code>GET /clusters</code></p>
+<p><strong>URL:</strong></p>
+<p><code>http://localhost:8080/clusters</code></p>
+<p><strong>Request example:</strong></p>
+<pre><code class="sh">curl http://localhost:8080/clusters -i
+</code></pre>
+
+<p><strong>Response example:</strong></p>
+<pre><code class="http">HTTP/1.0 200 OK
+Content-Type: application/json
+
+[
+    {
+        &quot;inum_org&quot;: &quot;@!FDF8.652A.6EFF.F5A3!0001!DA7B.9EB2&quot;,
+        &quot;oxauth_containers&quot;: [],
+        &quot;inum_appliance&quot;: &quot;@!FDF8.652A.6EFF.F5A3!0002!FA83.4368&quot;,
+        &quot;admin_email&quot;: &quot;info@example.com&quot;,
+        &quot;inum_appliance_fn&quot;: &quot;FDF8652A6EFFF5A30002FA834368&quot;,
+        &quot;description&quot;: null,
+        &quot;city&quot;: &quot;Austin&quot;,
+        &quot;base_inum&quot;: &quot;@!FDF8.652A.6EFF.F5A3&quot;,
+        &quot;inum_org_fn&quot;: &quot;FDF8652A6EFFF5A30001DA7B9EB2&quot;,
+        &quot;ldaps_port&quot;: &quot;1637&quot;,
+        &quot;ox_cluster_hostname&quot;: &quot;ox.example.com&quot;,
+        &quot;state&quot;: &quot;TX&quot;,
+        &quot;country_code&quot;: &quot;US&quot;,
+        &quot;ldap_containers&quot;: [],
+        &quot;nginx_containers&quot;: [],
+        &quot;org_short_name&quot;: &quot;my-org&quot;,
+        &quot;org_name&quot;: &quot;my-org&quot;,
+        &quot;id&quot;: &quot;1279de28-b6d0-4052-bd0c-cc46a6fd5f9f&quot;,
+        &quot;oxtrust_containers&quot;: [],
+        &quot;name&quot;: &quot;cluster1&quot;,
+        &quot;oxidp_containers&quot;: []
+    }
+]
+</code></pre>
+
+<p>Note, if there's no cluster, the response body will return empty list.</p>
+<p><strong>Status Code:</strong></p>
+<ul>
+<li><code>200</code>: Request is succeed.</li>
+<li><code>500</code>: The server having errors.</li>
+</ul>
+<hr />
+<h3 id="delete-a-cluster">Delete A Cluster<a class="headerlink" href="#delete-a-cluster" title="Permanent link">#</a></h3>
+<pre><code>DELETE /clusters/{id}
+</code></pre>
+<p><strong>URL:</strong></p>
+<pre><code>http://localhost:8080/clusters/{id}
+</code></pre>
+<p><strong>Request example:</strong></p>
+<pre><code class="sh">curl http://localhost:8080/clusters/1279de28-b6d0-4052-bd0c-cc46a6fd5f9f -X DELETE -i
+</code></pre>
+
+<p><strong>Response example:</strong></p>
+<pre><code class="http">HTTP/1.0 204 NO CONTENT
+Content-Type: application/json
+</code></pre>
+
+<p><strong>Status Code:</strong></p>
+<ul>
+<li><code>204</code>: Cluster has been deleted.</li>
+<li><code>403</code>: Access denied.</li>
+<li><code>404</code>: Cluster is not exist.</li>
+<li><code>500</code>: The server having errors.</li>
+</ul>
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../../../admin-guide/known-issues/" title="Known Issues" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Known Issues
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../provider/" title="Provider" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Provider
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2017, Gluu, Inc.
+          </div>
+        
+        powered by
+        <a href="http://www.mkdocs.org" title="MkDocs">MkDocs</a>
+        and
+        <a href="http://squidfunk.github.io/mkdocs-material/" title="Material for MkDocs">
+          Material for MkDocs</a>
+      </div>
+      
+        
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../../assets/javascripts/application-2afe21e0b2.js"></script>
+      <script>var config={url:{base:"../../.."}},app=new Application(config);app.initialize()</script>
+      
+    
+    
+      
+    
+  </body>
+</html>
