@@ -1,4 +1,4 @@
-# The Gluu Server DE project has been paused indefinitely. 
+# The Gluu Server DE project has been end of lifed. 
 
 To cluster the Gluu server, you can use our [cluster manager](https://gluu.org/docs/cm) software.
 
