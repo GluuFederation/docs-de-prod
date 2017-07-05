@@ -1,3 +1,7 @@
+# The Gluu Server DE project has been paused indefinitely. 
+
+To cluster the Gluu server, you can use our [cluster manager](https://gluu.org/docs/cm) software.
+
 # Gluu Server Docker Edition (DE) Documentation
 
 The Gluu Server is an Identity and Access Management (IAM) suite. It consists
