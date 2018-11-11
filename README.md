@@ -1,1 +1,1 @@
-# The Gluu Server DE project has been deprecated. 
+# Gluu Server Docker Edition Docs
