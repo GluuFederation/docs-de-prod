@@ -108,7 +108,7 @@ The following commands are supported by the container:
             -e GLUU_CONFIG_ADAPTER=consul \
             -e GLUU_CONSUL_HOST=consul \
             -v /path/to/host/volume:/opt/config-init/db \
-            gluufederation/config-init:3.1.4_dev \
+            gluufederation/config-init:3.1.4_01 \
             dump
 
 -   [load](https://github.com/GluuFederation/docker-config-init/tree/3.1.4#load-command): The load command will load a `config.json` into the KV store. All existing config will be ignored unless forced by passing environment variable `GLUU_OVERWRITE_ALL`.
@@ -139,7 +139,7 @@ The following commands are supported by the container:
             -e GLUU_CONFIG_ADAPTER=consul \
             -e GLUU_CONSUL_HOST=consul \
             -v /path/to/host/volume:/opt/config-init/db \
-            gluufederation/config-init:3.1.4_dev \
+            gluufederation/config-init:3.1.4_01 \
             load
 
 #### OpenDJ
@@ -175,7 +175,7 @@ For example:
 
     docker run \
         --rm \
-        gluufederation/config-init:3.1.4_dev generate --ldap-type=openldap
+        gluufederation/config-init:3.1.4_01 generate --ldap-type=openldap
 
 The following variables are used by the container:
 
