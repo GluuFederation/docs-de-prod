@@ -13,7 +13,7 @@ markdown_extensions:
 - toc:
      permalink: '#'
 pages:
-- 'Introduction': 'intro.md'
+- 'Introduction': 'index.md'
 - 'Technical Documentation': 'technical.md'
 - 'Examples': 'example.md'
 - 'FAQ': 'faq.md'
