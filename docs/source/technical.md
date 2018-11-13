@@ -49,7 +49,7 @@ To connect to Consul container that deployed using HTTPS scheme, please use `glu
 
 The following commands are supported by the container:
 
--   [generate](https://github.com/GluuFederation/docker-config-init/tree/3.1.4#generate-command): The generate command will generate all the initial configuration files for the Gluu Server components. All existing config will be ignored unless forced by passing environment variable `GLUU_OVERWRITE_ALL`.
+-   `generate`: The generate command will generate all the initial configuration files for the Gluu Server components. All existing config will be ignored unless forced by passing environment variable `GLUU_OVERWRITE_ALL`.
 
     The following parameters and/or environment variables are required to launch unless otherwise marked.
 
@@ -83,7 +83,7 @@ The following commands are supported by the container:
     - `GLUU_KUBERNETES_CONFIGMAP`: Kubernetes configmap name (default to `gluu`).
     - `GLUU_OVERWRITE_ALL`: Overwrite all config (default to `false`).
 
-- [dump](https://github.com/GluuFederation/docker-config-init/tree/3.1.4#dump-command): The dump command will dump all configuration from inside KV store into the `/opt/config-init/db/config.json` file inside the container. The following parameters and/or environment variables are required to launch unless otherwise marked.
+- `dump`: The dump command will dump all configuration from inside KV store into the `/opt/config-init/db/config.json` file inside the container. The following parameters and/or environment variables are required to launch unless otherwise marked.
 
     Environment variables:
 
@@ -111,7 +111,7 @@ The following commands are supported by the container:
             gluufederation/config-init:3.1.4_01 \
             dump
 
--   [load](https://github.com/GluuFederation/docker-config-init/tree/3.1.4#load-command): The load command will load a `config.json` into the KV store. All existing config will be ignored unless forced by passing environment variable `GLUU_OVERWRITE_ALL`.
+-   `load`: The load command will load a `config.json` into the KV store. All existing config will be ignored unless forced by passing environment variable `GLUU_OVERWRITE_ALL`.
 
     The following parameters and/or environment variables are required to launch unless otherwise marked:
 
