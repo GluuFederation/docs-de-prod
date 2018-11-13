@@ -4,7 +4,7 @@
 
 This an example of running Gluu Server Docker Edition (DE) on a single VM.
 
-[Here](https://github.com/GluuFederation/gluu-docker/tree/3.1.3/examples/single-host) are the instructions to deploy a stand-alone instance with a bash script named `run_all.sh`.
+[Here](https://github.com/GluuFederation/gluu-docker/tree/3.1.4/examples/single-host) are the instructions to deploy a stand-alone instance with a bash script named `run_all.sh`.
 The core concept of this script is to intake some necessary information from the user on initial startup and deploy the containers.
 
 What follows is a thorough explanation of the process we used to make launching a stand-alone instance repeatable, modular and consistent. Adjust the process as needed.
@@ -43,7 +43,7 @@ What follows is a thorough explanation of the process we used to make launching 
 
 This an example of running Gluu Server Docker edition on multiple VMs using Docker Swarm Mode.
 
-[Here](https://github.com/GluuFederation/gluu-docker/tree/3.1.3/examples/multi-hosts) are the instructions to deploy clustered instances of Gluu Server Docker containers.
+[Here](https://github.com/GluuFederation/gluu-docker/tree/3.1.4/examples/multi-hosts) are the instructions to deploy clustered instances of Gluu Server Docker containers.
 This example consists of several shell scripts, and config files (including docker-compose files).
 
 What follows is an explanation of the process we used to deploy clustered Gluu Server Docker containers.
@@ -89,3 +89,15 @@ oxTrust and oxShibboleth rely on a mounted volume to share oxShibboleth configur
 
 Given 3 nodes that run clustered Gluu Server, it's recommended to deploy an external loadbalancer, for example: NGINX or [DigitalOcean loadbalancer](https://www.digitalocean.com/products/load-balancer/).
 Note, the process of deploying an external loadbalancer is out of the scope of this document.
+
+### Minikube
+
+This an example of running Gluu Server Docker edition on single VM using Kubernetes on Minikube.
+
+[Here](https://github.com/GluuFederation/gluu-docker/tree/3.1.4/examples/kubernetes/minikube) are the instructions to deploy a stand-alone Gluu Server Docker containers.
+
+### Google Kubernetes Engine
+
+This an example of running Gluu Server Docker edition on multiple VMs using Google Kubernetes Engine.
+
+[Here](https://github.com/GluuFederation/gluu-docker/tree/3.1.4/examples/kubernetes/gke) are the instructions to deploy clustered instances of Gluu Server Docker containers.
