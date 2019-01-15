@@ -168,38 +168,6 @@ The following variables are used by the container:
 - `GLUU_LDAP_ADVERTISE_ADDR`: the hostname/IP address used as the host of OpenDJ server.
 - `GLUU_CERT_ALT_NAME`: an additional DNS name set as Subject Alt Name in cert. If the value is not an empty string and doesn't match existing Subject Alt Name (or doesn't exist) in existing cert, then new cert will be regenerated and overwrite the one that saved in config backend. This environment variable is __required only if__ oxShibboleth is deployed, to address issue with mismatched `CN` and destination hostname while trying to connect to OpenDJ. Note, any existing containers that connect to OpenDJ must be re-deployed to download new cert.
 
-#### OpenLDAP
-
-An alternative of OpenDJ image. To use this container, make sure to choose `openldap` when running `config-init` container.
-For example:
-
-    docker run \
-        --rm \
-        gluufederation/config-init:3.1.4_01 generate --ldap-type=openldap
-
-The following variables are used by the container:
-
-- `GLUU_CONFIG_ADAPTER`: The config backend adapter, can be `consul` (default) or `kubernetes`.
-- `GLUU_CONSUL_HOST`: hostname or IP of Consul (default to `localhost`).
-- `GLUU_CONSUL_PORT`: port of Consul (default to `8500`).
-- `GLUU_CONSUL_CONSISTENCY`: Consul consistency mode (choose one of `default`, `consistent`, or `stale`). Default to `stale` mode.
-- `GLUU_CONSUL_SCHEME`: supported Consul scheme (`http` or `https`).
-- `GLUU_CONSUL_VERIFY`: whether to verify cert or not (default to `false`).
-- `GLUU_CONSUL_CACERT_FILE`: path to Consul CA cert file (default to `/etc/certs/consul_ca.crt`). This file will be used if it exists and `GLUU_CONSUL_VERIFY` set to `true`.
-- `GLUU_CONSUL_CERT_FILE`: path to Consul cert file (default to `/etc/certs/consul_client.crt`).
-- `GLUU_CONSUL_KEY_FILE`: path to Consul key file (default to `/etc/certs/consul_client.key`).
-- `GLUU_CONSUL_TOKEN_FILE`: path to file contains ACL token (default to `/etc/certs/consul_token`).
-- `GLUU_KUBERNETES_NAMESPACE`: Kubernetes namespace (default to `default`).
-- `GLUU_KUBERNETES_CONFIGMAP`: Kubernetes configmap name (default to `gluu`).
-- `GLUU_LDAP_INIT`: whether to import initial LDAP entries (possible values are true or false)
-- `GLUU_LDAP_INIT_HOST`: LDAP hostname for initial configuration (only usable when `GLUU_LDAP_INIT` set to true)
-- `GLUU_LDAP_INIT_PORT`: LDAP port number for initial configuration (only usable when `GLUU_LDAP_INIT` set to true)
-- `GLUU_CACHE_TYPE`: supported values are `IN_MEMORY`, `REDIS`, `MEMCACHED`, and `NATIVE_PERSISTENCE` (default is `IN_MEMORY`)
-- `GLUU_REDIS_URL`: URL of redis service, format is `host:port` (optional)
-- `GLUU_REDIS_TYPE`: redis service type, either `STANDALONE` or `CLUSTER` (optional)
-- `GLUU_LDAP_ADDR_INTERFACE`: interface name where the IP will be guessed and registered as OpenLDAP host, e.g. `eth0`
-- `GLUU_CERT_ALT_NAME`: an additional DNS name set as Subject Alt Name in cert. If the value is not an empty string and doesn't match existing Subject Alt Name (or doesn't exist) in existing cert, then new cert will be regenerated and overwrite the one that saved in config backend. This environment variable is __required only if__ oxShibboleth is deployed, to address issue with mismatched `CN` and destination hostname while trying to connect to OpenLDAP. Note, any existing containers that connect to OpenLDAP must be re-deployed to download new cert.
-
 #### oxAuth
 
 Variables used by the container:
