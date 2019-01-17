@@ -16,4 +16,7 @@ The Gluu Server now supports installation via Linux containers. This documentati
 - [FAQ](./faq.md)
 
 ## Support
-Gluu Server DE is currently in Beta. If you have questions or feedback, please open a ticket on the [Gluu support portal](https://support.gluu.org/).
+If you have questions or feedback, please open a ticket on the [Gluu support portal](https://support.gluu.org/).
+
+!!! Note
+    Support for Docker Edition deployments is only guaranteed under [Enterprise support plans](https://gluu.org/pricing). However, the code and documentation remains free and open source.
