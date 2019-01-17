@@ -1,0 +1,20 @@
+site_name: Gluu Docker Edition Docs
+site_description: Documentation for the Gluu Server Docker Edition
+site_favicon: '/img/gluu_favicon.ico'
+copyright: Copyright &copy; 2018, Gluu, Inc.
+docs_dir: source
+repo_url: https://github.com/GluuFederation/docs-de-prod/tree/3.1.4/docs
+theme_dir: theme/material/
+extra:
+    version: '3.1.4'
+    logo: 'gluu.png'
+markdown_extensions:
+- admonition
+- toc:
+     permalink: '#'
+- pymdownx.superfences
+pages:
+- 'Introduction': 'index.md'
+- 'Technical Documentation': 'technical.md'
+- 'Examples': 'example.md'
+- 'FAQ': 'faq.md'
