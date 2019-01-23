@@ -1,7 +1,7 @@
 site_name: Gluu Docker Edition Docs
 site_description: Documentation for the Gluu Server Docker Edition
 site_favicon: '/img/gluu_favicon.ico'
-copyright: Copyright &copy; 2018, Gluu, Inc.
+copyright: Copyright &copy; 2019, Gluu, Inc.
 docs_dir: source
 repo_url: https://github.com/GluuFederation/docs-de-prod/tree/3.1.4/docs
 theme_dir: theme/material/
