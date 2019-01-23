@@ -8,9 +8,9 @@ Size was a major consideration in the base Docker image we used for our containe
 
 #### Startup
 
-Docker containers generally have entrypoint scripts to prepare templates, configure files, run services, or anything else you need to run to properly initialize a container and run the process. For our containers, we pull most of our files and certificates from Consul.
+Docker containers generally have entrypoint scripts to prepare templates, configure files, run services, or anything else you need to run to properly initialize a container and run the process. For our containers, we pull most of our files and certificates from Consul and Vault.
 
-Because there is a heirarchy of function to Gluu Server, `wait-for-it` scripts were designed, thanks to contributions from Torstein Krause Johansen (@skybert), to try and make sure the containers don't begin their launch processes until the services superior to the container are fully started. However, there is a time limit, so a container dependent upon another container could fail as the `wait-for-it` "health checks" aren't being met.
+Because there is a heirarchy of function to Gluu Server, `wait_for.py` script were designed, thanks to contributions from Torstein Krause Johansen (@skybert) who wrote the initial `wait-for-it` script, to try and make sure the containers don't begin their launch processes until the services superior to the container are fully started. However, there is a time limit, so a container dependent upon another container could fail as the `wait_for.py` "health checks" aren't being met.
 
 ### Networking Considerations
 
@@ -27,17 +27,66 @@ We decided to include `tini` as not all of container scheduler/orchestrator has 
 
 The Gluu Server Docker containers consist of in-house and 3rd-party containers.
 
+Our containers are designed to have similar environment variables, though each container may have additional environment variable. The following environment variables are globally used by all of our containers:
+
+- `GLUU_CONFIG_ADAPTER`: The config backend adapter, can be `consul` (default) or `kubernetes`.
+- `GLUU_CONFIG_CONSUL_HOST`: hostname or IP of Consul (default to `localhost`).
+- `GLUU_CONFIG_CONSUL_PORT`: port of Consul (default to `8500`).
+- `GLUU_CONFIG_CONSUL_CONSISTENCY`: Consul consistency mode (choose one of `default`, `consistent`, or `stale`). Default to `stale` mode.
+- `GLUU_CONFIG_CONSUL_SCHEME`: supported Consul scheme (`http` or `https`).
+- `GLUU_CONFIG_CONSUL_VERIFY`: whether to verify cert or not (default to `false`).
+- `GLUU_CONFIG_CONSUL_CACERT_FILE`: path to Consul CA cert file (default to `/etc/certs/consul_ca.crt`). This file will be used if it exists and `GLUU_CONFIG_CONSUL_VERIFY` set to `true`.
+- `GLUU_CONFIG_CONSUL_CERT_FILE`: path to Consul cert file (default to `/etc/certs/consul_client.crt`).
+- `GLUU_CONFIG_CONSUL_KEY_FILE`: path to Consul key file (default to `/etc/certs/consul_client.key`).
+- `GLUU_CONFIG_CONSUL_TOKEN_FILE`: path to file contains ACL token (default to `/etc/certs/consul_token`).
+- `GLUU_CONFIG_KUBERNETES_NAMESPACE`: Kubernetes namespace (default to `default`).
+- `GLUU_CONFIG_KUBERNETES_CONFIGMAP`: Kubernetes configmaps name (default to `gluu`).
+- `GLUU_CONFIG_KUBERNETES_USE_KUBE_CONFIG`: Load credentials from `$HOME/.kube/config`, only useful for non-container environment (default to `false`).
+- `GLUU_SECRET_ADAPTER`: The secrets adapter, can be `vault` or `kubernetes`.
+- `GLUU_SECRET_VAULT_SCHEME`: supported Vault scheme (`http` or `https`).
+- `GLUU_SECRET_VAULT_HOST`: hostname or IP of Vault (default to `localhost`).
+- `GLUU_SECRET_VAULT_PORT`: port of Vault (default to `8200`).
+- `GLUU_SECRET_VAULT_VERIFY`: whether to verify cert or not (default to `false`).
+- `GLUU_SECRET_VAULT_ROLE_ID_FILE`: path to file contains Vault AppRole role ID (default to `/etc/certs/vault_role_id`).
+- `GLUU_SECRET_VAULT_SECRET_ID_FILE`: path to file contains Vault Approle secret ID (default to `/etc/certs/vault_secret_id`).
+- `GLUU_SECRET_VAULT_CERT_FILE`: path to Vault cert file (default to `/etc/certs/vault_client.crt`).
+- `GLUU_SECRET_VAULT_KEY_FILE`: path to Vault key file (default to `/etc/certs/vault_client.key`).
+- `GLUU_SECRET_VAULT_CACERT_FILE`: path to Vault CA cert file (default to `/etc/certs/vault_ca.crt`). This file will be used if it exists and `GLUU_SECRET_VAULT_VERIFY` set to `true`.
+- `GLUU_SECRET_KUBERNETES_NAMESPACE`: Kubernetes namespace (default to `default`).
+- `GLUU_SECRET_KUBERNETES_CONFIGMAP`: Kubernetes secrets name (default to `gluu`).
+- `GLUU_SECRET_KUBERNETES_USE_KUBE_CONFIG`: Load credentials from `$HOME/.kube/config`, only useful for non-container environment (default to `false`).
+- `GLUU_WAIT_MAX_TIME`: How long the startup "health checks" should run (default to `300` seconds).
+- `GLUU_WAIT_SLEEP_DURATION`: Delay between startup "health checks" (default to `5` seconds).
+
+Deprecated environment variables (see `GLUU_CONFIG_CONSUL_*` or `GLUU_CONFIG_KUBERNETES_*` for reference):
+
+- `GLUU_CONSUL_HOST`
+- `GLUU_CONSUL_PORT`
+- `GLUU_CONSUL_CONSISTENCY`
+- `GLUU_CONSUL_SCHEME`
+- `GLUU_CONSUL_VERIFY`
+- `GLUU_CONSUL_CACERT_FILE`
+- `GLUU_CONSUL_CERT_FILE`
+- `GLUU_CONSUL_KEY_FILE`
+- `GLUU_CONSUL_TOKEN_FILE`
+- `GLUU_KUBERNETES_NAMESPACE`
+- `GLUU_KUBERNETES_CONFIGMAP`
+
 #### Consul
 
 __Note:__ for Kubernetes user, this container can be omitted.
 
-The Gluu Server Docker containers were built to be centralized around a configuration KV store. For our use case, we've used [Consul](https://www.consul.io/) as our KV store. The reasoning behind this decision was to allow the containers to be as modular as possible. Services can be replaced without concern for losing any of the default configuration. This isn't to say that there won't need to be persistence using volumes (see [here](https://github.com/GluuFederation/gluu-docker/blob/master/examples/single-host/docker-compose.yml#L73) and [here](https://github.com/GluuFederation/gluu-docker/blob/master/examples/single-host/docker-compose.yml#L57)) for custom files and long standing data requirements.
+The Gluu Server Docker containers were built to be centralized around a configuration KV store. For our use case, we've used [Consul](https://www.consul.io/) as our KV store. The reasoning behind this decision was to allow the containers to be as modular as possible. Services can be replaced without concern for losing any of the default configuration. This isn't to say that there won't need to be persistence using volumes (see [here](https://github.com/GluuFederation/gluu-docker/blob/3.1.5/examples/single-host/docker-compose.yml) for custom files and long standing data requirements.
 
-That being said, Consul stores all of its configuration on the disk. Using our `config-init` container, you can generate, dump, or load the cluster-wide configuration into/from Consul. Please see [the documentation](#variable-explanation) below on how to achieve this.
+#### Vault
+
+__Note:__ for Kubernetes user, this container can be omitted.
+
+Similar to Consul, The Gluu Server Docker containers were built to be centralized around a secrets store. For our use case, we've used [Vault](http://vaultproject.io/).
 
 #### Registrator
 
-__Note:__ for Kubernetes user or non-Consul based deployment, this container can be omitted.
+__Note:__ for Kubernetes user or non-Consul and non-Vault based deployment, this container can be omitted.
 
 Due to the design of Docker networking where container IP gets recycled dynamically, [Registrator](http://gliderlabs.github.io/registrator/latest/) container is used for registering and deregistering oxAuth, oxTrust, oxShibboleth, and oxPassport container's IP. With the help of Registrator, the NGINX container will route the traffic to available oxAuth/oxTrust/oxShibboleth/oxPassport backend.
 
@@ -45,7 +94,7 @@ To connect to Consul container that deployed using HTTPS scheme, please use `glu
 
 #### config-init
 
-[config-init](https://github.com/GluuFederation/docker-config-init/tree/3.1.4) is a special container that is not daemonized nor executing a long-running process. The purpose of this container is to generate the initial configuration, dump the existing configuration (for backup), or even load (restore) the configuration.
+[config-init](https://github.com/GluuFederation/docker-config-init/tree/3.1.5) is a special container that is not daemonized nor executing a long-running process. The purpose of this container is to generate the initial configuration, dump the existing configuration (for backup), or even load (restore) the configuration.
 
 The following commands are supported by the container:
 
@@ -62,43 +111,16 @@ The following commands are supported by the container:
     - `--city`: The city where the organization is located. Used for certificate creation.
     - `--org-name`: The organization using the Gluu Server. Used for certificate creation.
     - `--admin-pw`: The administrator password for oxTrust and LDAP
-    - `--ldap-type`: Either OpenDJ or OpenLDAP. If you're looking to use LDAP replication, we recommend OpenDJ.
+    - `--ldap-type`: Currently only OpenDJ is supported.
     - `--base-inum`: (optional) Base inum with the following format `@!xxxx.xxxx.xxxx.xxxx` where `x` represents a number or uppercased alphabet, for example `@!1BDD.80B7.128C.099A`. If omitted, the value will be auto-generated.
     - `--inum-org`: (optional) Organization inum with the following format `<BASE_INUM>!0001!xxxx.xxxx` where `x` represents a number or uppercased alphabet, for example `@!1BDD.80B7.128C.099A!0001!4FB1.6F8C`. If omitted, the value will be auto-generated.
     - `--inum-appliance`: (optional) Appliance inum with the following format `<BASE_INUM>!0002!xxxx.xxxx` where `x` represents a number or uppercased alphabet, for example `@!1BDD.80B7.128C.099A!0002!8E48.6E9D`. If omitted, the value will be auto-generated.
 
-    Environment variables:
+    Additional environment variables:
 
-    - `GLUU_CONFIG_ADAPTER`: The config backend adapter, can be `consul` (default) or `kubernetes`.
-    - `GLUU_CONSUL_HOST`: hostname or IP of Consul (default to `localhost`).
-    - `GLUU_CONSUL_PORT`: port of Consul (default to `8500`).
-    - `GLUU_CONSUL_CONSISTENCY`: Consul consistency mode (choose one of `default`, `consistent`, or `stale`). Default to `default` mode.
-    - `GLUU_CONSUL_SCHEME`: supported Consul scheme (`http` or `https`).
-    - `GLUU_CONSUL_VERIFY`: whether to verify cert or not (default to `false`).
-    - `GLUU_CONSUL_CACERT_FILE`: path to Consul CA cert file (default to `/etc/certs/consul_ca.crt`). This file will be used if it exists and `GLUU_CONSUL_VERIFY` set to `true`.
-    - `GLUU_CONSUL_CERT_FILE`: path to Consul cert file (default to `/etc/certs/consul_client.crt`).
-    - `GLUU_CONSUL_KEY_FILE`: path to Consul key file (default to `/etc/certs/consul_client.key`).
-    - `GLUU_CONSUL_TOKEN_FILE`: path to file contains ACL token (default to `/etc/certs/consul_token`).
-    - `GLUU_KUBERNETES_NAMESPACE`: Kubernetes namespace (default to `default`).
-    - `GLUU_KUBERNETES_CONFIGMAP`: Kubernetes configmap name (default to `gluu`).
     - `GLUU_OVERWRITE_ALL`: Overwrite all config (default to `false`).
 
 - `dump`: The dump command will dump all configuration from inside KV store into the `/opt/config-init/db/config.json` file inside the container. The following parameters and/or environment variables are required to launch unless otherwise marked.
-
-    Environment variables:
-
-    - `GLUU_CONFIG_ADAPTER`: The config backend adapter, can be `consul` (default) or `kubernetes`.
-    - `GLUU_CONSUL_HOST`: hostname or IP of Consul (default to `localhost`).
-    - `GLUU_CONSUL_PORT`: port of Consul (default to `8500`).
-    - `GLUU_CONSUL_CONSISTENCY`: Consul consistency mode (choose one of `default`, `consistent`, or `stale`). Default to `default` mode.
-    - `GLUU_CONSUL_SCHEME`: supported Consul scheme (`http` or `https`).
-    - `GLUU_CONSUL_VERIFY`: whether to verify cert or not (default to `false`).
-    - `GLUU_CONSUL_CACERT_FILE`: path to Consul CA cert file (default to `/etc/certs/consul_ca.crt`). This file will be used if it exists and `GLUU_CONSUL_VERIFY` set to `true`.
-    - `GLUU_CONSUL_CERT_FILE`: path to Consul cert file (default to `/etc/certs/consul_client.crt`).
-    - `GLUU_CONSUL_KEY_FILE`: path to Consul key file (default to `/etc/certs/consul_client.key`).
-    - `GLUU_CONSUL_TOKEN_FILE`: path to file contains ACL token (default to `/etc/certs/consul_token`).
-    - `GLUU_KUBERNETES_NAMESPACE`: Kubernetes namespace (default to `default`).
-    - `GLUU_KUBERNETES_CONFIGMAP`: Kubernetes configmap name (default to `gluu`).
 
     Please note that to dump this file into the host, you'll need to map a mounted volume to the `/opt/config-init/db` directory. See this example on how to dump the config into the `/path/to/host/volume/config.json` file:
 
@@ -106,29 +128,16 @@ The following commands are supported by the container:
             --rm \
             --network container:consul \
             -e GLUU_CONFIG_ADAPTER=consul \
-            -e GLUU_CONSUL_HOST=consul \
+            -e GLUU_CONFIG_CONSUL_HOST=consul \
+            -e GLUU_SECRET_ADAPTER=vault \
+            -e GLUU_SECRET_VAULT_HOST=vault \
             -v /path/to/host/volume:/opt/config-init/db \
-            gluufederation/config-init:3.1.4_01 \
-            dump
+            gluufederation/config-init:3.1.5_dev dump
 
 -   `load`: The load command will load a `config.json` into the KV store. All existing config will be ignored unless forced by passing environment variable `GLUU_OVERWRITE_ALL`.
 
-    The following parameters and/or environment variables are required to launch unless otherwise marked:
+    Additional environment variables:
 
-    Environment variables:
-
-    - `GLUU_CONFIG_ADAPTER`: The config backend adapter, can be `consul` (default) or `kubernetes`.
-    - `GLUU_CONSUL_HOST`: hostname or IP of Consul (default to `localhost`).
-    - `GLUU_CONSUL_PORT`: port of Consul (default to `8500`).
-    - `GLUU_CONSUL_CONSISTENCY`: Consul consistency mode (choose one of `default`, `consistent`, or `stale`). Default to `default` mode.
-    - `GLUU_CONSUL_SCHEME`: supported Consul scheme (`http` or `https`).
-    - `GLUU_CONSUL_VERIFY`: whether to verify cert or not (default to `false`).
-    - `GLUU_CONSUL_CACERT_FILE`: path to Consul CA cert file (default to `/etc/certs/consul_ca.crt`). This file will be used if it exists and `GLUU_CONSUL_VERIFY` set to `true`.
-    - `GLUU_CONSUL_CERT_FILE`: path to Consul cert file (default to `/etc/certs/consul_client.crt`).
-    - `GLUU_CONSUL_KEY_FILE`: path to Consul key file (default to `/etc/certs/consul_client.key`).
-    - `GLUU_CONSUL_TOKEN_FILE`: path to file contains ACL token (default to `/etc/certs/consul_token`).
-    - `GLUU_KUBERNETES_NAMESPACE`: Kubernetes namespace (default to `default`).
-    - `GLUU_KUBERNETES_CONFIGMAP`: Kubernetes configmap name (default to `gluu`).
     - `GLUU_OVERWRITE_ALL`: Overwrite all config (default to `false`).
 
     Please note that to load this file from the host, you'll need to map a mounted volume to the `/opt/config-init/db` directory. For example on how to load the config from `/path/to/host/volume/config.json` file:
@@ -137,31 +146,20 @@ The following commands are supported by the container:
             --rm \
             --network container:consul \
             -e GLUU_CONFIG_ADAPTER=consul \
-            -e GLUU_CONSUL_HOST=consul \
+            -e GLUU_CONFIG_CONSUL_HOST=consul \
+            -e GLUU_SECRET_ADAPTER=vault \
+            -e GLUU_SECRET_VAULT_HOST=vault \
             -v /path/to/host/volume:/opt/config-init/db \
-            gluufederation/config-init:3.1.4_01 \
-            load
+            gluufederation/config-init:3.1.5_dev load
 
 #### OpenDJ
 
-The following variables are used by the container:
+The following additional environment variables are used by the container:
 
-- `GLUU_CONFIG_ADAPTER`: The config backend adapter, can be `consul` (default) or `kubernetes`.
-- `GLUU_CONSUL_HOST`: hostname or IP of Consul (default to `localhost`).
-- `GLUU_CONSUL_PORT`: port of Consul (default to `8500`).
-- `GLUU_CONSUL_CONSISTENCY`: Consul consistency mode (choose one of `default`, `consistent`, or `stale`). Default to `stale` mode.
-- `GLUU_CONSUL_SCHEME`: supported Consul scheme (`http` or `https`).
-- `GLUU_CONSUL_VERIFY`: whether to verify cert or not (default to `false`).
-- `GLUU_CONSUL_CACERT_FILE`: path to Consul CA cert file (default to `/etc/certs/consul_ca.crt`). This file will be used if it exists and `GLUU_CONSUL_VERIFY` set to `true`.
-- `GLUU_CONSUL_CERT_FILE`: path to Consul cert file (default to `/etc/certs/consul_client.crt`).
-- `GLUU_CONSUL_KEY_FILE`: path to Consul key file (default to `/etc/certs/consul_client.key`).
-- `GLUU_CONSUL_TOKEN_FILE`: path to file contains ACL token (default to `/etc/certs/consul_token`).
-- `GLUU_KUBERNETES_NAMESPACE`: Kubernetes namespace (default to `default`).
-- `GLUU_KUBERNETES_CONFIGMAP`: Kubernetes configmap name (default to `gluu`).
 - `GLUU_LDAP_INIT`: whether to import initial LDAP entries (possible values are true or false).
 - `GLUU_LDAP_INIT_HOST`: LDAP hostname for initial configuration (only usable when `GLUU_LDAP_INIT` set to true).
 - `GLUU_LDAP_INIT_PORT`: LDAP port for initial configuration (only usable when `GLUU_LDAP_INIT` set to true).
-- `GLUU_CACHE_TYPE`: supported values are `IN_MEMORY`, `REDIS`, `MEMCACHED`, and `NATIVE_PERSISTENCE` (default is `IN_MEMORY`)
+- `GLUU_CACHE_TYPE`: supported values are `IN_MEMORY`, `REDIS`, `MEMCACHED`, and `NATIVE_PERSISTENCE` (default is `NATIVE_PERSISTENCE`)
 - `GLUU_REDIS_URL`: URL of redis service, format is host:port (optional).
 - `GLUU_REDIS_TYPE`: redis service type, either `STANDALONE` or `CLUSTER` (optional).
 - `GLUU_LDAP_ADDR_INTERFACE`: interface name where the IP will be guessed and registered as OpenDJ host, e.g. `eth0` (will be ignored if `GLUU_LDAP_ADVERTISE_ADDR` is used).
@@ -170,43 +168,19 @@ The following variables are used by the container:
 
 #### oxAuth
 
-Variables used by the container:
+Additional variables used by the container:
 
-- `GLUU_CONFIG_ADAPTER`: The config backend adapter, can be `consul` (default) or `kubernetes`.
-- `GLUU_CONSUL_HOST`: hostname or IP of Consul (default to `localhost`).
-- `GLUU_CONSUL_PORT`: port of Consul (default to `8500`).
-- `GLUU_CONSUL_CONSISTENCY`: Consul consistency mode (choose one of `default`, `consistent`, or `stale`). Default to `stale` mode.
-- `GLUU_CONSUL_SCHEME`: supported Consul scheme (`http` or `https`).
-- `GLUU_CONSUL_VERIFY`: whether to verify cert or not (default to `false`).
-- `GLUU_CONSUL_CACERT_FILE`: path to Consul CA cert file (default to `/etc/certs/consul_ca.crt`). This file will be used if it exists and `GLUU_CONSUL_VERIFY` set to `true`.
-- `GLUU_CONSUL_CERT_FILE`: path to Consul cert file (default to `/etc/certs/consul_client.crt`).
-- `GLUU_CONSUL_KEY_FILE`: path to Consul key file (default to `/etc/certs/consul_client.key`).
-- `GLUU_CONSUL_TOKEN_FILE`: path to file contains ACL token (default to `/etc/certs/consul_token`).
-- `GLUU_KUBERNETES_NAMESPACE`: Kubernetes namespace (default to `default`).
-- `GLUU_KUBERNETES_CONFIGMAP`: Kubernetes configmap name (default to `gluu`).
 - `GLUU_LDAP_URL`: The LDAP database's IP address or hostname. Default is `localhost:1636`. Multiple URLs can be used using comma-separated values (i.e. `192.168.100.1:1636,192.168.100.2:1636`).
 - `GLUU_MAX_RAM_FRACTION`: Used in conjunction with Docker memory limitations (`docker run -m <mem>`) to identify the fraction of the maximum amount of heap memory you want the JVM to use.
 - `GLUU_DEBUG_PORT`: port of remote debugging (if omitted, remote debugging will be disabled).
 
 #### oxTrust
 
-The following variables are used by the container:
+The following additional variables are used by the container:
 
-- `GLUU_CONFIG_ADAPTER`: The config backend adapter, can be `consul` (default) or `kubernetes`.
-- `GLUU_CONSUL_HOST`: hostname or IP of Consul (default to `localhost`).
-- `GLUU_CONSUL_PORT`: port of Consul (default to `8500`).
-- `GLUU_CONSUL_CONSISTENCY`: Consul consistency mode (choose one of `default`, `consistent`, or `stale`). Default to `stale` mode.
-- `GLUU_CONSUL_SCHEME`: supported Consul scheme (`http` or `https`).
-- `GLUU_CONSUL_VERIFY`: whether to verify cert or not (default to `false`).
-- `GLUU_CONSUL_CACERT_FILE`: path to Consul CA cert file (default to `/etc/certs/consul_ca.crt`). This file will be used if it exists and `GLUU_CONSUL_VERIFY` set to `true`.
-- `GLUU_CONSUL_CERT_FILE`: path to Consul cert file (default to `/etc/certs/consul_client.crt`).
-- `GLUU_CONSUL_KEY_FILE`: path to Consul key file (default to `/etc/certs/consul_client.key`).
-- `GLUU_CONSUL_TOKEN_FILE`: path to file contains ACL token (default to `/etc/certs/consul_token`).
-- `GLUU_KUBERNETES_NAMESPACE`: Kubernetes namespace (default to `default`).
-- `GLUU_KUBERNETES_CONFIGMAP`: Kubernetes configmap name (default to `gluu`).
 - `GLUU_LDAP_URL`: The LDAP database's IP address or hostname. Default is `localhost:1636`. Multiple URLs can be used using comma-separated values (i.e. `192.168.100.1:1636,192.168.100.2:1636`).
 - `GLUU_MAX_RAM_FRACTION`: Used in conjunction with Docker memory limitations (`docker run -m <mem>`) to identify the fraction of the maximum amount of heap memory you want the JVM to use.
-- `GLUU_OXAUTH_BACKEND`: the oxAuth backend address, default is `localhost:8081` (used in `wait-for-it` script)
+- `GLUU_OXAUTH_BACKEND`: the oxAuth backend address, default is `localhost:8081` (used in `wait_for.py` script)
 - `GLUU_SHIB_SOURCE_DIR`: absolute path to directory to copy Shibboleth config from (default is `/opt/shibboleth-idp`)
 - `GLUU_SHIB_TARGET_DIR`: absolute path to directory to copy Shibboleth config to (default is `/opt/shared-shibboleth-idp`)
 - `GLUU_DEBUG_PORT`: port of remote debugging (if omitted, remote debugging will be disabled).
@@ -214,24 +188,6 @@ The following variables are used by the container:
 #### oxPassport
 
 To add new strategies to oxPassport, refer to the official docs [here](https://gluu.org/docs/ce/authn-guide/passport/#setup-passportjs-with-gluu). A manual restart of the oxPassport container is needed.
-
-The following variables are used by the container:
-
-- `GLUU_CONFIG_ADAPTER`: The config backend adapter, can be `consul` (default) or `kubernetes`.
-- `GLUU_CONSUL_HOST`: hostname or IP of Consul (default to `localhost`).
-- `GLUU_CONSUL_PORT`: port of Consul (default to `8500`).
-- `GLUU_CONSUL_CONSISTENCY`: Consul consistency mode (choose one of `default`, `consistent`, or `stale`). Default to `stale` mode.
-- `GLUU_CONSUL_SCHEME`: supported Consul scheme (`http` or `https`).
-- `GLUU_CONSUL_VERIFY`: whether to verify cert or not (default to `false`).
-- `GLUU_CONSUL_CACERT_FILE`: path to Consul CA cert file (default to `/etc/certs/consul_ca.crt`). This file will be used if it exists and `GLUU_CONSUL_VERIFY` set to `true`.
-- `GLUU_CONSUL_CERT_FILE`: path to Consul cert file (default to `/etc/certs/consul_client.crt`).
-- `GLUU_CONSUL_KEY_FILE`: path to Consul key file (default to `/etc/certs/consul_client.key`).
-- `GLUU_CONSUL_TOKEN_FILE`: path to file contains ACL token (default to `/etc/certs/consul_token`).
-- `GLUU_KUBERNETES_NAMESPACE`: Kubernetes namespace (default to `default`).
-- `GLUU_KUBERNETES_CONFIGMAP`: Kubernetes configmap name (default to `gluu`).
-- `GLUU_LDAP_URL`: The IP address or hostname of the LDAP database. Default is `localhost:1636`. Multiple URLs can be used using comma-separated values (i.e. `192.168.100.1:1636,192.168.100.2:1636`).
-- `GLUU_OXAUTH_BACKEND`: the address of oxAuth backend, default is `localhost:8081` (used in `wait-for-it` script)
-- `GLUU_OXTRUST_BACKEND`: the address of oxTrust backend, default is `localhost:8082` (used in `wait-for-it` script)
 
 #### oxShibboleth
 
@@ -243,20 +199,8 @@ After those Shibboleth-related files are copied to `/opt/shared-shibboleth`, a b
 
 The `/opt/shibboleth-idp` directory is not mounted directly into the container, as there are two known issues with this approach. First, the oxShibboleth container has its own default `/opt/shibboleth-idp` directory requirements to start the app itself. By mounting `/opt/shibboleth-idp` directly from the host, the directory will be replaced and the oxShibboleth app won't run correctly. Secondly, oxTrust renames the metadata file, which unfortunately didn't work as expected in the mounted volume.
 
-The following variables are used by the container:
+The following additional variables are used by the container:
 
-- `GLUU_CONFIG_ADAPTER`: The config backend adapter, can be `consul` (default) or `kubernetes`.
-- `GLUU_CONSUL_HOST`: hostname or IP of Consul (default to `localhost`).
-- `GLUU_CONSUL_PORT`: port of Consul (default to `8500`).
-- `GLUU_CONSUL_CONSISTENCY`: Consul consistency mode (choose one of `default`, `consistent`, or `stale`). Default to `stale` mode.
-- `GLUU_CONSUL_SCHEME`: supported Consul scheme (`http` or `https`).
-- `GLUU_CONSUL_VERIFY`: whether to verify cert or not (default to `false`).
-- `GLUU_CONSUL_CACERT_FILE`: path to Consul CA cert file (default to `/etc/certs/consul_ca.crt`). This file will be used if it exists and `GLUU_CONSUL_VERIFY` set to `true`.
-- `GLUU_CONSUL_CERT_FILE`: path to Consul cert file (default to `/etc/certs/consul_client.crt`).
-- `GLUU_CONSUL_KEY_FILE`: path to Consul key file (default to `/etc/certs/consul_client.key`).
-- `GLUU_CONSUL_TOKEN_FILE`: path to file contains ACL token (default to `/etc/certs/consul_token`).
-- `GLUU_KUBERNETES_NAMESPACE`: Kubernetes namespace (default to `default`).
-- `GLUU_KUBERNETES_CONFIGMAP`: Kubernetes configmap name (default to `gluu`).
 - `GLUU_MAX_RAM_FRACTION`: Used in conjunction with Docker memory limitations (`docker run -m <mem>`) to identify the fraction of the maximum amount of heap memory you want the JVM to use.
 - `GLUU_LDAP_URL`: The LDAP database's IP address or hostname. Default is `localhost:1636`. Multiple URLs can be used using comma-separated values (i.e. `192.168.100.1:1636,192.168.100.2:1636`).
 - `GLUU_SHIB_SOURCE_DIR`: absolute path to directory to copy Shibboleth config from (default is `/opt/shared-shibboleth-idp`)
@@ -269,37 +213,10 @@ We built a customized NGINX image, based on the official open source version and
 - Dynamically updating the `upstream` directive to point to available oxAuth/oxTrust/oxShibboleth/oxPassport containers
 - Restarting the NGINX process when its configuration is changed (without restarting the container)
 
-The following variables are used by the container:
-
-- `GLUU_CONFIG_ADAPTER`: The config backend adapter, can be `consul` (default) or `kubernetes`.
-- `GLUU_CONSUL_HOST`: hostname or IP of Consul (default to `localhost`).
-- `GLUU_CONSUL_PORT`: port of Consul (default to `8500`).
-- `GLUU_CONSUL_CONSISTENCY`: Consul consistency mode (choose one of `default`, `consistent`, or `stale`). Default to `stale` mode.
-- `GLUU_CONSUL_SCHEME`: supported Consul scheme (`http` or `https`).
-- `GLUU_CONSUL_VERIFY`: whether to verify cert or not (default to `false`).
-- `GLUU_CONSUL_CACERT_FILE`: path to Consul CA cert file (default to `/etc/certs/consul_ca.crt`). This file will be used if it exists and `GLUU_CONSUL_VERIFY` set to `true`.
-- `GLUU_CONSUL_CERT_FILE`: path to Consul cert file (default to `/etc/certs/consul_client.crt`).
-- `GLUU_CONSUL_KEY_FILE`: path to Consul key file (default to `/etc/certs/consul_client.key`).
-- `GLUU_CONSUL_TOKEN_FILE`: path to file contains ACL token (default to `/etc/certs/consul_token`).
-- `GLUU_KUBERNETES_NAMESPACE`: Kubernetes namespace (default to `default`).
-- `GLUU_KUBERNETES_CONFIGMAP`: Kubernetes configmap name (default to `gluu`).
-
 #### key-rotation
 
-The following variables are used by the container:
+The following additional variables are used by the container:
 
-- `GLUU_CONFIG_ADAPTER`: The config backend adapter, can be `consul` (default) or `kubernetes`.
-- `GLUU_CONSUL_HOST`: hostname or IP of Consul (default to `localhost`).
-- `GLUU_CONSUL_PORT`: port of Consul (default to `8500`).
-- `GLUU_CONSUL_CONSISTENCY`: Consul consistency mode (choose one of `default`, `consistent`, or `stale`). Default to `stale` mode.
-- `GLUU_CONSUL_SCHEME`: supported Consul scheme (`http` or `https`).
-- `GLUU_CONSUL_VERIFY`: whether to verify cert or not (default to `false`).
-- `GLUU_CONSUL_CACERT_FILE`: path to Consul CA cert file (default to `/etc/certs/consul_ca.crt`). This file will be used if it exists and `GLUU_CONSUL_VERIFY` set to `true`.
-- `GLUU_CONSUL_CERT_FILE`: path to Consul cert file (default to `/etc/certs/consul_client.crt`).
-- `GLUU_CONSUL_KEY_FILE`: path to Consul key file (default to `/etc/certs/consul_client.key`).
-- `GLUU_CONSUL_TOKEN_FILE`: path to file contains ACL token (default to `/etc/certs/consul_token`).
-- `GLUU_KUBERNETES_NAMESPACE`: Kubernetes namespace (default to `default`).
-- `GLUU_KUBERNETES_CONFIGMAP`: Kubernetes configmap name (default to `gluu`).
 - `GLUU_LDAP_URL`: The LDAP database's IP address or hostname. Default is `localhost:1636`. Multiple URLs can be used using comma-separated values (i.e. `192.168.100.1:1636,192.168.100.2:1636`).
 - `GLUU_KEY_ROTATION_INTERVAL`: how long the key should be expired (default to 48 hours).
 - `GLUU_KEY_ROTATION_CHECK`: delay between rotation check (default to 3600 seconds).
