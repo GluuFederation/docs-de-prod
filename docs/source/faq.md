@@ -12,16 +12,17 @@ As can be seen in the following `docker run` command, it connects to the same ne
     docker run --rm \
         --network container:consul \
         -e GLUU_CONFIG_ADAPTER=consul \
-        -e GLUU_CONSUL_HOST=consul \
-        gluufederation/config-init:3.1.4_01 \
-        generate \
-        --ldap-type "${GLUU_LDAP_TYPE}" \
-        --domain $domain \
-        --admin-pw $adminPw \
-        --org-name "$orgName" \
-        --email $email \
-        --country-code $countryCode \
-        --state $state \
-        --city $city
+        -e GLUU_CONFIG_CONSUL_HOST=consul \
+        -e GLUU_SECRET_ADAPTER=vault \
+        -e GLUU_SECRET_VAULT_HOST=vault \
+        gluufederation/config-init:3.1.5_dev generate \
+            --ldap-type "${GLUU_LDAP_TYPE}" \
+            --domain $domain \
+            --admin-pw $adminPw \
+            --org-name "$orgName" \
+            --email $email \
+            --country-code $countryCode \
+            --state $state \
+            --city $city
 
-For the multi-host example, we're using native Docker Swarm `overlay` network, but slightly customized to allow connecting any container outside of the network. See the [Networking](./example.md#Networking) section for a multi-host example.
+For the multi-host example, we're using native Docker Swarm `overlay` network. See the [Networking](./example/swarm-mode/#Networking) section for a multi-host example.

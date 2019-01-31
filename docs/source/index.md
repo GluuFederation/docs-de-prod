@@ -11,8 +11,8 @@ The Gluu Server now supports installation via Linux containers. This documentati
 - Ease of Operations
 
 ## Get Started
-- [Technical Documentation](./technical.md)
-- [Example Implementations](./example.md)
+- [Technical Documentation](./reference/index.md)
+- [Example Implementations](./example/)
 - [FAQ](./faq.md)
 
 ## Support

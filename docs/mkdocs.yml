@@ -4,17 +4,42 @@ site_favicon: '/img/gluu_favicon.ico'
 copyright: Copyright &copy; 2019, Gluu, Inc.
 docs_dir: source
 repo_url: https://github.com/GluuFederation/docs-de-prod/tree/3.1.5/docs
-theme_dir: theme/material/
+theme:
+  name: null
+  custom_dir: theme/material/
 extra:
     version: '3.1.5'
     logo: 'gluu.png'
 markdown_extensions:
 - admonition
 - toc:
-     permalink: '#'
+    permalink: '#'
 - pymdownx.superfences
-pages:
+nav:
 - 'Introduction': 'index.md'
-- 'Technical Documentation': 'technical.md'
-- 'Examples': 'example.md'
+- 'Technical Reference':
+  - 'Build Logic': 'reference/index.md'
+  - '3rd-Party Containers': 'reference/third-party.md'
+  - 'Config Init': 'reference/config-init.md'
+  - 'OpenDJ': 'reference/opendj.md'
+  - 'oxAuth': 'reference/oxauth.md'
+  - 'oxTrust': 'reference/oxtrust.md'
+  - 'oxShibboleth': 'reference/oxshibboleth.md'
+  - 'oxPassport': 'reference/oxpassport.md'
+  - 'NGINX': 'reference/nginx.md'
+  - 'Key Rotation': 'reference/key-rotation.md'
+  - 'Upgrade': 'reference/upgrade.md'
+- 'Operation Guide':
+  - 'Managing Vault': 'operation/vault.md'
+  - 'Customizing oxAuth': 'operation/custom-oxauth.md'
+  - 'Customizing oxTrust': 'operation/custom-oxtrust.md'
+  - 'Custom LDAP Schema': 'operation/custom-schema.md'
+  - 'Upgrading Version': 'operation/upgrade.md'
+- 'Deployment Examples':
+  - 'Overview': 'example/index.md'
+  - 'Single Host': 'example/singlehost.md'
+  - 'Docker Swarm Mode': 'example/swarm-mode.md'
+  - 'Minikube': 'example/minikube.md'
+  - 'Google Kubernetes Engine': 'example/gke.md'
+  # - 'RHEL': 'example/rhel.md'
 - 'FAQ': 'faq.md'
