@@ -1,11 +1,11 @@
 ## Overview
 
-This operational guide is for Gluu Server DE deployment that uses `vault` as `GLUU_SECRET_ADAPTER` backend.
-Kubernetes deployment may skip this guide.
+This operational guide is for a Gluu Server DE deployment that uses `vault` as `GLUU_SECRET_ADAPTER` backend.
+If using a Kubernetes deployment, this guide is optional.
 
-## Choosing Storage Backend
+## Choosing a Storage Backend
 
-The storage backend determines where to store the secrets to. For ease of use and HA mode, we recommend the `consul` backend.
+The storage backend determines where to store secrets. For ease of use and HA mode, we recommend the `consul` backend.
 
 Example:
 
@@ -26,7 +26,7 @@ Create the following policy and save it to a file (in this example, we will save
 
 There are various ways to _mount_ this file into Vault container:
 
--   Mount volume of `vault_gluu_policy.hcl` directly from host's filesystem:
+-   Mount `vault_gluu_policy.hcl` volume directly from host's filesystem:
 
         docker run \
             -v /path/to/vault_gluu_policy.hcl:/vault/config/policy.hcl \
@@ -43,8 +43,8 @@ There are various ways to _mount_ this file into Vault container:
 ## Strategies for Unsealing Vault
 
 Vault uses [seal and unseal](https://www.vaultproject.io/docs/concepts/seal.html) to lock/unlock the secrets.
-When Vault server started, it remains in sealed state until unseal process is successfully executed.
-Note that when Vault server is stopped or restarted, Vault will be sealed again, hence we need to determine strategies on how to unseal Vault upfront before deploying Vault container.
+When a Vault server starts, it remains ina  sealed state until the unseal process is successfully executed.
+Note that when the Vault server is stopped or restarted, it will be sealed again, so we need to determine strategies on how to unseal Vault upfront before deploying Vault container.
 
 There are 2 ways to unseal Vault:
 
@@ -52,9 +52,9 @@ There are 2 ways to unseal Vault:
 -   __auto-unseal__ which requires [3rd-party services](https://www.vaultproject.io/docs/configuration/seal/index.html).
 
 For ease of use, we recommend using auto-unseal to reduce the complexity of unsealing Vault.
-One of the service we recommend is GCP KMS.
+One of the services we recommend is GCP KMS.
 
-Subscribe to GCP KMS service and obtain the credentials file, similar to the following contents:
+Subscribe to the GCP KMS service and obtain the credentials file, similar to the following contents:
 
     {
         "type": "service_account",
@@ -69,9 +69,9 @@ Subscribe to GCP KMS service and obtain the credentials file, similar to the fol
         "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/<service-name>%40<project-name>.iam.gserviceaccount.com"
     }
 
-Adjust the value enclosed in `<>` characters, then save it to a file `gcp_kms_creds.json`.
+Replace value enclosed in `<>` characters with appropriate entries, then save it to a file `gcp_kms_creds.json`.
 
-Create seal configuration (stanza), adjust the value enclosed in `<>` characters, then save it to a file `gcp_kms_stanza.hcl`.
+Create seal configuration (stanza), adjust the value enclosed in `<>` characters, then save it as `gcp_kms_stanza.hcl`.
 
     seal "gcpckms" {
         credentials = "/vault/config/creds.json"
@@ -81,16 +81,16 @@ Create seal configuration (stanza), adjust the value enclosed in `<>` characters
         crypto_key  = "<crypto-key>"
     }
 
-Those 2 files above need to be _mounted_ into Vault container, either directly or using `docker secret`.
+Those two files above need to be _mounted_ into Vault container, either directly or using `docker secret`.
 
- -   Mount volumes of `gcp_kms_creds.json` and `gcp_kms_stanza.hcl` directly from host's filesystem:
+ -   Mount `gcp_kms_creds.json` and `gcp_kms_stanza.hcl` volumes directly from host's filesystem:
 
         docker run \
             -v /path/to/gcp_kms_creds.json:/vault/config/creds.json \
             -v /path/to/gcp_kms_stanza.hcl:/vault/config/stanza.hcl \
             vault:1.0.1
 
--   Save the files to `docker secret` and inject them into container (only available in Docker Swarm Mode):
+-   Save the files to `docker secret` and inject them into the container (only available in Docker Swarm Mode):
 
         docker secret create gcp_kms_creds gcp_kms_creds.json
         docker secret create gcp_kms_stanza gcp_kms_stanza.hcl
@@ -102,7 +102,7 @@ Those 2 files above need to be _mounted_ into Vault container, either directly o
 
 ## Basic Vault Deployment
 
-Given that custom policy already created, as well as GCP KMS credentials and stanza, we may deploy Vault container with following command:
+Given that the custom policy is already created, as well as GCP KMS credentials and stanza, we may deploy Vault container with the following command:
 
     docker run \
         --cap-add=IPC_LOCK \
@@ -118,11 +118,11 @@ Given that custom policy already created, as well as GCP KMS credentials and sta
 
 ## Initializing Vault
 
-Before using Vault secrets, we need to initialize it. Note that this process only executed once, hence we can check whether Vault has been initialized or not:
+Before using Vault secrets, we need to initialize it. Note that this process is only executed once, so we can check whether Vault has been initialized or not:
 
     docker exec vault vault operator init -status
 
-If the output returns message is `Vault is not initialized`, then we need to initialize it first.
+If the output returns `Vault is not initialized`, then we need to initialize it first.
 
     docker exec vault vault operator init \
         -key-shares=1 \
@@ -147,32 +147,32 @@ The command above returns output similar to the following contents:
     It is possible to generate new unseal keys, provided you have a quorum of
     existing unseal keys shares. See "vault rekey" for more information.
 
-Save the value of `<random-key>` and `<random-token>` as seen above elsewhere for later use.
+Note the `<random-key>` and `<random-token>` values as seen above for later use.
 
 Make sure that Vault has been initialized:
 
     docker exec vault vault operator init -status
 
-If the output is `Vault is initialized`, then we already initialized Vault properly.
+If the output is `Vault is initialized`, then we initialized Vault properly.
 
-## Login to Vault
+## Log in to Vault
 
-Some of the commands requires authenticated login.
-To login to Vault, run the command below:
+Some commands require authenticated login.
+To log in to Vault, run the command below:
 
     docker exec -ti vault vault login -no-print
 
-When prompted for token, enter the `<random-token>` value.
+When prompted for a token, enter the `<random-token>` value that you noted in the last step.
 
 ## Enabling Custom Policy
 
-As we have _mounted_ custom policy file, we need to enable it:
+As we have _mounted_ a custom policy file, we need to enable it:
 
     docker exec vault vault policy write gluu /vault/config/policy.hcl
 
 ## Enabling AppRole Auth
 
-[AppRole](https://www.vaultproject.io/docs/auth/approle.html) auth is used by Gluu Server DE containers to access Vault secrets, hence we need to enable and map the policy onto it:
+[AppRole](https://www.vaultproject.io/docs/auth/approle.html) auth is used by Gluu Server DE containers to access Vault secrets, so we need to enable and map the policy onto it:
 
     docker exec vault vault auth enable approle
     docker exec vault vault write auth/approle/role/gluu policies=gluu
@@ -199,11 +199,12 @@ For SecretID, execute the following command:
 
 Save the output as `vault_secret_id.txt` to a file (and `docker secret` or Kubernetes `secrets` if needed).
 
-__NOTE__: the value of RoleID and SecretID are required by all of Gluu Server DE containers.
+!!! note
+    The RoleID and SecretID values are required by all Gluu Server DE containers.
 
 ## Unsealing Vault Manually
 
-As mentioned earlier, Vault can be unseal either manually or automatically. The latter is relatively easy to achieve and doesn't require human intervention during unseal process, whereas the former requires human intervention or script to automate the unseal process whenever Vault server is restarted.
+As mentioned earlier, Vault can be unsealed either manually or automatically. The latter is relatively easy to achieve and doesn't require human intervention during the unseal process, whereas the former requires human intervention or script to automate the unseal process whenever Vault server is restarted.
 
 To check whether Vault has been unsealed, run the following command:
 
@@ -226,7 +227,7 @@ If `Sealed` value is `true`, run the command below:
 
     docker exec -ti vault vault unseal
 
-When prompted, enter the `<random-key>` from [Initializing Vault](operation/vault/#initializing-vault) section.
+When prompted, enter the `<random-key>` from the [Initializing Vault](operation/vault/#initializing-vault) section.
 
 Re-run the `docker exec vault vault status` and check the `Sealed` value.
 Repeat manual unseal until `Sealed` value is `false`.
