@@ -1,6 +1,6 @@
-# Gluu Server Docker Edition (DE) Beta
+# Gluu Server Docker Edition (DE)
 ## Overview
-The Gluu Server now supports installation via Linux containers. This documentation is primarily focused on utilizing Docker, but it's entirely possible to use these containers with other container engines, for example rkt.
+The Gluu Server now supports installation via Linux containers. This documentation is primarily focused on utilizing Docker, but it's possible to use these containers with other container engines, such as rkt.
 
 ## Features
 - Consistent Environments
@@ -9,11 +9,6 @@ The Gluu Server now supports installation via Linux containers. This documentati
 - Scalability
 - Modularity
 - Ease of Operations
-
-## Get Started
-- [Technical Documentation](./reference/index.md)
-- [Example Implementations](./example/)
-- [FAQ](./faq.md)
 
 ## Support
 If you have questions or feedback, please open a ticket on the [Gluu support portal](https://support.gluu.org/).
