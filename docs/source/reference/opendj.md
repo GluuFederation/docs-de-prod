@@ -61,6 +61,38 @@ Deprecated environment variables (see `GLUU_CONFIG_CONSUL_*` or `GLUU_CONFIG_KUB
 
 ## Initializing LDAP Data
 
+To generate initial data (entries) for LDAP, the container must run using `GLUU_LDAP_INIT=true` and pass along the `GLUU_LDAP_INIT_HOST=service_or_container_name` and `GLUU_LDAP_INIT_PORT=1636` environment variables. For example:
+
+```
+# docker-compose.yaml
+services:
+  ldap:
+    image: gluufederation/opendj:3.1.5_dev
+    environment:
+      - GLUU_CONFIG_ADAPTER=consul
+      - GLUU_SECRET_ADAPTER=vault
+      - GLUU_LDAP_INIT=true
+      - GLUU_LDAP_INIT_HOST=ldap
+      - GLUU_LDAP_INIT_PORT=1636
+    container_name: ldap
+```
+
+It's important to not scale this service/container, otherwise the data will be overlapped. See next section for additional OpenDJ containers.
+
 ## LDAP Replication
 
-## Custom LDAP Schema
+Since there should be a single OpenDJ container that its role is to generate initial data, the rest of OpenDJ containers must replicate the data from existing OpenDJ container. For example:
+
+```
+# docker-compose-repl.yaml
+services:
+  ldap2:
+    image: gluufederation/opendj:3.1.5_dev
+    environment:
+      - GLUU_CONFIG_ADAPTER=consul
+      - GLUU_SECRET_ADAPTER=vault
+      - GLUU_LDAP_INIT=false
+    container_name: ldap2
+```
+
+The replication process is automatically run when the container runs. Check the container logs to see the result and optionally running `/opt/opendj/bin/dsreplication status` inside the container.
