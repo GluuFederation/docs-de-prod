@@ -15,6 +15,6 @@ The Gluu Server now supports installation via Linux containers. This documentati
 - [Example Implementations](./example.md)
 - [FAQ](./faq.md)
 
-## Support
-Support for Docker Edition deployments is included with a [VIP subscription](https://www.gluu.org/pricing#vip). To obatin a license, [schedule a call](https://gluu.org/booking). 
+## License
 
+Gluu Server DE is available under the [GLUU SUPPORT license](https://github.com/GluuFederation/gluu-docker/blob/3.1.4/LICENSE).
