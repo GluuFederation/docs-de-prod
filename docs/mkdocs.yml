@@ -28,12 +28,12 @@ pages:
   - 'Key Rotation': 'reference/key-rotation.md'
   - 'Upgrade': 'reference/upgrade.md'
 - 'Operation Guide':
+  - 'Preparing Server': 'operation/daemon.md'
   - 'Managing Vault': 'operation/vault.md'
   - 'Customizing oxAuth': 'operation/custom-oxauth.md'
   - 'Customizing oxTrust': 'operation/custom-oxtrust.md'
   - 'Custom LDAP Schema': 'operation/custom-schema.md'
   - 'Upgrading Version': 'operation/upgrade.md'
-  - 'Tweaking Docker Daemon': 'operation/daemon.md'
 - 'Deployment Examples':
   - 'Overview': 'example/index.md'
   - 'Single Host': 'example/singlehost.md'
