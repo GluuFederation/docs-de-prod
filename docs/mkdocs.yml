@@ -28,7 +28,7 @@ pages:
   - 'Key Rotation': 'reference/key-rotation.md'
   - 'Upgrade': 'reference/upgrade.md'
 - 'Operation Guide':
-  - 'Preparing Server': 'operation/daemon.md'
+  - 'Preparing Server': 'operation/server.md'
   - 'Managing Vault': 'operation/vault.md'
   - 'Customizing oxAuth': 'operation/custom-oxauth.md'
   - 'Customizing oxTrust': 'operation/custom-oxtrust.md'

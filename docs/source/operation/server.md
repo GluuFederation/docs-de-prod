@@ -1,6 +1,6 @@
 ## Resource
 
-For production, we recommend using server with minimum 8GB memory and 80GB disk.
+For production, we recommend using server with 8GB memory and 80GB disk at minimum.
 
 ## Storage Driver
 
