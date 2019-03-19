@@ -28,21 +28,21 @@ Refer to [Vault operation guide](/operation/vault) to setup Vault.
 
 #### Updating Schema
 
-1.  Download the latest [101-oxAttributes.ldif](https://github.com/GluuFederation/docker-opendj/raw/3.1.5/schemas/101-ox.ldif) schema.
+1.  Download the latest [101-ox.ldif](https://github.com/GluuFederation/docker-opendj/raw/3.1.5/schemas/101-ox.ldif) schema.
 
 2.  Depends on the setup, there are various ways to mount the file into container.
 
-    1.  For single host setup, mount `101-oxAttributes.ldif` to OpenDJ container directly. This is an example using `docker-compose.yml`:
+    1.  For single host setup, mount `101-ox.ldif` to OpenDJ container directly. This is an example using `docker-compose.yml`:
 
             services:
               opendj:
                 image: gluufederation/opendj:3.1.5_dev
                 volumes:
-                  - /path/to/101-oxAttributes.ldif:/opt/opendj/config/schema/101-oxAttributes.ldif
+                  - /path/to/101-ox.ldif:/opt/opendj/config/schema/101-ox.ldif
 
-    2.  For multi hosts setup using Docker Swarm Mode, we recommend to put the contents of `101-oxAttributes.ldif` into Docker Config:
+    2.  For multi hosts setup using Docker Swarm Mode, we recommend to put the contents of `101-ox.ldif` into Docker Config:
 
-            docker config create 101-oxAttributes /path/to/101-oxAttributes.ldif
+            docker config create 101-ox /path/to/101-ox.ldif
 
         and then mount the file into container:
 
@@ -50,16 +50,16 @@ Refer to [Vault operation guide](/operation/vault) to setup Vault.
               opendj:
                 image: gluufederation/opendj:3.1.5_dev
                 configs:
-                  - source: 101-oxAttributes
-                    target: /opt/opendj/config/schema/101-oxAttributes.ldif
+                  - source: 101-ox
+                    target: /opt/opendj/config/schema/101-ox.ldif
 
             configs:
-              101-oxAttributes:
+              101-ox:
                 external: true
 
-    3.  For multi hosts setup using Kubernetes, put the contents of `101-oxAttributes.ldif` into ConfigMaps:
+    3.  For multi hosts setup using Kubernetes, put the contents of `101-ox.ldif` into ConfigMaps:
 
-            kubectl create cm opendj-schema --from-file=/path/to/101-oxAttributes.ldif
+            kubectl create cm opendj-schema --from-file=/path/to/101-ox.ldif
 
         and then mount the file into container:
 
