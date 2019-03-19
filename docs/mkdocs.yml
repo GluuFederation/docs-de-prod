@@ -30,6 +30,7 @@ pages:
 - 'Operation Guide':
   - 'Preparing Server': 'operation/server.md'
   - 'Managing Vault': 'operation/vault.md'
+  - 'Managing Logs': 'operation/logging.md'
   - 'Customizing oxAuth': 'operation/custom-oxauth.md'
   - 'Customizing oxTrust': 'operation/custom-oxtrust.md'
   - 'Custom LDAP Schema': 'operation/custom-schema.md'
