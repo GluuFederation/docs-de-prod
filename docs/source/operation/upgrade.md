@@ -6,8 +6,6 @@ Gluu Server DE v3.1.5 introduces secrets layer which depends on selected secrets
 
 Gluu Server DE 3.1.5 introduces new variables and deprecates some. See [Reference](reference/index) documentation on these changes. Also it it best to compare the latest [deployment examples](example/index) with your existing setup to see what changes need to be applied.
 
-### Config to Secrets Migration
-
 ### Vault
 
 If Vault is selected as secrets adapter, we may see a similar logs message upon container startup as shown below:
@@ -25,6 +23,8 @@ Refer to [Vault operation guide](/operation/vault) to setup Vault.
 ### LDAP
 
 #### Backup Existing Data
+
+Before running the upgrade process, make sure to backup existing LDAP data.
 
 #### Updating Schema
 
@@ -116,7 +116,7 @@ Refer to [Vault operation guide](/operation/vault) to setup Vault.
                 --set enabled:true \
                 --set db-cache-percent:10
 
-#### Run Upgrade Container
+### Upgrade Container
 
 By running the `gluufederation/upgrade:3.1.5_dev` container, the LDAP data will be adjusted to match convention in v3.1.5.
 
@@ -129,3 +129,5 @@ By running the `gluufederation/upgrade:3.1.5_dev` container, the LDAP data will 
         -v /path/to/vault_role_id.txt:/etc/certs/vault_role_id \
         -v /path/to/vault_secret_id.txt:/etc/certs/vault_secret_id \
         gluufederation/upgrade:3.1.5_dev
+
+Note, the upgrade process doesn't update custom scripts for oxAuth/oxTrust to avoid overwritting custom script that modified by users. Please update them manually.
