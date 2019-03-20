@@ -28,13 +28,13 @@ pages:
   - 'Key Rotation': 'reference/key-rotation.md'
   - 'Upgrade': 'reference/upgrade.md'
 - 'Operation Guide':
-  - 'Preparing Server': 'operation/server.md'
-  - 'Managing Vault': 'operation/vault.md'
+  - 'Preparing the Server': 'operation/server.md'
+  - 'Managing the Vault': 'operation/vault.md'
   - 'Managing Logs': 'operation/logging.md'
   - 'Customizing oxAuth': 'operation/custom-oxauth.md'
   - 'Customizing oxTrust': 'operation/custom-oxtrust.md'
   - 'Custom LDAP Schema': 'operation/custom-schema.md'
-  - 'Upgrading Version': 'operation/upgrade.md'
+  - 'Upgrading': 'operation/upgrade.md'
   - 'oxAuth Key Rotation': 'operation/key-rotation.md'
 - 'Deployment Examples':
   - 'Overview': 'example/index.md'
