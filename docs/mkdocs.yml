@@ -35,6 +35,7 @@ pages:
   - 'Customizing oxTrust': 'operation/custom-oxtrust.md'
   - 'Custom LDAP Schema': 'operation/custom-schema.md'
   - 'Upgrading Version': 'operation/upgrade.md'
+  - 'oxAuth Key Rotation': 'operation/key-rotation.md'
 - 'Deployment Examples':
   - 'Overview': 'example/index.md'
   - 'Single Host': 'example/singlehost.md'
