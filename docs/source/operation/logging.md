@@ -1,14 +1,11 @@
 ## Overview
 
-In Docker environment where each container can have one or more replicas, it is easier to check the log by collecting all of containers' logs, store them in a single place, and possibly search the logs later. There are tools available as open source or paid service.
-This guide will show an example on how to collect selected container's logs (oxAuth, oxTrust, OpenDJ, oxShibboleth, oxPassport, and optionally NGINX), using [Filebeat](https://www.elastic.co/products/beats/filebeat), [Elasticsearch](https://www.elastic.co/products/elasticsearch), and [Kibana](https://www.elastic.co/products/kibana).
+In a Docker environment where each container can have one or more replicas, it is easier to check the log by collecting all containers' logs, store them in a single place and possibly search the logs later. There are tools available to assist in this task, both open source and paid. This guide will show an example of how to collect selected container's logs (oxAuth, oxTrust, OpenDJ, oxShibboleth, oxPassport, and optionally NGINX), using [Filebeat](https://www.elastic.co/products/beats/filebeat), [Elasticsearch](https://www.elastic.co/products/elasticsearch), and [Kibana](https://www.elastic.co/products/kibana).
 
 ### Prerequisites
 
-1.  Choose `json-file` logging driver for Docker daemon, as Filebeat works best with this driver.
-    Note: by default Docker installation uses `json-file` driver, unless set to another driver.
-    Use `docker info | grep 'Logging Driver'` to check current logging driver.
-2.  Elasticsearch container requires host's specific kernel settings named `vm.max_map_count` to be set at least 262144. Refer to the official installation page of Elasticsearch [here](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/docker.html#docker-cli-run-prod-mode).
+1.  Choose the `json-file` logging driver for the Docker daemon, as Filebeat works best with this driver. By default Docker installation uses `json-file` driver, unless set to another driver. Use `docker info | grep 'Logging Driver'` to check current logging driver.
+1.  The Elasticsearch container requires the host's specific `vm.max_map_count` kernel setting to be at least 262144. Refer to the official installation page of Elasticsearch [here](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/docker.html#docker-cli-run-prod-mode).
 
 ### Logging Containers in Docker/Docker Swarm
 
@@ -90,9 +87,9 @@ This guide will show an example on how to collect selected container's logs (oxA
     logging.level: warning
     ```
 
-    For Docker Swarm setup, save the file above into docker configs so we can inject this config into multiple Filebeat containers.
+    For a Docker Swarm setup, save the file above into Docker configurations so this config can be injected into multiple Filebeat containers.
 
-2.  Create Docker manifest file, i.e. `docker-compose.yml`:
+1.  Create a Docker manifest file, i.e. `docker-compose.yml`:
 
     ```
     # The following example is based on `docker-compose` manifest file:
@@ -141,7 +138,7 @@ This guide will show an example on how to collect selected container's logs (oxA
 
     Adjust the manifest file if Docker Swarm mode is used.
 
-3.  Deploy the containers using `docker-compose up -d` or `docker stack deploy $STACK_NAME` command.
+1.  Deploy the containers using `docker-compose up -d` or `docker stack deploy $STACK_NAME` command.
 
 ### Logging Containers in Kubernetes
 
@@ -225,7 +222,7 @@ This guide will show an example on how to collect selected container's logs (oxA
 
     Save the content into Kubernetes' ConfigMaps using `kubectl create cm filebeat-config --from-file=filebeat.yml` for later use.
 
-2.  Create Kubernetes manifest file `filebeat-roles.yaml`:
+1.  Create a Kubernetes manifest file, `filebeat-roles.yaml`:
 
     ```
     kind: ClusterRoleBinding
@@ -260,9 +257,9 @@ This guide will show an example on how to collect selected container's logs (oxA
           - list
     ```
 
-    Afterwards run `kubectl apply -f filebeat-roles.yaml` to define custom role and role binding for Filebeat.
+    Afterwards, run `kubectl apply -f filebeat-roles.yaml` to define custom roles and role binding for Filebeat.
 
-3.  Create Kubernetes manifest file `elasticsearch.yaml`:
+3.  Create a Kubernetes manifest file, `elasticsearch.yaml`:
 
     ```
     apiVersion: v1
@@ -335,7 +332,7 @@ This guide will show an example on how to collect selected container's logs (oxA
 
     Run `kubectl apply -f elasticsearch.yml` to deploy Elasticsearch Pod.
 
-4.  Create Kubernetes manifest file `filebeat-ds.yaml`:
+4.  Create a Kubernetes manifest file, `filebeat-ds.yaml`:
 
     ```
     apiVersion: extensions/v1beta1
@@ -400,7 +397,7 @@ This guide will show an example on how to collect selected container's logs (oxA
 
     Run `kubectl apply -f filebeat-ds.yml` to deploy Filebeat Pod.
 
-5.  Create Kubernetes manifest file `kibana.yaml`:
+5.  Create a Kubernetes manifest file, `kibana.yaml`:
 
     ```
     apiVersion: v1
@@ -445,22 +442,22 @@ This guide will show an example on how to collect selected container's logs (oxA
 
 ### Accessing Kibana UI
 
-The examples above doesn't expose Kibana UI port 5601 for security reason.
-Below are examples on how to access the UI:
+The examples above don't expose Kibana UI port 5601 for security reasons.
+Below are examples of how to access the UI:
 
 1.  Kubernetes
 
     - expose the port using `kubectl port-forward $KIBANA_POD 5601:5601`
-    - do SSH tunneling to get port locally using `ssh -L 5601:localhost:5601 $USER@$REMOTE_HOST`
-    - visit `http://localhost:5601` to access Kibana UI
+    - use SSH tunneling to get the port locally using `ssh -L 5601:localhost:5601 $USER@$REMOTE_HOST`
+    - visit `http://localhost:5601` to access the Kibana UI
 
-2.  Docker/Docker Swarm
+1.  Docker/Docker Swarm
 
     - get the Kibana's container IP
     - visit the browser at `http://$KIBANA_CONTAINER_IP:5601`.
 
     or for Swarm mode:
 
-    - ensure Kibana container exposes port 5601 to host's `loopback` address (`127.0.0.1`), similar to `docker run -p 127.0.0.1:5601:5601 kibana`
-    - do SSH tunneling using `ssh -L 5601:localhost:5601 $USER@$REMOTE_HOST`
-    - visit `http://localhost:5601` to access Kibana UI
+    - ensure the Kibana container exposes port 5601 to the host's `loopback` address (`127.0.0.1`), similar to `docker run -p 127.0.0.1:5601:5601 kibana`
+    - use SSH tunneling using `ssh -L 5601:localhost:5601 $USER@$REMOTE_HOST`
+    - visit `http://localhost:5601` to access the Kibana UI
