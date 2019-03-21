@@ -1,8 +1,8 @@
 ## Overview
 
-The oxAuth version of Gluu Server DE can be customized. Basic knowledge on [custom design](https://gluu.org/docs/ce/3.1.5/operation/custom-design/) is required.
+The oxAuth version of Gluu Server DE can be customized. Basic knowledge of [custom design](https://gluu.org/docs/ce/3.1.5/operation/custom-design/) is required.
 
-The similar directories as found in Gluu Server CE also exist in Gluu Server DE, though there is difference on how to put these customization inside the container compared to Gluu Server CE.
+Similar directories to those found in Gluu Server CE also exist in Gluu Server DE, though there is a difference on how to put these customizations inside the container, compared to Gluu Server CE.
 
     /opt/gluu/jetty/oxauth/
     |-- custom
@@ -13,8 +13,8 @@ The similar directories as found in Gluu Server CE also exist in Gluu Server DE,
 
 ## Custom oxAuth Login Page Example
 
-This guide will show examples on how to customize HTML page and CSS in oxAuth Gluu Server DE.
-For simplicity, we are going to use `docker-compose.yml` from Singlehost example:
+This guide will show examples of how to customize HTML pages and CSS in oxAuth for Gluu Server DE.
+For simplicity, we are going to use `docker-compose.yml` from the Singlehost example:
 
     services:
       oxauth:
@@ -26,29 +26,29 @@ For simplicity, we are going to use `docker-compose.yml` from Singlehost example
           - ./volumes/oxauth/custom/i18n:/opt/gluu/jetty/oxauth/custom/i18n
           - ./volumes/oxauth/logs:/opt/gluu/jetty/oxauth/logs
 
-As we can see there are volumes for custom pages and static resources:
+As we can see, there are volumes for custom pages and static resources:
 
     volumes:
       - ./volumes/oxauth/custom/pages:/opt/gluu/jetty/oxauth/custom/pages
       - ./volumes/oxauth/custom/static:/opt/gluu/jetty/oxauth/custom/static
 
-Here's the screenshot of default oxAuth login page.
+Here's the screenshot of the default oxAuth login page.
 
 ![Screenshot](../img/oxauth-default-login.png)
 
-We are going to add text on top of the form and change the color of the button by running the following steps:
+As an example, add text to the top of the form and change the color of the button by following these steps:
 
 1.  Get the `login.xhtml` from oxAuth container:
 
         docker cp oxauth:/opt/gluu/jetty/oxauth/webapps/oxauth/login.xhtml volumes/oxauth/custom/pages/login.xhtml
 
-2.  Copy the following text and save it as `volumes/oxauth/custom/static/custom.css`:
+1.  Copy the following text and save it as `volumes/oxauth/custom/static/custom.css`:
 
         #loginForm .btn-primary {
             background: #1a9db2
         }
 
-3.  Modify `volumes/oxauth/custom/pages/login.xhtml`:
+1.  Modify `volumes/oxauth/custom/pages/login.xhtml`:
 
         <!-- insert custom CSS -->
         <ui:define name="head">
@@ -73,12 +73,12 @@ Here's the screenshot of customized oxAuth login page.
 
 ### Using Docker Config (Swarm Mode)
 
-Create config to store the content of `login.xhtml` and `custom.css`.
+Create a config file to store the content of `login.xhtml` and `custom.css`.
 
     docker config create oxauth-login-html login.xhtml
     docker config create oxauth-custom-css custom.css
 
-Afterwards _mount_ them into container.
+Then, _mount_ them into the container.
 
     docker service create \
         --name oxauth \
@@ -86,7 +86,7 @@ Afterwards _mount_ them into container.
         --config src=oxauth-custom-css,target=/opt/gluu/jetty/oxauth/custom/static/custom.css \
         gluufederation/oxauth:3.1.5_dev
 
-Another option is to use YAML file.
+Another option is to use a YAML file.
 
     services:
       oxauth:
@@ -105,7 +105,7 @@ Another option is to use YAML file.
 
 ### Using Kubernetes ConfigMaps
 
-Create config to store the content of `login.xhtml` and `custom.css`.
+Create a config file to store the content of `login.xhtml` and `custom.css`.
 
     kubectl create cm oxauth-custom-html --from-file=login.xhtml
     kubectl create cm oxauth-custom-css --from-file=custom.css
