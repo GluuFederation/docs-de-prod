@@ -2,7 +2,7 @@
 
 The oxTrust version of Gluu Server DE can be customized. Basic knowledge on [custom design](https://gluu.org/docs/ce/3.1.5/operation/custom-design/) is required.
 
-The similar directories as found in Gluu Server CE also exist in Gluu Server DE, though there is difference on how to put these customization inside the container compared to Gluu Server CE.
+Similar directories to those found in Gluu Server CE also exist in Gluu Server DE, though there is a difference in how to put these customizations inside the container, compared to Gluu Server CE.
 
     /opt/gluu/jetty/identity/
     |-- custom
@@ -13,8 +13,7 @@ The similar directories as found in Gluu Server CE also exist in Gluu Server DE,
 
 ## Custom oxTrust Logout Page Example
 
-This guide will show examples on how to customize HTML page and CSS in oxTrust Gluu Server DE.
-For simplicity, we are going to use `docker-compose.yml` from Singlehost example:
+This guide will show examples of how to customize HTML pages and CSS in oxTrust for Gluu Server DE. For simplicity, we are going to use docker-compose.yml from the Singlehost example:
 
     services:
       oxtrust:
@@ -36,19 +35,19 @@ Here's the screenshot of default oxTrust logout page.
 
 ![Screenshot](../img/oxtrust-default-logout.png)
 
-We are going to add text below the button and change the color of the button by running the following steps:
+As an example, add text to the top of the form and change the color of the button by following these steps:
 
 1.  Get the `finishlogout.xhtml` from oxTrust container:
 
         docker cp oxtrust:/opt/gluu/jetty/identity/webapps/identity/finishlogout.xhtml volumes/oxtrust/custom/pages/finishlogout.xhtml
 
-2.  Copy the following text and save it as `volumes/oxtrust/custom/static/custom.css`:
+1.  Copy the following text and save it as `volumes/oxtrust/custom/static/custom.css`:
 
         .lockscreen-wrapper .btn-primary {
             background-color: #b79933 !important;
         }
 
-3.  Modify `volumes/oxtrust/custom/pages/finishlogout.xhtml` (some texts are omitted):
+1.  Modify `volumes/oxtrust/custom/pages/finishlogout.xhtml` (some texts are omitted):
 
         <!-- insert custom CSS -->
         <ui:define name="head">
@@ -64,7 +63,7 @@ We are going to add text below the button and change the color of the button by 
         </div>
 
 
-    Save the file and login to oxtrust/oxTrust UI via browser.
+    Save the file and log in to oxAuth/oxTrust UI via browser.
 
 Here's the screenshot of customized oxTrust logout page.
 
@@ -74,12 +73,12 @@ Here's the screenshot of customized oxTrust logout page.
 
 ### Using Docker Config (Swarm Mode)
 
-Create config to store the content of `finishlogout.xhtml` and `custom.css`.
+Create a config file to store the content of login.xhtml and custom.css.
 
     docker config create oxtrust-finishlogout-html finishlogout.xhtml
     docker config create oxtrust-custom-css custom.css
 
-Afterwards _mount_ them into container.
+Then, _mount_ them into the container.
 
     docker service create \
         --name oxtrust \
@@ -87,7 +86,7 @@ Afterwards _mount_ them into container.
         --config src=oxtrust-custom-css,target=/opt/gluu/jetty/oxtrust/custom/static/custom.css \
         gluufederation/oxtrust:3.1.5_dev
 
-Another option is to use YAML file.
+Another option is to use a YAML file.
 
     services:
       oxtrust:
@@ -106,7 +105,7 @@ Another option is to use YAML file.
 
 ### Using Kubernetes ConfigMaps
 
-Create config to store the content of `finishlogout.xhtml` and `custom.css`.
+Create a config file to store the contents of `finishlogout.xhtml` and `custom.css`.
 
     kubectl create cm oxtrust-custom-html --from-file=finishlogout.xhtml
     kubectl create cm oxtrust-custom-css --from-file=custom.css
