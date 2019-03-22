@@ -34,7 +34,7 @@ By default, each container is set to have 10GB of disk size. For OpenDJ containe
 1.  Set the option locally when running the container.
 
     ```
-    docker run --storage-opts dm.basesize=20G gluufederation/opendj:3.1.5_dev
+    docker run --storage-opts dm.basesize=20G gluufederation/opendj:3.1.5_01
     ```
 
 Please note that the ability to change the disk size for container depends on [storage driver](https://docs.docker.com/storage/storagedriver/select-storage-driver/).

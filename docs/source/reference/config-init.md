@@ -92,7 +92,7 @@ Please note that to dump this file into the host, you'll need to map a mounted v
         -e GLUU_SECRET_ADAPTER=vault \
         -e GLUU_SECRET_VAULT_HOST=vault \
         -v /path/to/host/volume:/opt/config-init/db \
-        gluufederation/config-init:3.1.5_dev dump
+        gluufederation/config-init:3.1.5_01 dump
 
 ### load
 
@@ -108,4 +108,4 @@ Please note that to load this file from the host, you'll need to map a mounted v
         -e GLUU_SECRET_ADAPTER=vault \
         -e GLUU_SECRET_VAULT_HOST=vault \
         -v /path/to/host/volume:/opt/config-init/db \
-        gluufederation/config-init:3.1.5_dev load
+        gluufederation/config-init:3.1.5_01 load

@@ -36,7 +36,7 @@ Before running the upgrade process, make sure to backup existing LDAP data.
 
             services:
               opendj:
-                image: gluufederation/opendj:3.1.5_dev
+                image: gluufederation/opendj:3.1.5_01
                 volumes:
                   - /path/to/101-ox.ldif:/opt/opendj/config/schema/101-ox.ldif
 
@@ -48,7 +48,7 @@ Before running the upgrade process, make sure to backup existing LDAP data.
 
             services:
               opendj:
-                image: gluufederation/opendj:3.1.5_dev
+                image: gluufederation/opendj:3.1.5_01
                 configs:
                   - source: 101-ox
                     target: /opt/opendj/config/schema/101-ox.ldif
@@ -69,7 +69,7 @@ Before running the upgrade process, make sure to backup existing LDAP data.
             name: opendj
             spec:
               containers:
-                image: gluufederation/opendj:3.1.5_dev
+                image: gluufederation/opendj:3.1.5_01
                 volumeMounts:
                   - name: opendj-schema-volume
                     mountPath: /opt/opendj/config/schema/
@@ -118,7 +118,7 @@ Before running the upgrade process, make sure to backup existing LDAP data.
 
 ### Upgrade Container
 
-By running the `gluufederation/upgrade:3.1.5_dev` container, the LDAP data will be adjusted to match convention in v3.1.5.
+By running the `gluufederation/upgrade:3.1.5_01` container, the LDAP data will be adjusted to match convention in v3.1.5.
 
     docker run \
         --rm \
@@ -128,6 +128,6 @@ By running the `gluufederation/upgrade:3.1.5_dev` container, the LDAP data will 
         -e GLUU_LDAP_URL=ldap:1636 \
         -v /path/to/vault_role_id.txt:/etc/certs/vault_role_id \
         -v /path/to/vault_secret_id.txt:/etc/certs/vault_secret_id \
-        gluufederation/upgrade:3.1.5_dev
+        gluufederation/upgrade:3.1.5_01
 
 Note, the upgrade process doesn't update custom scripts for oxAuth/oxTrust to avoid overwritting custom script that modified by users. Please update them manually.

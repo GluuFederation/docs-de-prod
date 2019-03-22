@@ -67,7 +67,7 @@ To generate initial data (entries) for LDAP, the container must run using `GLUU_
 # docker-compose.yaml
 services:
   ldap:
-    image: gluufederation/opendj:3.1.5_dev
+    image: gluufederation/opendj:3.1.5_01
     environment:
       - GLUU_CONFIG_ADAPTER=consul
       - GLUU_SECRET_ADAPTER=vault
@@ -87,7 +87,7 @@ Since there should be a single OpenDJ container that its role is to generate ini
 # docker-compose-repl.yaml
 services:
   ldap2:
-    image: gluufederation/opendj:3.1.5_dev
+    image: gluufederation/opendj:3.1.5_01
     environment:
       - GLUU_CONFIG_ADAPTER=consul
       - GLUU_SECRET_ADAPTER=vault

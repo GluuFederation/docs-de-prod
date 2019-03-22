@@ -12,7 +12,7 @@ Below is example on how to mount custom schema:
 
     docker run \
         -v /path/to/78-myAttributes.ldif:/opt/opendj/template/config/schema/78-myAttributes.ldif \
-        gluufederation/opendj:3.1.5_dev
+        gluufederation/opendj:3.1.5_01
 
 As we can see, the `78-myAttributes.ldif` is mounted as `/opt/opendj/template/config/schema/78-myAttributes.ldif` inside the container, which eventually will be copied to `/opt/opendj/config/schema/78-myAttributes.ldif` automatically.
 This custom schema will be loaded by OpenDJ server upon startup.
@@ -24,7 +24,7 @@ Mounting this file into `/opt/opendj/template/config/schema` won't work as it wi
 
     docker run \
         -v /path/to/79-otherAttributes.ldif:/opt/opendj/config/schema/79-otherAttributes.ldif \
-        gluufederation/opendj:3.1.5_dev
+        gluufederation/opendj:3.1.5_01
 
 __Note__: adding new schema may require restarting the container.
 
@@ -41,7 +41,7 @@ Mount the schema (depends on deployment scenario) into container:
     # before deployment
     services:
       opendj:
-        image: gluufederation/opendj:3.1.5_dev
+        image: gluufederation/opendj:3.1.5_01
         configs:
           - source: custom-ldap-schema
             target: /opt/opendj/template/config/schema/78-myAttributes.ldif
@@ -55,7 +55,7 @@ Or:
     # after deployment, restart service if needed
     services:
       opendj:
-        image: gluufederation/opendj:3.1.5_dev
+        image: gluufederation/opendj:3.1.5_01
         configs:
           - source: custom-ldap-schema
             target: /opt/opendj/config/schema/78-myAttributes.ldif
@@ -79,7 +79,7 @@ Mount the schema (depends on deployment scenario) into container:
       name: opendj
     spec:
       containers:
-        image: gluufederation/opendj:3.1.5_dev
+        image: gluufederation/opendj:3.1.5_01
         volumeMounts:
           - name: opendj-schema-volume
             # schema will be mounted under this directory
@@ -98,7 +98,7 @@ Or:
       name: opendj
     spec:
       containers:
-        image: gluufederation/opendj:3.1.5_dev
+        image: gluufederation/opendj:3.1.5_01
         volumeMounts:
           - name: opendj-schema-volume
             # schema will be mounted under this directory
