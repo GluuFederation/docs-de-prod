@@ -128,6 +128,6 @@ By running the `gluufederation/upgrade:3.1.5_01` container, the LDAP data will b
         -e GLUU_LDAP_URL=ldap:1636 \
         -v /path/to/vault_role_id.txt:/etc/certs/vault_role_id \
         -v /path/to/vault_secret_id.txt:/etc/certs/vault_secret_id \
-        gluufederation/upgrade:3.1.5_01
+        gluufederation/upgrade:3.1.5_02
 
 Note, the upgrade process doesn't update custom scripts for oxAuth/oxTrust to avoid overwritting custom script that modified by users. Please update them manually.
