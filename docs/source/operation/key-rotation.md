@@ -1,12 +1,10 @@
 ## Overview
 
-The role of KeyRotation container is to regenerate `oxauth-keys.jks`.
-After keys have been regenerated, these keys will be saved into secrets backend.
-On the other hand, oxAuth container runs periodic task to pull new `oxauth-keys.jks` (if any) from secrets backend.
+The role of KeyRotation container is to regenerate `oxauth-keys.jks`. After keys have been regenerated, these keys will be saved into the secrets backend. On the other hand, the oxAuth container runs periodic task to pull new `oxauth-keys.jks` (if any) from secrets backend.
 
-### Deploying Container
+### Deploying the container
 
-Below is an example of `docker-compose.yml` to deploy KeyRotation container:
+Below is an example of `docker-compose.yml` to deploy the KeyRotation container:
 
 ```
 services:
