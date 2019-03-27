@@ -25,7 +25,7 @@ The following environment variables are supported by the container:
 - `GLUU_SECRET_VAULT_PORT`: port of Vault (default to `8200`).
 - `GLUU_SECRET_VAULT_VERIFY`: whether to verify cert or not (default to `false`).
 - `GLUU_SECRET_VAULT_ROLE_ID_FILE`: path to file contains Vault AppRole role ID (default to `/etc/certs/vault_role_id`).
-- `GLUU_SECRET_VAULT_SECRET_ID_FILE`: path to file contains Vault Approle secret ID (default to `/etc/certs/vault_secret_id`).
+- `GLUU_SECRET_VAULT_SECRET_ID_FILE`: path to file contains Vault AppRole secret ID (default to `/etc/certs/vault_secret_id`).
 - `GLUU_SECRET_VAULT_CERT_FILE`: path to Vault cert file (default to `/etc/certs/vault_client.crt`).
 - `GLUU_SECRET_VAULT_KEY_FILE`: path to Vault key file (default to `/etc/certs/vault_client.key`).
 - `GLUU_SECRET_VAULT_CACERT_FILE`: path to Vault CA cert file (default to `/etc/certs/vault_ca.crt`). This file will be used if it exists and `GLUU_SECRET_VAULT_VERIFY` set to `true`.
@@ -55,8 +55,6 @@ Deprecated environment variables (see `GLUU_CONFIG_CONSUL_*` or `GLUU_CONFIG_KUB
 - `GLUU_CONSUL_TOKEN_FILE`
 - `GLUU_KUBERNETES_NAMESPACE`
 - `GLUU_KUBERNETES_CONFIGMAP`
-
-## Customizing oxTrust
 
 ## Shared Directories
 
