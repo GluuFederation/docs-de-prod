@@ -1,10 +1,10 @@
-## v3.1.4 to v3.1.5
+## Upgrading from v3.1.4 to v3.1.5
 
-Gluu Server DE v3.1.5 introduces secrets layer which depends on selected secrets adapter (`vault` or `kubernetes`), the migration may need to configure the secret backend first. Otherwise all of Gluu Server containers startup will wait (and eventually crashed) for secrets backend to be available.
+Gluu Server DE 3.1.5 introduces a secrets layer which depends on the selected secrets adapter (`vault` or `kubernetes`), the migration may need to configure the secret backend first. Otherwise startup for all Gluu Server containers will wait (and eventually crash) for secrets backend to be available.
 
 ### Prerequisites
 
-Gluu Server DE 3.1.5 introduces new variables and deprecates some. See [Reference](reference/index) documentation on these changes. Also it it best to compare the latest [deployment examples](example/index) with your existing setup to see what changes need to be applied.
+Gluu Server DE 3.1.5 introduces new variables and deprecates some. See [Reference](../reference/index.md) documentation on these changes. Also it it best to compare the latest deployment examples with your existing setup to see what changes need to be applied.
 
 ### Vault
 
@@ -18,7 +18,7 @@ If Vault has been configured properly, eventually the container will show a simi
 
     INFO - 2019-01-28 17:43:37,088 - Secret backend is ready.
 
-Refer to [Vault operation guide](/operation/vault) to setup Vault.
+Refer to [Vault operation guide](./vault.md) to setup Vault.
 
 ### LDAP
 
@@ -30,9 +30,9 @@ Before running the upgrade process, make sure to backup existing LDAP data.
 
 1.  Download the latest [101-ox.ldif](https://github.com/GluuFederation/docker-opendj/raw/3.1.5/schemas/101-ox.ldif) schema.
 
-2.  Depends on the setup, there are various ways to mount the file into container.
+1.  Depends on the setup, there are various ways to mount the file into container.
 
-    1.  For single host setup, mount `101-ox.ldif` to OpenDJ container directly. This is an example using `docker-compose.yml`:
+    1.  For a single host setup, mount `101-ox.ldif` to OpenDJ container directly. This is an example using `docker-compose.yml`:
 
             services:
               opendj:
@@ -40,7 +40,7 @@ Before running the upgrade process, make sure to backup existing LDAP data.
                 volumes:
                   - /path/to/101-ox.ldif:/opt/opendj/config/schema/101-ox.ldif
 
-    2.  For multi hosts setup using Docker Swarm Mode, we recommend to put the contents of `101-ox.ldif` into Docker Config:
+    1.  For a multi-hosts setup using Docker Swarm Mode, we recommend to put the contents of `101-ox.ldif` into Docker Config:
 
             docker config create 101-ox /path/to/101-ox.ldif
 
@@ -57,7 +57,7 @@ Before running the upgrade process, make sure to backup existing LDAP data.
               101-ox:
                 external: true
 
-    3.  For multi hosts setup using Kubernetes, put the contents of `101-ox.ldif` into ConfigMaps:
+    1.  For a multi-hosts setup using Kubernetes, put the contents of `101-ox.ldif` into ConfigMaps:
 
             kubectl create cm opendj-schema --from-file=/path/to/101-ox.ldif
 
@@ -78,7 +78,7 @@ Before running the upgrade process, make sure to backup existing LDAP data.
                   configMap:
                     name: opendj-schema
 
-3.  Restart the container/service to allow changes in schema.
+1.  Restart the container/service to allow changes in schema.
 
 #### Reconfiguring Backends
 
@@ -91,9 +91,9 @@ Before running the upgrade process, make sure to backup existing LDAP data.
             --hostname 0.0.0.0 \
             set-backend-prop --backend-name site --set db-cache-percent:20
 
-2.  Restart the OpenDJ container/service to free JVM heap memory.
+1.  Restart the OpenDJ container/service to free JVM heap memory.
 
-3.  Resize the `userRoot` backend:
+1.  Resize the `userRoot` backend:
 
         docker exec -ti opendj /opt/opendj/bin/dsconfig \
             --trustAll \
@@ -102,7 +102,7 @@ Before running the upgrade process, make sure to backup existing LDAP data.
             --hostname 0.0.0.0 \
             set-backend-prop --backend-name userRoot --set db-cache-percent:70
 
-4.  Create `metric` backend:
+1.  Create `metric` backend:
 
          docker exec -ti opendj /opt/opendj/bin/dsconfig \
             --trustAll \
@@ -118,7 +118,7 @@ Before running the upgrade process, make sure to backup existing LDAP data.
 
 ### Upgrade Container
 
-By running the `gluufederation/upgrade:3.1.5_01` container, the LDAP data will be adjusted to match convention in v3.1.5.
+By running the `gluufederation/upgrade:3.1.5_01` container, the LDAP data will be adjusted to match conventions in 3.1.5.
 
     docker run \
         --rm \
@@ -130,4 +130,4 @@ By running the `gluufederation/upgrade:3.1.5_01` container, the LDAP data will b
         -v /path/to/vault_secret_id.txt:/etc/certs/vault_secret_id \
         gluufederation/upgrade:3.1.5_02
 
-Note, the upgrade process doesn't update custom scripts for oxAuth/oxTrust to avoid overwritting custom script that modified by users. Please update them manually.
+Note, the upgrade process doesn't update custom scripts for oxAuth/oxTrust to avoid overwriting a script that was modified by users. They must be updated them manually.
