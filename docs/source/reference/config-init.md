@@ -1,6 +1,6 @@
 ## Overview
 
-[config-init](https://github.com/GluuFederation/docker-config-init/tree/3.1.5) is a special container that is not daemonized nor executing a long-running process. The purpose of this container is to generate, dump (backup), or even load (restore) the config and secrets.
+[config-init](https://github.com/GluuFederation/docker-config-init/tree/3.1.5) is a special container that is neither daemonized nor executing a long-running process. The purpose of this container is to generate, dump (backup), or even load (restore) the config and secrets.
 
 ## Environment Variables
 
@@ -80,7 +80,7 @@ Parameters:
 
 ### dump
 
-The dump command will dump all configuration from inside KV store into the `/opt/config-init/db/config.json` file inside the container. The following parameters and/or environment variables are required to launch unless otherwise marked.
+The dump command will dump all configuration from inside KV store into the `/opt/config-init/db/config.json` file inside the container. The following parameters and/or environment variables are required to launch, unless otherwise marked.
 
 Please note that to dump this file into the host, you'll need to map a mounted volume to the `/opt/config-init/db` directory. See this example on how to dump the config into the `/path/to/host/volume/config.json` file:
 
@@ -98,7 +98,7 @@ Please note that to dump this file into the host, you'll need to map a mounted v
 
 The load command will load a `config.json` into the KV store. All existing config will be ignored unless forced by passing environment variable `GLUU_OVERWRITE_ALL`.
 
-Please note that to load this file from the host, you'll need to map a mounted volume to the `/opt/config-init/db` directory. For example on how to load the config from `/path/to/host/volume/config.json` file:
+Please note that to load this file from the host, you'll need to map a mounted volume to the `/opt/config-init/db` directory. For an  example on how to load the config from `/path/to/host/volume/config.json` file, see the following:
 
     docker run \
         --rm \
