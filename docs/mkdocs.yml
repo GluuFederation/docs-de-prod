@@ -37,7 +37,6 @@ pages:
   - 'Upgrading': 'operation/upgrade.md'
   - 'oxAuth Key Rotation': 'operation/key-rotation.md'
 - 'Deployment Examples':
-  - 'Overview': 'example/index.md'
   - 'Single Host': 'example/singlehost.md'
   - 'Docker Swarm Mode': 'example/swarm-mode.md'
   - 'Minikube': 'example/minikube.md'
