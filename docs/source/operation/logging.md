@@ -1,10 +1,10 @@
 ## Overview
 
-In a Docker environment where each container can have one or more replicas, it is easier to check the log by collecting all containers' logs, store them in a single place and possibly search the logs later. There are tools available to assist in this task, both open source and paid. This guide will show an example of how to collect selected container's logs (oxAuth, oxTrust, OpenDJ, oxShibboleth, oxPassport, and optionally NGINX), using [Filebeat](https://www.elastic.co/products/beats/filebeat), [Elasticsearch](https://www.elastic.co/products/elasticsearch), and [Kibana](https://www.elastic.co/products/kibana).
+In a Docker environment where each container can have one or more replicas, it is easier to check the log by collecting all containers' logs, storing them in a single place and possibly searching the logs later. There are tools available to assist in this task, both open source and paid. This guide will show an example of how to collect selected container's logs (oxAuth, oxTrust, OpenDJ, oxShibboleth, oxPassport, and optionally NGINX), using [Filebeat](https://www.elastic.co/products/beats/filebeat), [Elasticsearch](https://www.elastic.co/products/elasticsearch), and [Kibana](https://www.elastic.co/products/kibana).
 
 ### Prerequisites
 
-1.  Choose the `json-file` logging driver for the Docker daemon, as Filebeat works best with this driver. By default Docker installation uses `json-file` driver, unless set to another driver. Use `docker info | grep 'Logging Driver'` to check current logging driver.
+1.  Choose the `json-file` logging driver for the Docker daemon, as Filebeat works best with this driver. By default, the Docker installation uses `json-file` driver, unless set to another driver. Use `docker info | grep 'Logging Driver'` to check current logging driver.
 1.  The Elasticsearch container requires the host's specific `vm.max_map_count` kernel setting to be at least 262144. Refer to the official installation page of Elasticsearch [here](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/docker.html#docker-cli-run-prod-mode).
 
 ### Logging Containers in Docker/Docker Swarm
@@ -259,7 +259,7 @@ In a Docker environment where each container can have one or more replicas, it i
 
     Afterwards, run `kubectl apply -f filebeat-roles.yaml` to define custom roles and role binding for Filebeat.
 
-3.  Create a Kubernetes manifest file, `elasticsearch.yaml`:
+1.  Create a Kubernetes manifest file, `elasticsearch.yaml`:
 
     ```
     apiVersion: v1
@@ -332,7 +332,7 @@ In a Docker environment where each container can have one or more replicas, it i
 
     Run `kubectl apply -f elasticsearch.yml` to deploy Elasticsearch Pod.
 
-4.  Create a Kubernetes manifest file, `filebeat-ds.yaml`:
+1.  Create a Kubernetes manifest file, `filebeat-ds.yaml`:
 
     ```
     apiVersion: extensions/v1beta1
@@ -397,7 +397,7 @@ In a Docker environment where each container can have one or more replicas, it i
 
     Run `kubectl apply -f filebeat-ds.yml` to deploy Filebeat Pod.
 
-5.  Create a Kubernetes manifest file, `kibana.yaml`:
+1.  Create a Kubernetes manifest file, `kibana.yaml`:
 
     ```
     apiVersion: v1
