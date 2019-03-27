@@ -24,7 +24,7 @@ Mounting this file into `/opt/opendj/template/config/schema` won't work, as it w
         -v /path/to/79-otherAttributes.ldif:/opt/opendj/config/schema/79-otherAttributes.ldif \
         gluufederation/opendj:3.1.5_01
 
-!!!Note
+!!! Note
     Adding new schema may require restarting the container.
 
 ## Custom Schema in Multiple OpenDJ Containers
