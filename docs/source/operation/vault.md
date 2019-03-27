@@ -1,6 +1,6 @@
 ## Overview
 
-This operational guide is for a Gluu Server DE deployment that uses `vault` as `GLUU_SECRET_ADAPTER` backend.
+This operational guide is for a Gluu Server DE deployment that uses `vault` as the `GLUU_SECRET_ADAPTER` backend.
 If using a Kubernetes deployment, this guide is optional.
 
 ## Choosing a Storage Backend
@@ -46,7 +46,7 @@ Vault uses [seal and unseal](https://www.vaultproject.io/docs/concepts/seal.html
 When a Vault server starts, it remains ina  sealed state until the unseal process is successfully executed.
 Note that when the Vault server is stopped or restarted, it will be sealed again, so we need to determine strategies on how to unseal Vault upfront before deploying Vault container.
 
-There are 2 ways to unseal Vault:
+There are two ways to unseal Vault:
 
 -   __manual__ process which involves human intervention to run specific command for each Vault container and enters one or more keys.
 -   __auto-unseal__ which requires [3rd-party services](https://www.vaultproject.io/docs/configuration/seal/index.html).
@@ -69,7 +69,7 @@ Subscribe to the GCP KMS service and obtain the credentials file, similar to the
         "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/<service-name>%40<project-name>.iam.gserviceaccount.com"
     }
 
-Replace value enclosed in `<>` characters with appropriate entries, then save it to a file `gcp_kms_creds.json`.
+Replace the value enclosed in `<>` characters with appropriate entries, then save it to a file `gcp_kms_creds.json`.
 
 Create seal configuration (stanza), adjust the value enclosed in `<>` characters, then save it as `gcp_kms_stanza.hcl`.
 
@@ -199,7 +199,7 @@ For SecretID, execute the following command:
 
 Save the output as `vault_secret_id.txt` to a file (and `docker secret` or Kubernetes `secrets` if needed).
 
-!!! note
+!!! Note
     The RoleID and SecretID values are required by all Gluu Server DE containers.
 
 ## Unsealing Vault Manually
