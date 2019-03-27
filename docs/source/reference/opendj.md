@@ -25,7 +25,7 @@ The following environment variables are supported by the container:
 - `GLUU_SECRET_VAULT_PORT`: port of Vault (default to `8200`).
 - `GLUU_SECRET_VAULT_VERIFY`: whether to verify cert or not (default to `false`).
 - `GLUU_SECRET_VAULT_ROLE_ID_FILE`: path to file contains Vault AppRole role ID (default to `/etc/certs/vault_role_id`).
-- `GLUU_SECRET_VAULT_SECRET_ID_FILE`: path to file contains Vault Approle secret ID (default to `/etc/certs/vault_secret_id`).
+- `GLUU_SECRET_VAULT_SECRET_ID_FILE`: path to file contains Vault AppRole secret ID (default to `/etc/certs/vault_secret_id`).
 - `GLUU_SECRET_VAULT_CERT_FILE`: path to Vault cert file (default to `/etc/certs/vault_client.crt`).
 - `GLUU_SECRET_VAULT_KEY_FILE`: path to Vault key file (default to `/etc/certs/vault_client.key`).
 - `GLUU_SECRET_VAULT_CACERT_FILE`: path to Vault CA cert file (default to `/etc/certs/vault_ca.crt`). This file will be used if it exists and `GLUU_SECRET_VAULT_VERIFY` set to `true`.
@@ -77,11 +77,11 @@ services:
     container_name: ldap
 ```
 
-It's important to not scale this service/container, otherwise the data will be overlapped. See next section for additional OpenDJ containers.
+It's important to not scale this service/container, otherwise the data will be overlapped. See the next section for additional OpenDJ containers.
 
 ## LDAP Replication
 
-Since there should be a single OpenDJ container that its role is to generate initial data, the rest of OpenDJ containers must replicate the data from existing OpenDJ container. For example:
+Since there should be a single OpenDJ to generate initial data, the other OpenDJ containers must replicate the data from the existing OpenDJ container. For example:
 
 ```
 # docker-compose-repl.yaml
@@ -95,4 +95,4 @@ services:
     container_name: ldap2
 ```
 
-The replication process is automatically run when the container runs. Check the container logs to see the result and optionally running `/opt/opendj/bin/dsreplication status` inside the container.
+The replication process is automatically run when the container runs. Check the container logs to see the result and optionally run `/opt/opendj/bin/dsreplication status` inside the container.
