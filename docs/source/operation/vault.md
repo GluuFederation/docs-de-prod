@@ -227,7 +227,7 @@ If `Sealed` value is `true`, run the command below:
 
     docker exec -ti vault vault unseal
 
-When prompted, enter the `<random-key>` from the [Initializing Vault](operation/vault/#initializing-vault) section.
+When prompted, enter the `<random-key>` from the [Initializing Vault](#initializing-vault) section.
 
 Re-run the `docker exec vault vault status` and check the `Sealed` value.
 Repeat manual unseal until `Sealed` value is `false`.
