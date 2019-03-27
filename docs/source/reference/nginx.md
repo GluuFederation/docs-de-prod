@@ -1,13 +1,12 @@
 ## Overview
 
-We built a customized NGINX image, based on the official open source version and containing a [consul-template](https://github.com/hashicorp/consul-template) and an NGINX server itself, to satisfy our requirements:
+We built a customized NGINX image, based on the official open source version and containing a [consul-template](https://github.com/hashicorp/consul-template) and an NGINX server itself, to satisfy the following requirements:
 
 - Dynamically updating the `upstream` directive to point to available oxAuth/oxTrust/oxShibboleth/oxPassport containers
 - Restarting the NGINX process when its configuration is changed (without restarting the container)
 
-__NOTE__:
-
-- this container relies on Consul
+Note the following points:  
+- This container relies on Consul  
 - Kubernetes deployment can omit this container and use NGINX Ingress instead
 
 ## Environment Variables
@@ -33,7 +32,7 @@ The following environment variables are supported by the container:
 - `GLUU_SECRET_VAULT_PORT`: port of Vault (default to `8200`).
 - `GLUU_SECRET_VAULT_VERIFY`: whether to verify cert or not (default to `false`).
 - `GLUU_SECRET_VAULT_ROLE_ID_FILE`: path to file contains Vault AppRole role ID (default to `/etc/certs/vault_role_id`).
-- `GLUU_SECRET_VAULT_SECRET_ID_FILE`: path to file contains Vault Approle secret ID (default to `/etc/certs/vault_secret_id`).
+- `GLUU_SECRET_VAULT_SECRET_ID_FILE`: path to file contains Vault AppRole secret ID (default to `/etc/certs/vault_secret_id`).
 - `GLUU_SECRET_VAULT_CERT_FILE`: path to Vault cert file (default to `/etc/certs/vault_client.crt`).
 - `GLUU_SECRET_VAULT_KEY_FILE`: path to Vault key file (default to `/etc/certs/vault_client.key`).
 - `GLUU_SECRET_VAULT_CACERT_FILE`: path to Vault CA cert file (default to `/etc/certs/vault_ca.crt`). This file will be used if it exists and `GLUU_SECRET_VAULT_VERIFY` set to `true`.
