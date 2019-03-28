@@ -2,6 +2,10 @@
 
 Upgrade Container for Gluu Server Docker Edition.
 
+## Version
+
+Latest stable version for Gluu Server Docker Edition v3.1.5 is `gluufederation/upgrade:3.1.5_02`.
+
 ## Environment Variables
 
 The following environment variables are supported by the container:

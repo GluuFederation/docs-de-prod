@@ -5,9 +5,13 @@ We built a customized NGINX image, based on the official open source version and
 - Dynamically updating the `upstream` directive to point to available oxAuth/oxTrust/oxShibboleth/oxPassport containers
 - Restarting the NGINX process when its configuration is changed (without restarting the container)
 
-Note the following points:  
-- This container relies on Consul  
+Note the following points:
+- This container relies on Consul
 - Kubernetes deployment can omit this container and use NGINX Ingress instead
+
+## Version
+
+Latest stable version for Gluu Server Docker Edition v3.1.5 is `gluufederation/nginx:3.1.5_01`.
 
 ## Environment Variables
 
