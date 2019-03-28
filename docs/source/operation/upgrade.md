@@ -131,3 +131,81 @@ By running the `gluufederation/upgrade:3.1.5_02` container, the LDAP data will b
         gluufederation/upgrade:3.1.5_02
 
 Note, the upgrade process doesn't update custom scripts for oxAuth/oxTrust to avoid overwriting a script that was modified by users. They must be updated them manually.
+
+## Upgrading from v3.1.5 to v3.1.6
+
+### LDAP
+
+#### Backup Existing Data
+
+Before running the upgrade process, make sure to backup existing LDAP data.
+
+#### Updating Schema
+
+1.  Download the latest [101-ox.ldif](https://github.com/GluuFederation/docker-opendj/raw/3.1.6/schemas/101-ox.ldif) schema.
+
+1.  Depends on the setup, there are various ways to mount the file into container.
+
+    1.  For a single host setup, mount `101-ox.ldif` to OpenDJ container directly. This is an example using `docker-compose.yml`:
+
+            services:
+              opendj:
+                image: gluufederation/opendj:3.1.6_dev
+                volumes:
+                  - /path/to/101-ox.ldif:/opt/opendj/config/schema/101-ox.ldif
+
+    1.  For a multi-hosts setup using Docker Swarm Mode, we recommend to put the contents of `101-ox.ldif` into Docker Config:
+
+            docker config create 101-ox /path/to/101-ox.ldif
+
+        and then mount the file into container:
+
+            services:
+              opendj:
+                image: gluufederation/opendj:3.1.6_dev
+                configs:
+                  - source: 101-ox
+                    target: /opt/opendj/config/schema/101-ox.ldif
+
+            configs:
+              101-ox:
+                external: true
+
+    1.  For a multi-hosts setup using Kubernetes, put the contents of `101-ox.ldif` into ConfigMaps:
+
+            kubectl create cm opendj-schema --from-file=/path/to/101-ox.ldif
+
+        and then mount the file into container:
+
+            apiVersion: v1
+            kind: StatefulSet
+            metadata:
+            name: opendj
+            spec:
+              containers:
+                image: gluufederation/opendj:3.1.6_dev
+                volumeMounts:
+                  - name: opendj-schema-volume
+                    mountPath: /opt/opendj/config/schema/
+              volumes:
+                - name: opendj-schema-volume
+                  configMap:
+                    name: opendj-schema
+
+1.  Restart the container/service to allow changes in schema.
+
+### Upgrade Container
+
+By running the `gluufederation/upgrade:3.1.6_dev` container, the LDAP data will be adjusted to match conventions in 3.1.6.
+
+    docker run \
+        --rm \
+        --net container:consul \
+        -e GLUU_CONFIG_CONSUL_HOST=consul \
+        -e GLUU_SECRET_VAULT_HOST=vault \
+        -e GLUU_LDAP_URL=ldap:1636 \
+        -v /path/to/vault_role_id.txt:/etc/certs/vault_role_id \
+        -v /path/to/vault_secret_id.txt:/etc/certs/vault_secret_id \
+        gluufederation/upgrade:3.1.6_dev --source 3.1.5 --target 3.1.6
+
+Note, the upgrade process doesn't update custom scripts for oxAuth/oxTrust to avoid overwriting a script that was modified by users. They must be updated them manually.

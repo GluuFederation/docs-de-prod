@@ -4,7 +4,7 @@
 
 ## Version
 
-Latest stable version for Gluu Server Docker Edition v3.1.5 is `gluufederation/key-rotation:3.1.5_01`.
+Currently there's no stable version for Gluu Server Docker Edition v3.1.6, however unstable version is available as `gluufederation/key-rotation:3.1.6_dev`.
 
 ## Environment Variables
 

@@ -4,7 +4,7 @@ Upgrade Container for Gluu Server Docker Edition.
 
 ## Version
 
-Latest stable version for Gluu Server Docker Edition v3.1.5 is `gluufederation/upgrade:3.1.5_02`.
+Currently there's no stable version for Gluu Server Docker Edition v3.1.6, however unstable version is available as `gluufederation/upgrade:3.1.6_dev`.
 
 ## Environment Variables
 
@@ -39,3 +39,25 @@ The following environment variables are supported by the container:
 - `GLUU_WAIT_MAX_TIME`: How long the startup "health checks" should run (default to `300` seconds).
 - `GLUU_WAIT_SLEEP_DURATION`: Delay between startup "health checks" (default to `5` seconds).
 - `GLUU_LDAP_URL`: The LDAP database's IP address or hostname. Default is `localhost:1636`. Multiple URLs can be used using comma-separated values (i.e. `192.168.100.1:1636,192.168.100.2:1636`).
+
+## Entrypoint Parameters
+
+The following parameters are supported by the container:
+
+- `--source`: Gluu version to upgrade from (required)
+- `--target`: Gluu version to upgrade to; usually the latest version (required)
+- `--help`: Show all available parameters
+
+Example:
+
+    docker run \
+        --rm \
+        --network container:consul \
+        -e GLUU_CONFIG_CONSUL_HOST=consul \
+        -e GLUU_SECRET_VAULT_HOST=vault \
+        -e GLUU_LDAP_URL=ldap:1636 \
+        -v /path/to/vault_role_id.txt:/etc/certs/vault_role_id \
+        -v /path/to/vault_secret_id.txt:/etc/certs/vault_secret_id \
+        gluufederation/upgrade:3.1.6_dev \
+            --source 3.1.4 \
+            --target 3.1.6
