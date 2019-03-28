@@ -1,6 +1,6 @@
 ## Overview
 
-[key-rotation](https://github.com/GluuFederation/docker-key-rotation/tree/3.1.5) is a special container to rotate oxAuth keys.
+[key-rotation](https://github.com/GluuFederation/docker-key-rotation/tree/3.1.6) is a special container to rotate oxAuth keys.
 
 ## Environment Variables
 

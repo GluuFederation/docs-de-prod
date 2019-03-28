@@ -1,6 +1,6 @@
 ## Overview
 
-[config-init](https://github.com/GluuFederation/docker-config-init/tree/3.1.5) is a special container that is neither daemonized nor executing a long-running process. The purpose of this container is to generate, dump (backup), or even load (restore) the config and secrets.
+[config-init](https://github.com/GluuFederation/docker-config-init/tree/3.1.6) is a special container that is neither daemonized nor executing a long-running process. The purpose of this container is to generate, dump (backup), or even load (restore) the config and secrets.
 
 ## Environment Variables
 
@@ -92,7 +92,7 @@ Please note that to dump this file into the host, you'll need to map a mounted v
         -e GLUU_SECRET_ADAPTER=vault \
         -e GLUU_SECRET_VAULT_HOST=vault \
         -v /path/to/host/volume:/opt/config-init/db \
-        gluufederation/config-init:3.1.5_01 dump
+        gluufederation/config-init:3.1.6_01 dump
 
 ### load
 
@@ -108,4 +108,4 @@ Please note that to load this file from the host, you'll need to map a mounted v
         -e GLUU_SECRET_ADAPTER=vault \
         -e GLUU_SECRET_VAULT_HOST=vault \
         -v /path/to/host/volume:/opt/config-init/db \
-        gluufederation/config-init:3.1.5_01 load
+        gluufederation/config-init:3.1.6_01 load

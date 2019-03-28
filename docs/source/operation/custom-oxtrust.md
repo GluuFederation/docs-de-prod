@@ -1,6 +1,6 @@
 ## Overview
 
-The oxTrust version of Gluu Server DE can be customized. Basic knowledge on [custom design](https://gluu.org/docs/ce/3.1.5/operation/custom-design/) is required.
+The oxTrust version of Gluu Server DE can be customized. Basic knowledge on [custom design](https://gluu.org/docs/ce/3.1.6/operation/custom-design/) is required.
 
 Similar directories to those found in Gluu Server CE also exist in Gluu Server DE, though there is a difference in how to put these customizations inside the container, compared to Gluu Server CE.
 
@@ -17,7 +17,7 @@ This guide will show examples of how to customize HTML pages and CSS in oxTrust 
 
     services:
       oxtrust:
-        image: gluufederation/oxtrust:3.1.5_01
+        image: gluufederation/oxtrust:3.1.6_01
         volumes:
           - ./volumes/oxtrust/custom/pages:/opt/gluu/jetty/oxtrust/custom/pages
           - ./volumes/oxtrust/custom/static:/opt/gluu/jetty/oxtrust/custom/static
@@ -84,13 +84,13 @@ Then, _mount_ them into the container.
         --name oxtrust \
         --config src=oxtrust-finishlogout-html,target=/opt/gluu/jetty/oxtrust/custom/pages/finishlogout.xhtml \
         --config src=oxtrust-custom-css,target=/opt/gluu/jetty/oxtrust/custom/static/custom.css \
-        gluufederation/oxtrust:3.1.5_01
+        gluufederation/oxtrust:3.1.6_01
 
 Another option is to use a YAML file.
 
     services:
       oxtrust:
-        image: gluufederation/oxtrust:3.1.5_01
+        image: gluufederation/oxtrust:3.1.6_01
         configs:
           - source: oxtrust-finishlogout-html
             target: /opt/gluu/jetty/oxtrust/custom/pages/finishlogout.xhtml
@@ -118,7 +118,7 @@ Attach the config to Pod using YAML file:
       name: oxtrust
     spec:
       containers:
-        image: gluufederation/oxtrust:3.1.5_01
+        image: gluufederation/oxtrust:3.1.6_01
         volumeMounts:
           - name: oxtrust-pages-volume
             # finishlogout.xthml will be mounted under this directory

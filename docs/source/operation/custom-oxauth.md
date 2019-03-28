@@ -1,6 +1,6 @@
 ## Overview
 
-The oxAuth version of Gluu Server DE can be customized. Basic knowledge of [custom design](https://gluu.org/docs/ce/3.1.5/operation/custom-design/) is required.
+The oxAuth version of Gluu Server DE can be customized. Basic knowledge of [custom design](https://gluu.org/docs/ce/3.1.6/operation/custom-design/) is required.
 
 Similar directories to those found in Gluu Server CE also exist in Gluu Server DE, though there is a difference in how to put these customizations inside the container, compared to Gluu Server CE.
 
@@ -18,7 +18,7 @@ For simplicity, we are going to use `docker-compose.yml` from the Singlehost exa
 
     services:
       oxauth:
-        image: gluufederation/oxauth:3.1.5_01
+        image: gluufederation/oxauth:3.1.6_01
         volumes:
           - ./volumes/oxauth/custom/pages:/opt/gluu/jetty/oxauth/custom/pages
           - ./volumes/oxauth/custom/static:/opt/gluu/jetty/oxauth/custom/static
@@ -84,13 +84,13 @@ Then, _mount_ them into the container.
         --name oxauth \
         --config src=oxauth-login-html,target=/opt/gluu/jetty/oxauth/custom/pages/login.xhtml \
         --config src=oxauth-custom-css,target=/opt/gluu/jetty/oxauth/custom/static/custom.css \
-        gluufederation/oxauth:3.1.5_01
+        gluufederation/oxauth:3.1.6_01
 
 Another option is to use a YAML file.
 
     services:
       oxauth:
-        image: gluufederation/oxauth:3.1.5_01
+        image: gluufederation/oxauth:3.1.6_01
         configs:
           - source: oxauth-login-html
             target: /opt/gluu/jetty/oxauth/custom/pages/login.xhtml
@@ -118,7 +118,7 @@ Attach the config to Pod using YAML file:
       name: oxauth
     spec:
       containers:
-        image: gluufederation/oxauth:3.1.5_01
+        image: gluufederation/oxauth:3.1.6_01
         volumeMounts:
           - name: oxauth-pages-volume
             # login.xthml will be mounted under this directory

@@ -2,7 +2,7 @@
 
 This an example of running Gluu Server Docker Edition (DE) on multiple VMs using Docker Swarm Mode.
 
-[Here](https://github.com/GluuFederation/gluu-docker/tree/3.1.5/examples/multi-hosts) are the instructions to deploy clustered instances of Gluu Server Docker containers.This example consists of several shell scripts and config files (including docker-compose files).
+[Here](https://github.com/GluuFederation/gluu-docker/tree/3.1.6/examples/multi-hosts) are the instructions to deploy clustered instances of Gluu Server Docker containers.This example consists of several shell scripts and config files (including docker-compose files).
 
 What follows is an explanation of the process we used to deploy clustered Gluu Server Docker containers.
 
