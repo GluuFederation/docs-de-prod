@@ -14,7 +14,7 @@ Storage Driver: overlay2
  Native Overlay Diff: true
 ```
 
-From the output above, the storage driver is set to `overlay2`. Refer to this [docs](https://docs.docker.com/storage/storagedriver/select-storage-driver/) to see supported storage drivers.
+From the output above, the storage driver is set to `overlay2`. Refer to this [doc](https://docs.docker.com/storage/storagedriver/select-storage-driver/) to see supported storage drivers.
 
 By default, each container is set to have 10GB of disk size. For OpenDJ containers, this may not be large enough. There are two ways to increase the container disk size:
 
