@@ -15,3 +15,7 @@ If you have questions or feedback, please open a ticket on the [Gluu support por
 
 !!! Note
     Support for Docker Edition deployments is only guaranteed under [Enterprise support plans](https://gluu.org/pricing). However, the code and documentation remains free and open source.
+    
+## License
+
+Gluu Server DE is available under the [GLUU SUPPORT license](https://github.com/GluuFederation/gluu-docker/blob/3.1.5/LICENSE).
