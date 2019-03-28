@@ -118,7 +118,7 @@ Before running the upgrade process, make sure to backup existing LDAP data.
 
 ### Upgrade Container
 
-By running the `gluufederation/upgrade:3.1.5_01` container, the LDAP data will be adjusted to match conventions in 3.1.5.
+By running the `gluufederation/upgrade:3.1.5_02` container, the LDAP data will be adjusted to match conventions in 3.1.5.
 
     docker run \
         --rm \
