@@ -2,6 +2,10 @@
 
 Docker image packaging for oxAuth.
 
+## Version
+
+Latest stable version for Gluu Server Docker Edition v3.1.5 is `gluufederation/oxauth:3.1.5_01`.
+
 ## Environment Variables
 
 The following environment variables are supported by the container:

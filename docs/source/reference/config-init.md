@@ -2,6 +2,10 @@
 
 [config-init](https://github.com/GluuFederation/docker-config-init/tree/3.1.6) is a special container that is neither daemonized nor executing a long-running process. The purpose of this container is to generate, dump (backup), or even load (restore) the config and secrets.
 
+## Version
+
+Latest stable version for Gluu Server Docker Edition v3.1.5 is `gluufederation/config-init:3.1.5_02`.
+
 ## Environment Variables
 
 The following environment variables are supported by the container:
