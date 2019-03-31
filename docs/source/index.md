@@ -9,12 +9,6 @@ The Gluu Server now supports installation via Linux containers. This documentati
 - Scalability
 - Modularity
 - Ease of Operations
-
-## Support
-If you have questions or feedback, please open a ticket on the [Gluu support portal](https://support.gluu.org/).
-
-!!! Note
-    Support for Docker Edition deployments is only guaranteed under [Enterprise support plans](https://gluu.org/pricing). However, the code and documentation remains free and open source.
     
 ## License
 
