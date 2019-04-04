@@ -42,16 +42,18 @@ The following environment variables are supported by the container:
 - `GLUU_MAX_RAM_FRACTION`: Used in conjunction with Docker memory limitations (`docker run -m <mem>`) to identify the fraction of the maximum amount of heap memory you want the JVM to use.
 - `GLUU_DEBUG_PORT`: port of remote debugging (if omitted, remote debugging will be disabled).
 
-Deprecated environment variables (see `GLUU_CONFIG_CONSUL_*` or `GLUU_CONFIG_KUBERNETES_*` for reference):
+Unsupported environment variables from previous versions (see `GLUU_CONFIG_CONSUL_*` or `GLUU_CONFIG_KUBERNETES_*` for replacement as seen below):
 
-- `GLUU_CONSUL_HOST`
-- `GLUU_CONSUL_PORT`
-- `GLUU_CONSUL_CONSISTENCY`
-- `GLUU_CONSUL_SCHEME`
-- `GLUU_CONSUL_VERIFY`
-- `GLUU_CONSUL_CACERT_FILE`
-- `GLUU_CONSUL_CERT_FILE`
-- `GLUU_CONSUL_KEY_FILE`
-- `GLUU_CONSUL_TOKEN_FILE`
-- `GLUU_KUBERNETES_NAMESPACE`
-- `GLUU_KUBERNETES_CONFIGMAP`
+| Old Environment Variable      | New Environment Variable              |
+| ----------------------------- | ------------------------------------- |
+| `GLUU_CONSUL_HOST`            | `GLUU_CONFIG_CONSUL_HOST`             |
+| `GLUU_CONSUL_PORT`            | `GLUU_CONFIG_CONSUL_PORT`             |
+| `GLUU_CONSUL_CONSISTENCY`     | `GLUU_CONFIG_CONSUL_CONSISTENCY`      |
+| `GLUU_CONSUL_SCHEME`          | `GLUU_CONFIG_CONSUL_SCHEME`           |
+| `GLUU_CONSUL_VERIFY`          | `GLUU_CONFIG_CONSUL_VERIFY`           |
+| `GLUU_CONSUL_CACERT_FILE`     | `GLUU_CONFIG_CONSUL_CACERT_FILE`      |
+| `GLUU_CONSUL_CERT_FILE`       | `GLUU_CONFIG_CONSUL_CERT_FILE`        |
+| `GLUU_CONSUL_KEY_FILE`        | `GLUU_CONFIG_CONSUL_KEY_FILE`         |
+| `GLUU_CONSUL_TOKEN_FILE`      | `GLUU_CONFIG_CONSUL_TOKEN_FILE`       |
+| `GLUU_KUBERNETES_NAMESPACE`   | `GLUU_CONFIG_KUBERNETES_NAMESPACE`    |
+| `GLUU_KUBERNETES_CONFIGMAP`   | `GLUU_CONFIG_KUBERNETES_CONFIGMAP`    |
