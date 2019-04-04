@@ -20,6 +20,27 @@ If Vault has been configured properly, eventually the container will show a simi
 
 Refer to [Vault operation guide](./vault.md) to setup Vault.
 
+### Kubernetes Secrets
+
+For Kubernetes-based deployment, the `Role` object must be modified to add access to `secrets` API.
+
+Example:
+
+```
+# config-roles.yaml
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: gluu-role
+  namespace: default
+rules:
+- apiGroups: [""] # "" refers to the core API group
+  resources: ["configmaps", "secrets"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+```
+
+Afterwards, run the following command `kubectl apply -f config-roles.yaml`
+
 ### LDAP
 
 #### Backup Existing Data
