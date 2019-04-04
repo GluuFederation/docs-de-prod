@@ -49,19 +49,21 @@ The following environment variables are supported by the container:
 - `GLUU_CERT_ALT_NAME`: an additional DNS name set as Subject Alt Name in cert. If the value is not an empty string and doesn't match existing Subject Alt Name (or doesn't exist) in existing cert, then new cert will be regenerated and overwrite the one that saved in config backend. This environment variable is __required only if__ oxShibboleth is deployed, to address issue with mismatched `CN` and destination hostname while trying to connect to OpenDJ. Note, any existing containers that connect to OpenDJ must be re-deployed to download new cert.
 - `GLUU_OXTRUST_CONFIG_GENERATION`: whether to generate oxShibboleth configuration or not (default to `false`).
 
-Deprecated environment variables (see `GLUU_CONFIG_CONSUL_*` or `GLUU_CONFIG_KUBERNETES_*` for reference):
+Unsupported environment variables from previous versions (see `GLUU_CONFIG_CONSUL_*` or `GLUU_CONFIG_KUBERNETES_*` for replacement as seen below):
 
-- `GLUU_CONSUL_HOST`
-- `GLUU_CONSUL_PORT`
-- `GLUU_CONSUL_CONSISTENCY`
-- `GLUU_CONSUL_SCHEME`
-- `GLUU_CONSUL_VERIFY`
-- `GLUU_CONSUL_CACERT_FILE`
-- `GLUU_CONSUL_CERT_FILE`
-- `GLUU_CONSUL_KEY_FILE`
-- `GLUU_CONSUL_TOKEN_FILE`
-- `GLUU_KUBERNETES_NAMESPACE`
-- `GLUU_KUBERNETES_CONFIGMAP`
+| Old Environment Variable      | New Environment Variable              |
+| ----------------------------- | ------------------------------------- |
+| `GLUU_CONSUL_HOST`            | `GLUU_CONFIG_CONSUL_HOST`             |
+| `GLUU_CONSUL_PORT`            | `GLUU_CONFIG_CONSUL_PORT`             |
+| `GLUU_CONSUL_CONSISTENCY`     | `GLUU_CONFIG_CONSUL_CONSISTENCY`      |
+| `GLUU_CONSUL_SCHEME`          | `GLUU_CONFIG_CONSUL_SCHEME`           |
+| `GLUU_CONSUL_VERIFY`          | `GLUU_CONFIG_CONSUL_VERIFY`           |
+| `GLUU_CONSUL_CACERT_FILE`     | `GLUU_CONFIG_CONSUL_CACERT_FILE`      |
+| `GLUU_CONSUL_CERT_FILE`       | `GLUU_CONFIG_CONSUL_CERT_FILE`        |
+| `GLUU_CONSUL_KEY_FILE`        | `GLUU_CONFIG_CONSUL_KEY_FILE`         |
+| `GLUU_CONSUL_TOKEN_FILE`      | `GLUU_CONFIG_CONSUL_TOKEN_FILE`       |
+| `GLUU_KUBERNETES_NAMESPACE`   | `GLUU_CONFIG_KUBERNETES_NAMESPACE`    |
+| `GLUU_KUBERNETES_CONFIGMAP`   | `GLUU_CONFIG_KUBERNETES_CONFIGMAP`    |
 
 ## Initializing LDAP Data
 
