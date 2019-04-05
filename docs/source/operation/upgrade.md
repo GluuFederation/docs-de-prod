@@ -113,6 +113,27 @@ Before running the upgrade process, make sure to backup existing LDAP data.
             --hostname 0.0.0.0 \
             set-backend-prop --backend-name site --set db-cache-percent:20
 
+    Enter the password when prompted and choose `f` on last prompt (see example below).
+
+    ```
+    >>>> Configure the properties of the site
+
+    Enter choice [f]:         Property           Value(s)
+        ---------------------------
+    1)  backend-id         site
+    2)  base-dn            o=site
+    3)  compact-encoding   true
+    4)  db-cache-percent   20
+    5)  db-cache-size      0 b
+    6)  db-directory       db
+    7)  enabled            true
+    8)  index-entry-limit  4000
+    9)  writability-mode   enabled
+    ?)  help
+    f)  finish - apply any changes to the site
+    q)  quit
+    ```
+
 1.  Restart the OpenDJ container/service to free JVM heap memory.
 
 1.  Resize the `userRoot` backend:
@@ -123,6 +144,8 @@ Before running the upgrade process, make sure to backup existing LDAP data.
             --port 4444 \
             --hostname 0.0.0.0 \
             set-backend-prop --backend-name userRoot --set db-cache-percent:70
+
+    A similar prompt will be shown as found in step 1.
 
 1.  Create `metric` backend:
 
@@ -137,6 +160,8 @@ Before running the upgrade process, make sure to backup existing LDAP data.
                 --type je \
                 --set enabled:true \
                 --set db-cache-percent:10
+
+    A similar prompt will be shown as found in step 1.
 
 ### Upgrade Container
 
