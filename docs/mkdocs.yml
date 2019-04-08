@@ -13,7 +13,7 @@ markdown_extensions:
 - toc:
     permalink: '#'
 - pymdownx.superfences
-pages:
+nav:
 - 'Introduction': 'index.md'
 - 'Technical Reference':
   - 'Build Logic': 'reference/index.md'
