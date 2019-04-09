@@ -108,7 +108,7 @@ The following commands are supported by the container:
             -e GLUU_CONFIG_ADAPTER=consul \
             -e GLUU_CONSUL_HOST=consul \
             -v /path/to/host/volume:/opt/config-init/db \
-            gluufederation/config-init:3.1.4_01 \
+            gluufederation/config-init:3.1.4_04 \
             dump
 
 -   `load`: The load command will load a `config.json` into the KV store. All existing config will be ignored unless forced by passing environment variable `GLUU_OVERWRITE_ALL`.
@@ -139,7 +139,7 @@ The following commands are supported by the container:
             -e GLUU_CONFIG_ADAPTER=consul \
             -e GLUU_CONSUL_HOST=consul \
             -v /path/to/host/volume:/opt/config-init/db \
-            gluufederation/config-init:3.1.4_01 \
+            gluufederation/config-init:3.1.4_04 \
             load
 
 #### OpenDJ

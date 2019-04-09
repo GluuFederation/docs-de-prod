@@ -13,7 +13,7 @@ As can be seen in the following `docker run` command, it connects to the same ne
         --network container:consul \
         -e GLUU_CONFIG_ADAPTER=consul \
         -e GLUU_CONSUL_HOST=consul \
-        gluufederation/config-init:3.1.4_01 \
+        gluufederation/config-init:3.1.4_04 \
         generate \
         --ldap-type "${GLUU_LDAP_TYPE}" \
         --domain $domain \
