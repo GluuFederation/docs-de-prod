@@ -57,7 +57,7 @@ Before running the upgrade process, make sure to backup existing LDAP data.
 
             services:
               opendj:
-                image: gluufederation/opendj:3.1.5_01
+                image: gluufederation/opendj:3.1.5_02
                 volumes:
                   - /path/to/101-ox.ldif:/opt/opendj/config/schema/101-ox.ldif
 
@@ -69,7 +69,7 @@ Before running the upgrade process, make sure to backup existing LDAP data.
 
             services:
               opendj:
-                image: gluufederation/opendj:3.1.5_01
+                image: gluufederation/opendj:3.1.5_02
                 configs:
                   - source: 101-ox
                     target: /opt/opendj/config/schema/101-ox.ldif
@@ -90,7 +90,7 @@ Before running the upgrade process, make sure to backup existing LDAP data.
             name: opendj
             spec:
               containers:
-                image: gluufederation/opendj:3.1.5_01
+                image: gluufederation/opendj:3.1.5_02
                 volumeMounts:
                   - name: opendj-schema-volume
                     mountPath: /opt/opendj/config/schema/101-ox.ldif

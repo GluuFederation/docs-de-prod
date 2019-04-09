@@ -1,10 +1,10 @@
 ## Overview
 
-[config-init](https://github.com/GluuFederation/docker-config-init/tree/3.1.5) is a special container that is neither daemonized nor executing a long-running process. The purpose of this container is to generate, dump (backup), or even load (restore) the config and secrets.
+config-init is a special container that is neither daemonized nor executing a long-running process. The purpose of this container is to generate, dump (backup), or even load (restore) the config and secrets.
 
 ## Version
 
-Latest stable version for Gluu Server Docker Edition v3.1.5 is `gluufederation/config-init:3.1.5_02`.
+Latest stable version for Gluu Server Docker Edition v3.1.5 is `gluufederation/config-init:3.1.5_03`.
 
 ## Environment Variables
 
@@ -63,6 +63,7 @@ The following commands are supported by the container:
 - `generate`
 - `dump`
 - `load`
+- `migrate`
 
 ### generate
 
@@ -98,7 +99,7 @@ Please note that to dump this file into the host, you'll need to map a mounted v
         -e GLUU_SECRET_ADAPTER=vault \
         -e GLUU_SECRET_VAULT_HOST=vault \
         -v /path/to/host/volume:/opt/config-init/db \
-        gluufederation/config-init:3.1.5_01 dump
+        gluufederation/config-init:3.1.5_03 dump
 
 ### load
 
@@ -114,4 +115,30 @@ Please note that to load this file from the host, you'll need to map a mounted v
         -e GLUU_SECRET_ADAPTER=vault \
         -e GLUU_SECRET_VAULT_HOST=vault \
         -v /path/to/host/volume:/opt/config-init/db \
-        gluufederation/config-init:3.1.5_01 load
+        gluufederation/config-init:3.1.5_03 load
+
+### migrate
+
+The `migrate` command will migrate sensitive keys (i.e. SSL certificate, LDAP bind password, etc.) from config to secret backend introduced in v3.1.5. Users come from v3.1.4 and below are recommended to run this command after upgrading to v3.1.5.
+
+Parameters:
+
+- `--overwrite`: Overwrite existing keys in secret backend. Omitting this parameter will disable overwriting keys.
+- `--prune`: Delete sensitive keys only if has been migrated to secret backend. Omitting this parameter will leave sensitive keys in config backend.
+
+Things to consider before running `migrate` command:
+
+1. Backup existing config using `dump` command.
+1. Run this command only after upgrading to at least v3.1.5.
+1. Omit `--overwrite` and/or `--prune` on first run, then test the result of migration (for example by scaling container). If there's no issue after migrating, ru-run `migrate` command with `--prune` option to delete sensitive keys in config backend.
+
+Example:
+
+    docker run \
+        --rm \
+        --network container:consul \
+        -e GLUU_CONFIG_ADAPTER=consul \
+        -e GLUU_CONFIG_CONSUL_HOST=consul \
+        -e GLUU_SECRET_ADAPTER=vault \
+        -e GLUU_SECRET_VAULT_HOST=vault \
+        gluufederation/config-init:3.1.5_03 migrate

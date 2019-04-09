@@ -4,7 +4,7 @@ Docker image packaging for OpenDJ.
 
 ## Version
 
-Latest stable version for Gluu Server Docker Edition v3.1.5 is `gluufederation/opendj:3.1.5_01`.
+Latest stable version for Gluu Server Docker Edition v3.1.5 is `gluufederation/opendj:3.1.5_02`.
 
 ## Environment Variables
 
@@ -73,7 +73,7 @@ To generate initial data (entries) for LDAP, the container must run using `GLUU_
 # docker-compose.yaml
 services:
   ldap:
-    image: gluufederation/opendj:3.1.5_01
+    image: gluufederation/opendj:3.1.5_02
     environment:
       - GLUU_CONFIG_ADAPTER=consul
       - GLUU_SECRET_ADAPTER=vault
@@ -93,7 +93,7 @@ Since there should be a single OpenDJ to generate initial data, the other OpenDJ
 # docker-compose-repl.yaml
 services:
   ldap2:
-    image: gluufederation/opendj:3.1.5_01
+    image: gluufederation/opendj:3.1.5_02
     environment:
       - GLUU_CONFIG_ADAPTER=consul
       - GLUU_SECRET_ADAPTER=vault

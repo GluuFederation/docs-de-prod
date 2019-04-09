@@ -1,10 +1,10 @@
 ## Overview
 
-[key-rotation](https://github.com/GluuFederation/docker-key-rotation/tree/3.1.5) is a special container to rotate oxAuth keys.
+key-rotation is a special container to rotate oxAuth keys.
 
 ## Version
 
-Latest stable version for Gluu Server Docker Edition v3.1.5 is `gluufederation/key-rotation:3.1.5_01`.
+Latest stable version for Gluu Server Docker Edition v3.1.5 is `gluufederation/key-rotation:3.1.5_02`.
 
 ## Environment Variables
 
