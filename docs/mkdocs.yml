@@ -1,49 +1,44 @@
 # Project information
 site_name: Gluu Docker Edition Docs
 site_description: Documentation for Gluu Server Docker Edition
-site_favicon: 'favicon.ico'
 
 # Copyright
 copyright: Copyright &copy; 2019, Gluu, Inc.
 
 # Repository
 docs_dir: source
-#repo_name: GluuFederation/docs-de-prod
-repo_url: https://github.com/GluuFederation/docs-de-prod/tree/4.0/docs
-#repo_url: https://github.com/GluuFederation/docs-de-prod/
-#edit_uri: edit/4.0/docs/source
+repo_name: GluuFederation/docs-de-prod
+repo_url: https://github.com/GluuFederation/docs-de-prod/
+edit_uri: edit/4.0/docs/source
 
 # Configuration
-theme_dir: theme/material
-#theme: 
-#    name: material
-#    palette:
-#        primary: 'green'
-#        accent: 'green'
-#    logo: 'gluu.jpg'
-#    favicon: 'favicon.ico'
+theme: 
+    name: material
+    palette:
+        primary: 'green'
+        accent: 'green'
+    logo: 'gluu.jpg'
+    favicon: 'favicon.ico'
 extra:
     version: '4.0'
-    logo: 'gluu.png'
     
 # Extensions
 markdown_extensions:
 - admonition
 - toc:
      permalink: '#'
-#- codehilite     
+- codehilite     
 - pymdownx.superfences
 
 # Navigation
-#nav:
-#- 'Versions':
-#    - '4.0': 'https://gluu.org/docs/de/4.0/'
-#    - '3.1.6': 'https://gluu.org/docs/de/3.1.6/'
-#    - '3.1.5': 'https://gluu.org/docs/de/3.1.5/'
-#    - '3.1.4': 'https://gluu.org/docs/de/3.1.4/'
-#- ' ': 'https:/gluu.org/docs'
-#- ' ': 'https:/gluu.org/docs'
-pages:
+nav:
+- 'Versions':
+    - '4.0': 'https://gluu.org/docs/de/4.0/'
+    - '3.1.6': 'https://gluu.org/docs/de/3.1.6/'
+    - '3.1.5': 'https://gluu.org/docs/de/3.1.5/'
+    - '3.1.4': 'https://gluu.org/docs/de/3.1.4/'
+- ' ': 'https:/gluu.org/docs'
+- ' ': 'https:/gluu.org/docs'
 - 'Introduction': 'index.md'
 - 'Technical Reference':
   - 'Build Logic': 'reference/index.md'
