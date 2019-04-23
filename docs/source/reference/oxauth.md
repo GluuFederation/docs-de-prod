@@ -4,7 +4,7 @@ Docker image packaging for oxAuth.
 
 ## Version
 
-Latest stable version for Gluu Server Docker Edition v3.1.5 is `gluufederation/oxauth:3.1.5_02`.
+Latest stable version for Gluu Server Docker Edition v3.1.5 is `gluufederation/oxauth:3.1.5_03`.
 
 ## Environment Variables
 
@@ -41,6 +41,7 @@ The following environment variables are supported by the container:
 - `GLUU_LDAP_URL`: The LDAP database's IP address or hostname. Default is `localhost:1636`. Multiple URLs can be used using comma-separated values (i.e. `192.168.100.1:1636,192.168.100.2:1636`).
 - `GLUU_MAX_RAM_FRACTION`: Used in conjunction with Docker memory limitations (`docker run -m <mem>`) to identify the fraction of the maximum amount of heap memory you want the JVM to use.
 - `GLUU_DEBUG_PORT`: port of remote debugging (if omitted, remote debugging will be disabled).
+- `GLUU_SYNC_JKS_INTERVAL`: interval on how long JKS should be synchronized (default to 30 seconds).
 
 Unsupported environment variables from previous versions (see `GLUU_CONFIG_CONSUL_*` or `GLUU_CONFIG_KUBERNETES_*` for replacement as seen below):
 
