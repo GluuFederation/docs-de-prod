@@ -12,7 +12,7 @@ repo_url: https://github.com/GluuFederation/docs-de-prod/
 edit_uri: edit/3.1.5/docs/source
 
 # Configuration
-theme: 
+theme:
     name: material
     palette:
         primary: 'green'
@@ -21,13 +21,13 @@ theme:
     favicon: 'favicon.ico'
 extra:
     version: '3.1.5'
-    
+
 # Extensions
 markdown_extensions:
 - admonition
 - toc:
      permalink: '#'
-- codehilite     
+- codehilite
 - pymdownx.superfences
 
 # Navigation
@@ -50,6 +50,7 @@ nav:
   - 'NGINX': 'reference/nginx.md'
   - 'Key Rotation': 'reference/key-rotation.md'
   - 'Upgrade': 'reference/upgrade.md'
+  - 'CacheRefresh Rotation': 'reference/cr-rotate.md'
 - 'Operation Guide':
   - 'Preparing the Server': 'operation/server.md'
   - 'Managing the Vault': 'operation/vault.md'
@@ -59,6 +60,7 @@ nav:
   - 'Custom LDAP Schema': 'operation/custom-schema.md'
   - 'Upgrading': 'operation/upgrade.md'
   - 'oxAuth Key Rotation': 'operation/key-rotation.md'
+  - 'Cache Refresh Rotation': 'operation/cr-rotate.md'
 - 'Deployment Examples':
   - 'Single Host': 'example/singlehost.md'
   - 'Docker Swarm Mode': 'example/swarm-mode.md'
