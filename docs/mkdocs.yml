@@ -51,7 +51,7 @@ nav:
   - 'NGINX': 'reference/nginx.md'
   - 'Key Rotation': 'reference/key-rotation.md'
   - 'Upgrade': 'reference/upgrade.md'
-  - 'CacheRefresh Rotation': 'reference/cr-rotate.md'
+  - 'Cache Refresh Rotation': 'reference/cr-rotate.md'
 - 'Operation Guide':
   - 'Preparing the Server': 'operation/server.md'
   - 'Managing the Vault': 'operation/vault.md'
