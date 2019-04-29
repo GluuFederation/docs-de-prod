@@ -4,7 +4,7 @@ Upgrade Container for Gluu Server Docker Edition.
 
 ## Version
 
-Latest stable version for Gluu Server Docker Edition v3.1.6 is `gluufederation/upgrade:3.1.6_01`.
+The latest stable version for Gluu Server Docker Edition v3.1.6 is `gluufederation/upgrade:3.1.6_01`.
 
 ## Environment Variables
 
