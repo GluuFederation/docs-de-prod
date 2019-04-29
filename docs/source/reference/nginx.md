@@ -1,6 +1,6 @@
 ## Overview
 
-We built a customized NGINX image, based on the official open source version and containing a [consul-template](https://github.com/hashicorp/consul-template) and an NGINX server itself, to satisfy the following requirements:
+We built a customized NGINX image, based on the official open source version and containing a [consul-template](https://github.com/hashicorp/consul-template) and an NGINX server, to satisfy the following requirements:
 
 - Dynamically updating the `upstream` directive to point to available oxAuth/oxTrust/oxShibboleth/oxPassport containers
 - Restarting the NGINX process when its configuration is changed (without restarting the container)
@@ -11,7 +11,7 @@ Note the following points:
 
 ## Version
 
-Latest stable version for Gluu Server Docker Edition v3.1.6 is `gluufederation/nginx:3.1.6_01`.
+The latest stable version for Gluu Server Docker Edition v3.1.6 is `gluufederation/nginx:3.1.6_01`.
 
 ## Environment Variables
 
