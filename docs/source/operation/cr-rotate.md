@@ -1,8 +1,6 @@
 ## Overview
 
-Cache refresh requires IP address, but in container world where IP can be recycled by scheduler, there should be a mechanism
-to automatically configure which oxTrust container run the cache refresh.
-Hence the role of cr-rotate container is to monitor (activate/deactivate) cache refresh running on specific oxTrust container.
+Cache refresh requires an IP address, but in container deployments, the IP can be recycled by the scheduler. There needed to be a mechanism to automatically configure which oxTrust container runs the cache refresh. The `cr-rotate` container monitors, activates, and deactivates cache refresh running on a specific oxTrust container.
 
 ### Deploying the container
 
