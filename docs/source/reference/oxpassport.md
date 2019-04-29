@@ -4,7 +4,7 @@ Docker image packaging for oxPassport.
 
 ## Version
 
-Currently there's no stable version for Gluu Server Docker Edition v3.1.6, however unstable version is available as `gluufederation/oxpassport:3.1.6_dev`.
+Latest stable version for Gluu Server Docker Edition v3.1.6 is `gluufederation/oxpassport:3.1.6_01`.
 
 ## Environment Variables
 

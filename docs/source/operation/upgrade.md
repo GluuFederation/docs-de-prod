@@ -139,7 +139,7 @@ Before running the upgrade process, make sure to backup existing LDAP data.
 
 ### Upgrade Container
 
-By running the `gluufederation/upgrade:3.1.5_02` container, the LDAP data will be adjusted to match conventions in 3.1.5.
+By running the `gluufederation/upgrade:3.1.5_03` container, the LDAP data will be adjusted to match conventions in 3.1.5.
 
     docker run \
         --rm \
@@ -149,7 +149,7 @@ By running the `gluufederation/upgrade:3.1.5_02` container, the LDAP data will b
         -e GLUU_LDAP_URL=ldap:1636 \
         -v /path/to/vault_role_id.txt:/etc/certs/vault_role_id \
         -v /path/to/vault_secret_id.txt:/etc/certs/vault_secret_id \
-        gluufederation/upgrade:3.1.5_02
+        gluufederation/upgrade:3.1.5_03
 
 Note, the upgrade process doesn't update custom scripts for oxAuth/oxTrust to avoid overwriting a script that was modified by users. They must be updated them manually.
 
@@ -171,7 +171,7 @@ Before running the upgrade process, make sure to backup existing LDAP data.
 
             services:
               opendj:
-                image: gluufederation/opendj:3.1.6_dev
+                image: gluufederation/opendj:3.1.6_01
                 volumes:
                   - /path/to/101-ox.ldif:/opt/opendj/config/schema/101-ox.ldif
 
@@ -183,7 +183,7 @@ Before running the upgrade process, make sure to backup existing LDAP data.
 
             services:
               opendj:
-                image: gluufederation/opendj:3.1.6_dev
+                image: gluufederation/opendj:3.1.6_01
                 configs:
                   - source: 101-ox
                     target: /opt/opendj/config/schema/101-ox.ldif
@@ -204,7 +204,7 @@ Before running the upgrade process, make sure to backup existing LDAP data.
             name: opendj
             spec:
               containers:
-                image: gluufederation/opendj:3.1.6_dev
+                image: gluufederation/opendj:3.1.6_01
                 volumeMounts:
                   - name: opendj-schema-volume
                     mountPath: /opt/opendj/config/schema/
@@ -217,7 +217,7 @@ Before running the upgrade process, make sure to backup existing LDAP data.
 
 ### Upgrade Container
 
-By running the `gluufederation/upgrade:3.1.6_dev` container, the LDAP data will be adjusted to match conventions in 3.1.6.
+By running the `gluufederation/upgrade:3.1.6_01` container, the LDAP data will be adjusted to match conventions in 3.1.6.
 
     docker run \
         --rm \
@@ -227,6 +227,6 @@ By running the `gluufederation/upgrade:3.1.6_dev` container, the LDAP data will 
         -e GLUU_LDAP_URL=ldap:1636 \
         -v /path/to/vault_role_id.txt:/etc/certs/vault_role_id \
         -v /path/to/vault_secret_id.txt:/etc/certs/vault_secret_id \
-        gluufederation/upgrade:3.1.6_dev --source 3.1.5 --target 3.1.6
+        gluufederation/upgrade:3.1.6_01 --source 3.1.5 --target 3.1.6
 
 Note, the upgrade process doesn't update custom scripts for oxAuth/oxTrust to avoid overwriting a script that was modified by users. They must be updated them manually.
