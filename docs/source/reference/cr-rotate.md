@@ -1,6 +1,6 @@
 ## Overview
 
-cr-rotate is a special container to monitor cache refresh on specific oxTrust container.
+cr-rotate is a special container to monitor cache refresh on a specific oxTrust container.
 
 ## Version
 
@@ -44,7 +44,7 @@ The following environment variables are supported by the container:
 
 ## Getting Metadata
 
-1.  Set predefined label on oxTrust container.
+1.  Set a predefined label on oxTrust container.
 
     Example for Docker:
 
@@ -63,8 +63,8 @@ The following environment variables are supported by the container:
             app: oxtrust
             APP_NAME: oxtrust
 
-2.  Set appropriate `GLUU_CONTAINER_METADATA` environment variable.
-    If container is running on Docker scheduler, the `docker.sock` file must be mounted into container.
+2.  Set the appropriate `GLUU_CONTAINER_METADATA` environment variable.
+    If the container is running on the Docker scheduler, the `docker.sock` file must be mounted into container.
 
     Example for Docker:
 
@@ -73,8 +73,7 @@ The following environment variables are supported by the container:
             -v /var/run/docker.sock:/var/run/docker.sock \
             gluufederation/cr-rotate:3.1.6_01
 
-    For Kubernetes, simply set environment variable `GLUU_CONTAINER_METADATA=kubernetes`.
+    For Kubernetes, simply set the environment variable `GLUU_CONTAINER_METADATA=kubernetes`.
 
-    !!! Note
-        Since metadata scope is per node, this container must be deployed in each node.
-        Use `mode=global` in Swarm Mode services or `DaemonSet` in Kubernetes.
+!!! Note
+    Since the metadata scope is per node, this container must be deployed in each node. Use `mode=global` in Swarm Mode services or `DaemonSet` in Kubernetes.
