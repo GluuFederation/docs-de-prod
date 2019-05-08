@@ -50,7 +50,7 @@ The following environment variables are supported by the container:
 
         docker run \
             --label APP_NAME=oxtrust \
-            gluufederation/oxtrust:3.1.5_02
+            gluufederation/oxtrust:3.1.5_03
 
     Example for Kubernetes:
 
