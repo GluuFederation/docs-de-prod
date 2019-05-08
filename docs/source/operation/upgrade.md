@@ -1,5 +1,7 @@
 # Upgrading to version 3.1.6
 
+## Overview
+
 The Gluu Server Docker Edition cannot be upgraded with a simple apt-get upgrade. This guide outlines the steps required to complete the upgrade from previous versions.
 
 ## LDAP
