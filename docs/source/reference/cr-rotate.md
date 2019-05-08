@@ -50,7 +50,7 @@ The following environment variables are supported by the container:
 
         docker run \
             --label APP_NAME=oxtrust \
-            gluufederation/oxtrust:3.1.6_01
+            gluufederation/oxtrust:3.1.6_02
 
     Example for Kubernetes:
 
@@ -71,7 +71,7 @@ The following environment variables are supported by the container:
         docker run \
             -e GLUU_CONTAINER_METADATA=docker \
             -v /var/run/docker.sock:/var/run/docker.sock \
-            gluufederation/cr-rotate:3.1.6_01
+            gluufederation/cr-rotate:3.1.6_02
 
     For Kubernetes, simply set the environment variable `GLUU_CONTAINER_METADATA=kubernetes`.
 

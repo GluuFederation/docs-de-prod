@@ -17,7 +17,7 @@ This guide will show examples of how to customize HTML pages and CSS in oxTrust 
 
     services:
       oxtrust:
-        image: gluufederation/oxtrust:3.1.6_01
+        image: gluufederation/oxtrust:3.1.6_02
         volumes:
           - ./volumes/oxtrust/custom/pages:/opt/gluu/jetty/oxtrust/custom/pages
           - ./volumes/oxtrust/custom/static:/opt/gluu/jetty/oxtrust/custom/static
@@ -84,13 +84,13 @@ Then, _mount_ them into the container.
         --name oxtrust \
         --config src=oxtrust-finishlogout-html,target=/opt/gluu/jetty/oxtrust/custom/pages/finishlogout.xhtml \
         --config src=oxtrust-custom-css,target=/opt/gluu/jetty/oxtrust/custom/static/custom.css \
-        gluufederation/oxtrust:3.1.6_01
+        gluufederation/oxtrust:3.1.6_02
 
 Another option is to use a YAML file.
 
     services:
       oxtrust:
-        image: gluufederation/oxtrust:3.1.6_01
+        image: gluufederation/oxtrust:3.1.6_02
         configs:
           - source: oxtrust-finishlogout-html
             target: /opt/gluu/jetty/oxtrust/custom/pages/finishlogout.xhtml
@@ -118,7 +118,7 @@ Attach the config to Pod using YAML file:
       name: oxtrust
     spec:
       containers:
-        image: gluufederation/oxtrust:3.1.6_01
+        image: gluufederation/oxtrust:3.1.6_02
         volumeMounts:
           - name: oxtrust-pages-volume
             # finishlogout.xthml will be mounted under this directory
