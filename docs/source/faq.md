@@ -25,4 +25,4 @@ As can be seen in the following `docker run` command, it connects to the same ne
             --state $state \
             --city $city
 
-For the multi-host example, we're using native Docker Swarm `overlay` network. See the [Networking](./example/swarm-mode/#Networking) section for a multi-host example.
+For the multi-host example, we're using native Docker Swarm `overlay` network. See the [Networking](./example/swarm-mode.md#Networking) section for a multi-host example.
