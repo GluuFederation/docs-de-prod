@@ -62,10 +62,11 @@ Before running the upgrade process, make sure to backup existing LDAP data.
 
 1.  Restart the container/service to allow changes in schema.
 
-### Reconfiguring Backends
+## Upgrading from Docker Edition 3.1.4
 
-!!! Important
-    This step is only required if upgrading from Docker Edition version 3.1.4.
+The following steps are only required if upgrading to v. 3.1.6 from 3.1.4. If upgrading from 3.1.5, skip down to [Upgrade Container](#upgrade-container)
+
+### Reconfiguring Backends
 
 1.  Resize the `site` backend:
 
@@ -101,10 +102,7 @@ Before running the upgrade process, make sure to backup existing LDAP data.
                 --set enabled:true \
                 --set db-cache-percent:10
                 
-## Kubernetes Secrets
-
-!!! Important
-    This step is only required if upgrading from Docker Edition version 3.1.4.
+### Kubernetes Secrets
 
 For Kubernetes-based deployment, the `Role` object must be modified to add access to `secrets` API.
 
@@ -129,6 +127,9 @@ Afterwards, run the following command `kubectl apply -f config-roles.yaml`
 
 By running the `gluufederation/upgrade:3.1.6_01` container, the LDAP data will be adjusted to match conventions in 3.1.6.
 
+### Upgrade container from 3.1.5
+
+    ```
     docker run \
         --rm \
         --net container:consul \
@@ -138,6 +139,21 @@ By running the `gluufederation/upgrade:3.1.6_01` container, the LDAP data will b
         -v /path/to/vault_role_id.txt:/etc/certs/vault_role_id \
         -v /path/to/vault_secret_id.txt:/etc/certs/vault_secret_id \
         gluufederation/upgrade:3.1.6_01 --source 3.1.5 --target 3.1.6
+    ```    
+
+### Upgrade container from 3.1.4
+
+    ```
+    docker run \
+        --rm \
+        --net container:consul \
+        -e GLUU_CONFIG_CONSUL_HOST=consul \
+        -e GLUU_SECRET_VAULT_HOST=vault \
+        -e GLUU_LDAP_URL=ldap:1636 \
+        -v /path/to/vault_role_id.txt:/etc/certs/vault_role_id \
+        -v /path/to/vault_secret_id.txt:/etc/certs/vault_secret_id \
+        gluufederation/upgrade:3.1.6_01 --source 3.1.4 --target 3.1.6
+    ```  
 
 !!! Note
     The upgrade process doesn't update custom scripts for oxAuth/oxTrust to avoid overwriting a script that was modified by users. They must be updated them manually.
