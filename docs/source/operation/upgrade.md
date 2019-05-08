@@ -88,7 +88,7 @@ The following steps are only required if upgrading to v. 3.1.6 from 3.1.4. If up
             --hostname 0.0.0.0 \
             set-backend-prop --backend-name userRoot --set db-cache-percent:70
 
-1.  Create `metric` backend:
+1.  Create the `metric` backend:
 
          docker exec -ti opendj /opt/opendj/bin/dsconfig \
             --trustAll \
