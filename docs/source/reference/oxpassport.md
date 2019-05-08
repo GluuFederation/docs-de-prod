@@ -57,4 +57,4 @@ Unsupported environment variables from previous versions (see `GLUU_CONFIG_CONSU
 
 ## Adding Strategies
 
-To add new strategies to oxPassport, refer to the official docs [here](https://gluu.org/docs/ce/authn-guide/passport/#setup-passportjs-with-gluu). A manual restart of the oxPassport container is needed.
+To add new strategies to oxPassport, refer to the official docs [here](https://gluu.org/docs/ce/authn-guide/passport/#enable-passport). A manual restart of the oxPassport container is needed.
