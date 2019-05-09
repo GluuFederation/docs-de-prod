@@ -4,7 +4,7 @@ Docker image packaging for oxShibboleth.
 
 ## Version
 
-Latest stable version for Gluu Server Docker Edition v3.1.5 is `gluufederation/oxshibboleth:3.1.5_02`.
+Latest stable version for Gluu Server Docker Edition v3.1.5 is `gluufederation/oxshibboleth:3.1.5_03`.
 
 ## Environment Variables
 

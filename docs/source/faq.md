@@ -15,7 +15,7 @@ As can be seen in the following `docker run` command, it connects to the same ne
         -e GLUU_CONFIG_CONSUL_HOST=consul \
         -e GLUU_SECRET_ADAPTER=vault \
         -e GLUU_SECRET_VAULT_HOST=vault \
-        gluufederation/config-init:3.1.5_04 generate \
+        gluufederation/config-init:3.1.5_05 generate \
             --domain $domain \
             --admin-pw $adminPw \
             --org-name "$orgName" \

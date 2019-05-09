@@ -4,7 +4,7 @@ config-init is a special container that is neither daemonized nor executing a lo
 
 ## Version
 
-Latest stable version for Gluu Server Docker Edition v3.1.5 is `gluufederation/config-init:3.1.5_04`.
+Latest stable version for Gluu Server Docker Edition v3.1.5 is `gluufederation/config-init:3.1.5_05`.
 
 ## Environment Variables
 
@@ -99,7 +99,7 @@ Please note that to dump this file into the host, you'll need to map a mounted v
         -e GLUU_SECRET_ADAPTER=vault \
         -e GLUU_SECRET_VAULT_HOST=vault \
         -v /path/to/host/volume:/opt/config-init/db \
-        gluufederation/config-init:3.1.5_04 dump
+        gluufederation/config-init:3.1.5_05 dump
 
 ### load
 
@@ -115,7 +115,7 @@ Please note that to load this file from the host, you'll need to map a mounted v
         -e GLUU_SECRET_ADAPTER=vault \
         -e GLUU_SECRET_VAULT_HOST=vault \
         -v /path/to/host/volume:/opt/config-init/db \
-        gluufederation/config-init:3.1.5_04 load
+        gluufederation/config-init:3.1.5_05 load
 
 ### migrate
 
@@ -141,4 +141,4 @@ Example:
         -e GLUU_CONFIG_CONSUL_HOST=consul \
         -e GLUU_SECRET_ADAPTER=vault \
         -e GLUU_SECRET_VAULT_HOST=vault \
-        gluufederation/config-init:3.1.5_04 migrate
+        gluufederation/config-init:3.1.5_05 migrate
