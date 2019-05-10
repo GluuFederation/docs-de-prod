@@ -1,6 +1,6 @@
 ## Overview
 
-In a Docker environment where each container can have one or more replicas, it is easier to check the log by collecting all containers' logs, storing them in a single place and possibly searching the logs later. There are tools available to assist in this task, both open source and paid. This guide will show an example of how to collect selected container's logs (oxAuth, oxTrust, OpenDJ, oxShibboleth, oxPassport, and optionally NGINX), using [Filebeat](https://www.elastic.co/products/beats/filebeat), [Elasticsearch](https://www.elastic.co/products/elasticsearch), and [Kibana](https://www.elastic.co/products/kibana).
+In a Docker environment where each container can have one or more replicas, it is easier to check the log by collecting all containers' logs, storing them in a single place and searching the logs later. There are tools available to assist in this task, both open source and paid. This guide will show an example of how to collect selected container's logs (oxAuth, oxTrust, OpenDJ, oxShibboleth, oxPassport, and optionally NGINX), using [Filebeat](https://www.elastic.co/products/beats/filebeat), [Elasticsearch](https://www.elastic.co/products/elasticsearch), and [Kibana](https://www.elastic.co/products/kibana).
 
 ### Prerequisites
 

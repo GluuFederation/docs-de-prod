@@ -64,4 +64,4 @@ Unsupported environment variables from previous versions (see `GLUU_CONFIG_CONSU
 
 ## Shared Directories
 
-See [shared directories on oxShibboleth](/reference/oxshibboleth/#shared-directories) for reference.
+See [shared directories on oxShibboleth](./oxshibboleth.md#shared-directories) for reference.
