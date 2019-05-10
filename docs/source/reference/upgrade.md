@@ -4,7 +4,7 @@ Upgrade Container for Gluu Server Docker Edition.
 
 ## Version
 
-The latest stable version for Gluu Server Docker Edition v3.1.6 is `gluufederation/upgrade:3.1.6_01`.
+The latest stable version for Gluu Server Docker Edition v3.1.6 is `gluufederation/upgrade:3.1.6_02`.
 
 ## Environment Variables
 
@@ -58,6 +58,6 @@ Example:
         -e GLUU_LDAP_URL=ldap:1636 \
         -v /path/to/vault_role_id.txt:/etc/certs/vault_role_id \
         -v /path/to/vault_secret_id.txt:/etc/certs/vault_secret_id \
-        gluufederation/upgrade:3.1.6_01 \
+        gluufederation/upgrade:3.1.6_02 \
             --source 3.1.5 \
             --target 3.1.6

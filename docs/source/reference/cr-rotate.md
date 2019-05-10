@@ -4,7 +4,7 @@ cr-rotate is a special container to monitor cache refresh on a specific oxTrust 
 
 ## Version
 
-The latest stable version for Gluu Server Docker Edition v3.1.6 is `gluufederation/cr-rotate:3.1.6_01`.
+The latest stable version for Gluu Server Docker Edition v3.1.6 is `gluufederation/cr-rotate:3.1.6_02`.
 
 ## Environment Variables
 
@@ -50,7 +50,7 @@ The following environment variables are supported by the container:
 
         docker run \
             --label APP_NAME=oxtrust \
-            gluufederation/oxtrust:3.1.6_02
+            gluufederation/oxtrust:3.1.6_03
 
     Example for Kubernetes:
 

@@ -4,7 +4,7 @@ Docker image packaging for oxTrust.
 
 ## Version
 
-The latest stable version for Gluu Server Docker Edition v3.1.6 is `gluufederation/oxtrust:3.1.6_02`.
+The latest stable version for Gluu Server Docker Edition v3.1.6 is `gluufederation/oxtrust:3.1.6_03`.
 
 ## Environment Variables
 

@@ -11,7 +11,7 @@ Note the following points:
 
 ## Version
 
-The latest stable version for Gluu Server Docker Edition v3.1.6 is `gluufederation/nginx:3.1.6_01`.
+The latest stable version for Gluu Server Docker Edition v3.1.6 is `gluufederation/nginx:3.1.6_02`.
 
 ## Environment Variables
 
