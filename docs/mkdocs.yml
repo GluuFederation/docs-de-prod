@@ -1,6 +1,6 @@
 # Project information
-site_name: Gluu Docker Edition 3.1.5 Docs
-site_description: Documentation for Gluu Server Docker Edition
+site_name: Gluu Server DE Docs
+site_description: Documentation for Gluu Server Docker Edition (DE)
 
 # Copyright
 copyright: Copyright &copy; 2019, Gluu, Inc.
