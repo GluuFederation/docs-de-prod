@@ -56,7 +56,8 @@ Before running the upgrade process, make sure to backup existing LDAP data.
                 image: gluufederation/opendj:3.1.6_02
                 volumeMounts:
                   - name: opendj-schema-volume
-                    mountPath: /opt/opendj/config/schema/
+                    mountPath: /opt/opendj/config/schema/101-ox.ldif
+                    subPath: 101-ox.ldif
               volumes:
                 - name: opendj-schema-volume
                   configMap:
