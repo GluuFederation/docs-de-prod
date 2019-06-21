@@ -82,7 +82,7 @@ Mount the schema (depending on deployment scenario) into the container:
         volumeMounts:
           - name: opendj-schema-volume
             # schema will be mounted under this directory
-            mountPath: /opt/opendj/template/config/schema
+            mountPath: /opt/opendj/template/config/schema/78-myAttributes.ldif
             subPath: 78-myAttributes.ldif
       volumes:
         - name: opendj-schema-volume
@@ -102,7 +102,7 @@ Or:
         volumeMounts:
           - name: opendj-schema-volume
             # schema will be mounted under this directory
-            mountPath: /opt/opendj/config/schema
+            mountPath: /opt/opendj/config/schema/78-myAttributes.ldif
             subPath: 78-myAttributes.ldif
       volumes:
         - name: opendj-schema-volume
