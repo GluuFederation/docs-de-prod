@@ -128,7 +128,7 @@ Afterwards, run the following command `kubectl apply -f config-roles.yaml`
 
 ## Upgrade Container
 
-By running the `gluufederation/upgrade:3.1.6_02` container, the LDAP data will be adjusted to match conventions in 3.1.6.
+By running the `gluufederation/upgrade:3.1.6_03` container, the LDAP data will be adjusted to match conventions in 3.1.6.
 
 ### Upgrade container from 3.1.5
 
@@ -141,7 +141,7 @@ By running the `gluufederation/upgrade:3.1.6_02` container, the LDAP data will b
         -e GLUU_LDAP_URL=ldap:1636 \
         -v /path/to/vault_role_id.txt:/etc/certs/vault_role_id \
         -v /path/to/vault_secret_id.txt:/etc/certs/vault_secret_id \
-        gluufederation/upgrade:3.1.6_02 --source 3.1.5 --target 3.1.6
+        gluufederation/upgrade:3.1.6_03 --source 3.1.5 --target 3.1.6
     ```
 
 ### Upgrade container from 3.1.4
@@ -155,7 +155,7 @@ By running the `gluufederation/upgrade:3.1.6_02` container, the LDAP data will b
         -e GLUU_LDAP_URL=ldap:1636 \
         -v /path/to/vault_role_id.txt:/etc/certs/vault_role_id \
         -v /path/to/vault_secret_id.txt:/etc/certs/vault_secret_id \
-        gluufederation/upgrade:3.1.6_02 --source 3.1.4 --target 3.1.6
+        gluufederation/upgrade:3.1.6_03 --source 3.1.4 --target 3.1.6
     ```
 
 !!! Note

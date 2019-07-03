@@ -15,7 +15,7 @@ As can be seen in the following `docker run` command, it connects to the same ne
         -e GLUU_CONFIG_CONSUL_HOST=consul \
         -e GLUU_SECRET_ADAPTER=vault \
         -e GLUU_SECRET_VAULT_HOST=vault \
-        gluufederation/config-init:3.1.6_02 generate \
+        gluufederation/config-init:3.1.6_03 generate \
             --ldap-type "${GLUU_LDAP_TYPE}" \
             --domain $domain \
             --admin-pw $adminPw \
