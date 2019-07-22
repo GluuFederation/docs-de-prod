@@ -1,8 +1,8 @@
 ## Overview
 
-The oxTrust version of Gluu Server DE can be customized. Basic knowledge on [custom design](https://gluu.org/docs/ce/3.1.6/operation/custom-design/) is required.
+The oxTrust version of Gluu Server EE can be customized. Basic knowledge on [custom design](https://gluu.org/docs/ce/3.1.6/operation/custom-design/) is required.
 
-Similar directories to those found in Gluu Server CE also exist in Gluu Server DE, though there is a difference in how to put these customizations inside the container, compared to Gluu Server CE.
+Similar directories to those found in Gluu Server CE also exist in Gluu Server EE, though there is a difference in how to put these customizations inside the container, compared to Gluu Server CE.
 
     /opt/gluu/jetty/identity/
     |-- custom
@@ -13,7 +13,7 @@ Similar directories to those found in Gluu Server CE also exist in Gluu Server D
 
 ## Custom oxTrust Logout Page Example
 
-This guide will show examples of how to customize HTML pages and CSS in oxTrust for Gluu Server DE. For simplicity, we are going to use docker-compose.yml from the Singlehost example:
+This guide will show examples of how to customize HTML pages and CSS in oxTrust for Gluu Server EE. For simplicity, we are going to use docker-compose.yml from the Singlehost example:
 
     services:
       oxtrust:
