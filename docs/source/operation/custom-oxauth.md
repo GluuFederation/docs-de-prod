@@ -1,8 +1,8 @@
 ## Overview
 
-The oxAuth version of Gluu Server EE can be customized. Basic knowledge of [custom design](https://gluu.org/docs/ce/3.1.6/operation/custom-design/) is required.
+The oxAuth version of Gluu Server DE can be customized. Basic knowledge of [custom design](https://gluu.org/docs/ce/3.1.6/operation/custom-design/) is required.
 
-Similar directories to those found in Gluu Server CE also exist in Gluu Server EE, though there is a difference in how to put these customizations inside the container, compared to Gluu Server CE.
+Similar directories to those found in Gluu Server CE also exist in Gluu Server DE, though there is a difference in how to put these customizations inside the container, compared to Gluu Server CE.
 
     /opt/gluu/jetty/oxauth/
     |-- custom
