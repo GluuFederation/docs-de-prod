@@ -4,7 +4,7 @@ For production, we recommend using server with a minimum of 8GB of memory and 80
 
 ## Storage Driver
 
-Each enterprise installation may have different storage drivers depending on the host's OS. For example, check the storage driver used by a Docker daemon using `docker info`. Here's an example of the output:
+Each Docker installation may have different storage drivers depending on the host's OS. For example, check the storage driver used by a Docker daemon using `docker info`. Here's an example of the output:
 
 ```
 Server Version: 18.06.1-ce
