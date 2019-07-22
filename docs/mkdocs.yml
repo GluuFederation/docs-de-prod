@@ -1,14 +1,14 @@
 # Project information
-site_name: Gluu Server Enterprise Edition Docs
-site_description: Documentation for Gluu Server Enterprise Edition (EE)
+site_name: Gluu Server Docker Edition Docs
+site_description: Documentation for Gluu Server Docker Edition (DE)
 
 # Copyright
 copyright: Copyright &copy; 2019, Gluu, Inc.
 
 # Repository
 docs_dir: source
-repo_name: GluuFederation/docs-ee-prod
-repo_url: https://github.com/GluuFederation/docs-ee-prod/
+repo_name: GluuFederation/docs-de-prod
+repo_url: https://github.com/GluuFederation/docs-de-prod/
 edit_uri: edit/3.1.5/docs/source
 
 # Configuration
@@ -33,9 +33,9 @@ markdown_extensions:
 # Navigation
 nav:
 - 'Versions':
-    - '3.1.5': 'https://gluu.org/docs/ee/3.1.5/'
-    - '3.1.6': 'https://gluu.org/docs/ee/3.1.6/'
-    - '3.1.4': 'https://gluu.org/docs/ee/3.1.4/'
+    - '3.1.5': 'https://gluu.org/docs/de/3.1.5/'
+    - '3.1.6': 'https://gluu.org/docs/de/3.1.6/'
+    - '3.1.4': 'https://gluu.org/docs/de/3.1.4/'
 - ' ': 'https:/gluu.org/docs'
 - ' ': 'https:/gluu.org/docs'
 - 'Introduction': 'index.md'
