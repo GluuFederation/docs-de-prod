@@ -18,4 +18,4 @@ If you have questions or feedback, please open a ticket on the [Gluu support por
     
 ## License
 
-Gluu Server DE is available under the [GLUU SUPPORT license](https://github.com/GluuFederation/gluu-docker/blob/3.1.6/LICENSE).
+Gluu Server DE is available under the [GLUU SUPPORT license](https://github.com/GluuFederation/enterprise-edition/blob/3.1.6/LICENSE).
