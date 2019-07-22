@@ -1,6 +1,6 @@
 ## Overview
 
-A common question using a custom LDAP schema in Gluu Server DE containers is when to mount the file and where to put it.
+A common question using a custom LDAP schema in Gluu Server EE containers is when to mount the file and where to put it.
 This guide explains how to use custom schema in OpenDJ containers in various scenarios.
 
 ## Adding Schema Before Deployment
