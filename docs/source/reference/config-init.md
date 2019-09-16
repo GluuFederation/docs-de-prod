@@ -1,10 +1,13 @@
 ## Overview
 
-[config-init](https://github.com/GluuFederation/docker-config-init/tree/3.1.6) is a special container that is neither daemonized nor executing a long-running process. The purpose of this container is to generate, dump (backup), or even load (restore) the config and secrets.
+[config-init](https://github.com/GluuFederation/docker-config-init/tree/4.0.0) is a special container to load (generate/restore), dump (backup) the config and secrets.
 
-## Version
+## Versions
 
-Currently there's no stable version for Gluu Server Docker Edition v3.1.6, however unstable version is available as `gluufederation/config-init:3.1.6_dev`.
+- Stable: N/A
+- Unstable: `gluufederation/config-init:4.0.0_dev`
+
+Refer to [Changelog](https://github.com/GluuFederation/docker-config-init/blob/4.0.0/CHANGES.md) for details on new features, bug fixes, or older releases.
 
 ## Environment Variables
 
@@ -40,70 +43,35 @@ The following environment variables are supported by the container:
 - `GLUU_WAIT_SLEEP_DURATION`: Delay between startup "health checks" (default to `5` seconds).
 - `GLUU_OVERWRITE_ALL`: Overwrite all config (default to `false`).
 
-Deprecated environment variables (see `GLUU_CONFIG_CONSUL_*` or `GLUU_CONFIG_KUBERNETES_*` for reference):
-
-- `GLUU_CONSUL_HOST`
-- `GLUU_CONSUL_PORT`
-- `GLUU_CONSUL_CONSISTENCY`
-- `GLUU_CONSUL_SCHEME`
-- `GLUU_CONSUL_VERIFY`
-- `GLUU_CONSUL_CACERT_FILE`
-- `GLUU_CONSUL_CERT_FILE`
-- `GLUU_CONSUL_KEY_FILE`
-- `GLUU_CONSUL_TOKEN_FILE`
-- `GLUU_KUBERNETES_NAMESPACE`
-- `GLUU_KUBERNETES_CONFIGMAP`
-
 ## Commands
 
 The following commands are supported by the container:
 
-- `generate`
-- `dump`
 - `load`
-
-### generate
-
-The generate command will generate all the initial configuration files for the Gluu Server components. All existing config will be ignored unless forced by passing environment variable `GLUU_OVERWRITE_ALL`.
-
-The following parameters and/or environment variables are required to launch unless otherwise marked.
-
-Parameters:
-
-- `--email`: The email address of the administrator usually. Used for certificate creation.
-- `--domain`: The domain name where the Gluu Server resides. Used for certificate creation.
-- `--country-code`: The country where the organization is located. User for certificate creation.
-- `--state`: The state where the organization is located. Used for certificate creation.
-- `--city`: The city where the organization is located. Used for certificate creation.
-- `--org-name`: The organization using the Gluu Server. Used for certificate creation.
-- `--admin-pw`: The administrator password for oxTrust and LDAP
-- `--ldap-type`: Currently only OpenDJ is supported.
-- `--base-inum`: (optional) Base inum with the following format `@!xxxx.xxxx.xxxx.xxxx` where `x` represents a number or uppercased alphabet, for example `@!1BDD.80B7.128C.099A`. If omitted, the value will be auto-generated.
-- `--inum-org`: (optional) Organization inum with the following format `<BASE_INUM>!0001!xxxx.xxxx` where `x` represents a number or uppercased alphabet, for example `@!1BDD.80B7.128C.099A!0001!4FB1.6F8C`. If omitted, the value will be auto-generated.
-- `--inum-appliance`: (optional) Appliance inum with the following format `<BASE_INUM>!0002!xxxx.xxxx` where `x` represents a number or uppercased alphabet, for example `@!1BDD.80B7.128C.099A!0002!8E48.6E9D`. If omitted, the value will be auto-generated.
-
-### dump
-
-The dump command will dump all configuration from inside KV store into the `/opt/config-init/db/config.json` file inside the container. The following parameters and/or environment variables are required to launch, unless otherwise marked.
-
-Please note that to dump this file into the host, you'll need to map a mounted volume to the `/opt/config-init/db` directory. See this example on how to dump the config into the `/path/to/host/volume/config.json` file:
-
-    docker run \
-        --rm \
-        --network container:consul \
-        -e GLUU_CONFIG_ADAPTER=consul \
-        -e GLUU_CONFIG_CONSUL_HOST=consul \
-        -e GLUU_SECRET_ADAPTER=vault \
-        -e GLUU_SECRET_VAULT_HOST=vault \
-        -v /path/to/host/volume:/opt/config-init/db \
-        gluufederation/config-init:3.1.6_01 dump
+- `dump`
+- `migrate`
 
 ### load
 
-The load command will load a `config.json` into the KV store. All existing config will be ignored unless forced by passing environment variable `GLUU_OVERWRITE_ALL`.
+The load command can be used either to generate or restore config and secret for the cluster.
 
-Please note that to load this file from the host, you'll need to map a mounted volume to the `/opt/config-init/db` directory. For an  example on how to load the config from `/path/to/host/volume/config.json` file, see the following:
+-   To generate initial config and secret, create `/path/to/host/volume/generate.json` similar to example below:
 
+    ```
+    {
+        "hostname": "demoexample.gluu.org",
+        "country_code": "US",
+        "state": "TX",
+        "city": "Austin",
+        "admin_pw": "S3cr3t+pass",
+        "email": "s@gluu.local",
+        "org_name": "Gluu Inc."
+    }
+    ```
+
+    and mount the volume into container:
+
+    ```
     docker run \
         --rm \
         --network container:consul \
@@ -112,4 +80,52 @@ Please note that to load this file from the host, you'll need to map a mounted v
         -e GLUU_SECRET_ADAPTER=vault \
         -e GLUU_SECRET_VAULT_HOST=vault \
         -v /path/to/host/volume:/opt/config-init/db \
-        gluufederation/config-init:3.1.6_01 load
+        gluufederation/config-init:4.0.0_dev load
+    ```
+
+-   To restore config and secret from backup of `/path/to/host/volume/config.json` and `/path/to/host/volume/secret.json`, mount the directory as `/opt/config-init/db` directory inside the container:
+
+    ```
+    docker run \
+        --rm \
+        --network container:consul \
+        -e GLUU_CONFIG_ADAPTER=consul \
+        -e GLUU_CONFIG_CONSUL_HOST=consul \
+        -e GLUU_SECRET_ADAPTER=vault \
+        -e GLUU_SECRET_VAULT_HOST=vault \
+        -v /path/to/host/volume:/opt/config-init/db \
+        gluufederation/config-init:4.0.0_dev load
+    ```
+
+### dump
+
+The dump command will dump all config and secret from the backends saved into `/opt/config-init/db/config.json` and `/opt/config-init/db/secret.json` files.
+
+Please note that to dump this file into the host, mount a volume to the `/opt/config-init/db` directory as seen in the following example:
+
+```
+docker run \
+    --rm \
+    --network container:consul \
+    -e GLUU_CONFIG_ADAPTER=consul \
+    -e GLUU_CONFIG_CONSUL_HOST=consul \
+    -e GLUU_SECRET_ADAPTER=vault \
+    -e GLUU_SECRET_VAULT_HOST=vault \
+    -v /path/to/host/volume:/opt/config-init/db \
+    gluufederation/config-init:4.0.0_dev dump
+```
+
+### migrate
+
+The migrate command exports secret that previously saved in config backend into secret backend.
+
+```
+docker run \
+    --rm \
+    --network container:consul \
+    -e GLUU_CONFIG_ADAPTER=consul \
+    -e GLUU_CONFIG_CONSUL_HOST=consul \
+    -e GLUU_SECRET_ADAPTER=vault \
+    -e GLUU_SECRET_VAULT_HOST=vault \
+    gluufederation/config-init:4.0.0_dev migrate
+```
