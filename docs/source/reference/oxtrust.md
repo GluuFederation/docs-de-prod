@@ -2,9 +2,12 @@
 
 Docker image packaging for oxTrust.
 
-## Version
+## Versions
 
-Currently there's no stable version for Gluu Server Docker Edition v3.1.6, however unstable version is available as `gluufederation/oxtrust:3.1.6_dev`.
+- Stable: N/A
+- Unstable: `gluufederation/oxtrust:4.0.0_dev`.
+
+Refer to [Changelog](https://github.com/GluuFederation/docker-oxtrust/blob/4.0.0/CHANGES.md) for details on new features, bug fixes, or older releases.
 
 ## Environment Variables
 
@@ -37,7 +40,7 @@ The following environment variables are supported by the container:
 - `GLUU_SECRET_KUBERNETES_CONFIGMAP`: Kubernetes secrets name (default to `gluu`).
 - `GLUU_SECRET_KUBERNETES_USE_KUBE_CONFIG`: Load credentials from `$HOME/.kube/config`, only useful for non-container environment (default to `false`).
 - `GLUU_WAIT_MAX_TIME`: How long the startup "health checks" should run (default to `300` seconds).
-- `GLUU_WAIT_SLEEP_DURATION`: Delay between startup "health checks" (default to `5` seconds).
+- `GLUU_WAIT_SLEEP_DURATION`: Delay between startup "health checks" (default to `10` seconds).
 - `GLUU_LDAP_URL`: The LDAP database's IP address or hostname. Default is `localhost:1636`. Multiple URLs can be used using comma-separated values (i.e. `192.168.100.1:1636,192.168.100.2:1636`).
 - `GLUU_MAX_RAM_FRACTION`: Used in conjunction with Docker memory limitations (`docker run -m <mem>`) to identify the fraction of the maximum amount of heap memory you want the JVM to use.
 - `GLUU_DEBUG_PORT`: port of remote debugging (if omitted, remote debugging will be disabled).
@@ -45,20 +48,13 @@ The following environment variables are supported by the container:
 - `GLUU_SHIB_SOURCE_DIR`: absolute path to directory to copy Shibboleth config from (default is `/opt/shibboleth-idp`)
 - `GLUU_SHIB_TARGET_DIR`: absolute path to directory to copy Shibboleth config to (default is `/opt/shared-shibboleth-idp`)
 - `GLUU_DEBUG_PORT`: port of remote debugging (if omitted, remote debugging will be disabled).
-
-Deprecated environment variables (see `GLUU_CONFIG_CONSUL_*` or `GLUU_CONFIG_KUBERNETES_*` for reference):
-
-- `GLUU_CONSUL_HOST`
-- `GLUU_CONSUL_PORT`
-- `GLUU_CONSUL_CONSISTENCY`
-- `GLUU_CONSUL_SCHEME`
-- `GLUU_CONSUL_VERIFY`
-- `GLUU_CONSUL_CACERT_FILE`
-- `GLUU_CONSUL_CERT_FILE`
-- `GLUU_CONSUL_KEY_FILE`
-- `GLUU_CONSUL_TOKEN_FILE`
-- `GLUU_KUBERNETES_NAMESPACE`
-- `GLUU_KUBERNETES_CONFIGMAP`
+- `GLUU_PERSISTENCE_TYPE`: Persistence backend being used (one of `ldap`, `couchbase`, or `hybrid`; default to `ldap`).
+- `GLUU_PERSISTENCE_LDAP_MAPPING`: Specify data that should be saved in LDAP (one of `default`, `user`, `cache`, `site`, or `token`; default to `default`). Note this environment only takes effect when `GLUU_PERSISTENCE_TYPE` is set to `hybrid`.
+- `GLUU_LDAP_URL`: Address and port of LDAP server (default to `localhost:1636`); required if `GLUU_PERSISTENCE_TYPE` is set to `ldap` or `hybrid`.
+- `GLUU_COUCHBASE_URL`: Address of Couchbase server (default to `localhost`); required if `GLUU_PERSISTENCE_TYPE` is set to `couchbase` or `hybrid`.
+- `GLUU_COUCHBASE_USER`: Username of Couchbase server (default to `admin`); required if `GLUU_PERSISTENCE_TYPE` is set to `couchbase` or `hybrid`.
+- `GLUU_COUCHBASE_CERT_FILE`: Couchbase root certificate location (default to `/etc/certs/couchbase.crt`); required if `GLUU_PERSISTENCE_TYPE` is set to `couchbase` or `hybrid`.
+- `GLUU_COUCHBASE_PASSWORD_FILE`: Path to file contains Couchbase password (default to `/etc/gluu/conf/couchbase_password`); required if `GLUU_PERSISTENCE_TYPE` is set to `couchbase` or `hybrid`.
 
 ## Shared Directories
 

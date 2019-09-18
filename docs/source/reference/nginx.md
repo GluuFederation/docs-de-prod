@@ -9,9 +9,12 @@ Note the following points:
 - This container relies on Consul
 - Kubernetes deployment can omit this container and use NGINX Ingress instead
 
-## Version
+## Versions
 
-Currently there's no stable version for Gluu Server Docker Edition v3.1.6, however unstable version is available as `gluufederation/nginx:3.1.6_dev`.
+- Stable: N/A
+- Unstable: `gluufederation/nginx:4.0.0_dev`.
+
+Refer to [Changelog](https://github.com/GluuFederation/docker-nginx/blob/4.0.0/CHANGES.md) for details on new features, bug fixes, or older releases.
 
 ## Environment Variables
 
@@ -44,18 +47,4 @@ The following environment variables are supported by the container:
 - `GLUU_SECRET_KUBERNETES_CONFIGMAP`: Kubernetes secrets name (default to `gluu`).
 - `GLUU_SECRET_KUBERNETES_USE_KUBE_CONFIG`: Load credentials from `$HOME/.kube/config`, only useful for non-container environment (default to `false`).
 - `GLUU_WAIT_MAX_TIME`: How long the startup "health checks" should run (default to `300` seconds).
-- `GLUU_WAIT_SLEEP_DURATION`: Delay between startup "health checks" (default to `5` seconds).
-
-Deprecated environment variables (see `GLUU_CONFIG_CONSUL_*` or `GLUU_CONFIG_KUBERNETES_*` for reference):
-
-- `GLUU_CONSUL_HOST`
-- `GLUU_CONSUL_PORT`
-- `GLUU_CONSUL_CONSISTENCY`
-- `GLUU_CONSUL_SCHEME`
-- `GLUU_CONSUL_VERIFY`
-- `GLUU_CONSUL_CACERT_FILE`
-- `GLUU_CONSUL_CERT_FILE`
-- `GLUU_CONSUL_KEY_FILE`
-- `GLUU_CONSUL_TOKEN_FILE`
-- `GLUU_KUBERNETES_NAMESPACE`
-- `GLUU_KUBERNETES_CONFIGMAP`
+- `GLUU_WAIT_SLEEP_DURATION`: Delay between startup "health checks" (default to `10` seconds).

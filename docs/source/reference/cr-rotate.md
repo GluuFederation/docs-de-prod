@@ -1,13 +1,13 @@
 ## Overview
 
-Docker image packaging for oxShibboleth.
+CacheRefreshRotation is a special container to monitor cache refresh on a specific oxTrust container.
 
 ## Versions
 
 - Stable: N/A
-- Unstable: `gluufederation/oxshibboleth:4.0.0_dev`.
+- Unstable: `gluufederation/cr-rotate:4.0.0_dev`.
 
-Refer to [Changelog](https://github.com/GluuFederation/docker-oxshibboleth/blob/4.0.0/CHANGES.md) for details on new features, bug fixes, or older releases.
+Refer to [Changelog](https://github.com/GluuFederation/docker-cr-rotate/blob/4.0.0/CHANGES.md) for details on new features, bug fixes, or older releases.
 
 ## Environment Variables
 
@@ -41,10 +41,6 @@ The following environment variables are supported by the container:
 - `GLUU_SECRET_KUBERNETES_USE_KUBE_CONFIG`: Load credentials from `$HOME/.kube/config`, only useful for non-container environment (default to `false`).
 - `GLUU_WAIT_MAX_TIME`: How long the startup "health checks" should run (default to `300` seconds).
 - `GLUU_WAIT_SLEEP_DURATION`: Delay between startup "health checks" (default to `10` seconds).
-- `GLUU_MAX_RAM_FRACTION`: Used in conjunction with Docker memory limitations (`docker run -m <mem>`) to identify the fraction of the maximum amount of heap memory you want the JVM to use.
-- `GLUU_LDAP_URL`: The LDAP database's IP address or hostname. Default is `localhost:1636`. Multiple URLs can be used using comma-separated values (i.e. `192.168.100.1:1636,192.168.100.2:1636`).
-- `GLUU_SHIB_SOURCE_DIR`: absolute path to directory to copy Shibboleth config from (default is `/opt/shared-shibboleth-idp`)
-- `GLUU_SHIB_TARGET_DIR`: absolute path to directory to copy Shibboleth config to (default is `/opt/shibboleth-idp`)
 - `GLUU_PERSISTENCE_TYPE`: Persistence backend being used (one of `ldap`, `couchbase`, or `hybrid`; default to `ldap`).
 - `GLUU_PERSISTENCE_LDAP_MAPPING`: Specify data that should be saved in LDAP (one of `default`, `user`, `cache`, `site`, or `token`; default to `default`). Note this environment only takes effect when `GLUU_PERSISTENCE_TYPE` is set to `hybrid`.
 - `GLUU_LDAP_URL`: Address and port of LDAP server (default to `localhost:1636`); required if `GLUU_PERSISTENCE_TYPE` is set to `ldap` or `hybrid`.
@@ -52,13 +48,47 @@ The following environment variables are supported by the container:
 - `GLUU_COUCHBASE_USER`: Username of Couchbase server (default to `admin`); required if `GLUU_PERSISTENCE_TYPE` is set to `couchbase` or `hybrid`.
 - `GLUU_COUCHBASE_CERT_FILE`: Couchbase root certificate location (default to `/etc/certs/couchbase.crt`); required if `GLUU_PERSISTENCE_TYPE` is set to `couchbase` or `hybrid`.
 - `GLUU_COUCHBASE_PASSWORD_FILE`: Path to file contains Couchbase password (default to `/etc/gluu/conf/couchbase_password`); required if `GLUU_PERSISTENCE_TYPE` is set to `couchbase` or `hybrid`.
+- `GLUU_CR_ROTATION_CHECK`: The interval between IP rotation check (default to `300` seconds).
+- `GLUU_CONTAINER_METADATA`: The name of scheduler to pull container metadata (one of `docker` or `kubernetes`; default to `docker`).
 
-## Shared Directories
+## Getting Metadata
 
-Mounting the volume from host to container, as seen in the `-v $PWD/shared-shibboleth-idp:/opt/shared-shibboleth-idp` option, is required to ensure oxShibboleth can load the configuration correctly. This can [also be seen here](https://github.com/GluuFederation/gluu-docker/blob/master/examples/single-host/docker-compose.yml#L114) in the standalone docker-compose yaml file or [here](https://github.com/GluuFederation/gluu-docker/blob/master/examples/multi-hosts/web.yml#L88) in the multi-host docker-compose yaml file.
+!!! Note
+    Since the metadata scope is per node, this container must be deployed in each node. Use `mode=global` in Swarm Mode services or `DaemonSet` in Kubernetes.
 
-By design, each time a Trust Relationship entry is added/updated/deleted via the oxTrust GUI, some Shibboleth-related files will be generated/modified by oxTrust and saved to the `/opt/shibboleth-idp` directory inside the oxTrust container. A background job in oxTrust container ensures those files are copied to the `/opt/shared-shibboleth-idp` directory (and also inside the oxTrust container, which must be mounted from container to host).
+1.  Set a predefined label on oxTrust container.
 
-After those Shibboleth-related files are copied to `/opt/shared-shibboleth`, a background job in oxShibboleth copies them to the `/opt/shibboleth-idp` directory inside oxShibboleth container. To ensure files are synchronized between oxTrust and oxShibboleth, both containers must use the same mounted volume, `/opt/shared-shibboleth-idp`.
+    Example for Docker:
 
-The `/opt/shibboleth-idp` directory is not mounted directly into the container, as there are two known issues with this approach. First, the oxShibboleth container has its own default `/opt/shibboleth-idp` directory requirements to start the app itself. By mounting `/opt/shibboleth-idp` directly from the host, the directory will be replaced and the oxShibboleth app won't run correctly. Secondly, oxTrust renames the metadata file, which unfortunately didn't work as expected in the mounted volume.
+    ```sh
+    docker run \
+        --label APP_NAME=oxtrust \
+        gluufederation/oxtrust:4.0.0_dev
+    ```
+
+    Example for Kubernetes:
+
+    ```yaml
+    # oxtrust.yaml
+    apiVersion: apps/v1
+    kind: StatefulSet
+    metadata:
+        name: oxtrust
+        labels:
+        app: oxtrust
+        APP_NAME: oxtrust
+    ```
+
+2.  Set the appropriate `GLUU_CONTAINER_METADATA` environment variable.
+    If the container is running on the Docker scheduler, the `docker.sock` file must be mounted into container.
+
+    Example for Docker:
+
+    ```sh
+    docker run \
+        -e GLUU_CONTAINER_METADATA=docker \
+        -v /var/run/docker.sock:/var/run/docker.sock \
+        gluufederation/cr-rotate:4.0.0_dev
+    ```
+
+    For Kubernetes, simply set the environment variable `GLUU_CONTAINER_METADATA=kubernetes`.

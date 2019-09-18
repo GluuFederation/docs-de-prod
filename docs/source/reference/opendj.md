@@ -1,6 +1,6 @@
 ## Overview
 
-Docker image packaging for OpenDJ.
+Docker image packaging for OpenDJ/Wren:DS.
 
 ## Versions
 
@@ -50,46 +50,7 @@ The following environment variables are supported by the container:
 
 ## Initializing LDAP Data
 
-Starting from v4, the container will not import the initial data into LDAP. Use [Persistence](../persistence/) container to do so.
-
-Start by running the container in detached mode:
-
-```sh
-docker run -d \
-    --network container:consul \
-    --name ldap \
-    -e GLUU_CONFIG_ADAPTER=consul \
-    -e GLUU_CONFIG_CONSUL_HOST=consul \
-    -e GLUU_SECRET_ADAPTER=vault \
-    -e GLUU_SECRET_VAULT_HOST=vault \
-    -v /path/to/opendj/config:/opt/opendj/config \
-    -v /path/to/opendj/db:/opt/opendj/db \
-    -v /path/to/opendj/logs:/opt/opendj/logs \
-    -v /path/to/opendj/ldif:/opt/opendj/ldif \
-    -v /path/to/opendj/backup:/opt/opendj/bak \
-    -v /path/to/vault_role_id.txt:/etc/certs/vault_role_id \
-    -v /path/to/vault_secret_id.txt:/etc/certs/vault_secret_id \
-    gluufederation/wrends:4.0.0_dev
-```
-
-Afterwards, initialize the data and save it into LDAP:
-
-```sh
-docker run --rm \
-    --network container:consul \
-    --name persistence \
-    -e GLUU_CONFIG_ADAPTER=consul \
-    -e GLUU_CONFIG_CONSUL_HOST=consul \
-    -e GLUU_SECRET_ADAPTER=vault \
-    -e GLUU_SECRET_VAULT_HOST=vault \
-    -e GLUU_PERSISTENCE_TYPE=ldap \
-    -e GLUU_LDAP_URL=ldap:1636 \
-    -v /path/to/vault_role_id.txt:/etc/certs/vault_role_id \
-    -v /path/to/vault_secret_id.txt:/etc/certs/vault_secret_id \
-    gluufederation/persistence:4.0.0_dev
-```
-
-The process may take awhile, check the output of the `persistence` container log.
+Starting from v4, the container will not import the initial data into LDAP. Use [Persistence](../persistence/#initializing-data) container to do so.
 
 ## LDAP Replication
 

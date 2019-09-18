@@ -1,6 +1,6 @@
 ## Overview
 
-[config-init](https://github.com/GluuFederation/docker-config-init/tree/4.0.0) is a special container to load (generate/restore), dump (backup) the config and secrets.
+ConfigInit is a special container to load (generate/restore), dump (backup) the config and secrets.
 
 ## Versions
 
@@ -40,7 +40,7 @@ The following environment variables are supported by the container:
 - `GLUU_SECRET_KUBERNETES_CONFIGMAP`: Kubernetes secrets name (default to `gluu`).
 - `GLUU_SECRET_KUBERNETES_USE_KUBE_CONFIG`: Load credentials from `$HOME/.kube/config`, only useful for non-container environment (default to `false`).
 - `GLUU_WAIT_MAX_TIME`: How long the startup "health checks" should run (default to `300` seconds).
-- `GLUU_WAIT_SLEEP_DURATION`: Delay between startup "health checks" (default to `5` seconds).
+- `GLUU_WAIT_SLEEP_DURATION`: Delay between startup "health checks" (default to `10` seconds).
 - `GLUU_OVERWRITE_ALL`: Overwrite all config (default to `false`).
 
 ## Commands
@@ -57,7 +57,7 @@ The load command can be used either to generate or restore config and secret for
 
 -   To generate initial config and secret, create `/path/to/host/volume/generate.json` similar to example below:
 
-    ```
+    ```json
     {
         "hostname": "demoexample.gluu.org",
         "country_code": "US",
@@ -71,7 +71,7 @@ The load command can be used either to generate or restore config and secret for
 
     and mount the volume into container:
 
-    ```
+    ```sh
     docker run \
         --rm \
         --network container:consul \
@@ -80,12 +80,14 @@ The load command can be used either to generate or restore config and secret for
         -e GLUU_SECRET_ADAPTER=vault \
         -e GLUU_SECRET_VAULT_HOST=vault \
         -v /path/to/host/volume:/opt/config-init/db \
+        -v /path/to/vault_role_id.txt:/etc/certs/vault_role_id \
+        -v /path/to/vault_secret_id.txt:/etc/certs/vault_secret_id \
         gluufederation/config-init:4.0.0_dev load
     ```
 
 -   To restore config and secret from backup of `/path/to/host/volume/config.json` and `/path/to/host/volume/secret.json`, mount the directory as `/opt/config-init/db` directory inside the container:
 
-    ```
+    ```sh
     docker run \
         --rm \
         --network container:consul \
@@ -94,6 +96,8 @@ The load command can be used either to generate or restore config and secret for
         -e GLUU_SECRET_ADAPTER=vault \
         -e GLUU_SECRET_VAULT_HOST=vault \
         -v /path/to/host/volume:/opt/config-init/db \
+        -v /path/to/vault_role_id.txt:/etc/certs/vault_role_id \
+        -v /path/to/vault_secret_id.txt:/etc/certs/vault_secret_id \
         gluufederation/config-init:4.0.0_dev load
     ```
 
@@ -103,7 +107,7 @@ The dump command will dump all config and secret from the backends saved into `/
 
 Please note that to dump this file into the host, mount a volume to the `/opt/config-init/db` directory as seen in the following example:
 
-```
+```sh
 docker run \
     --rm \
     --network container:consul \
@@ -112,6 +116,8 @@ docker run \
     -e GLUU_SECRET_ADAPTER=vault \
     -e GLUU_SECRET_VAULT_HOST=vault \
     -v /path/to/host/volume:/opt/config-init/db \
+    -v /path/to/vault_role_id.txt:/etc/certs/vault_role_id \
+    -v /path/to/vault_secret_id.txt:/etc/certs/vault_secret_id \
     gluufederation/config-init:4.0.0_dev dump
 ```
 
@@ -119,7 +125,7 @@ docker run \
 
 The migrate command exports secret that previously saved in config backend into secret backend.
 
-```
+```sh
 docker run \
     --rm \
     --network container:consul \
@@ -127,5 +133,7 @@ docker run \
     -e GLUU_CONFIG_CONSUL_HOST=consul \
     -e GLUU_SECRET_ADAPTER=vault \
     -e GLUU_SECRET_VAULT_HOST=vault \
+    -v /path/to/vault_role_id.txt:/etc/certs/vault_role_id \
+    -v /path/to/vault_secret_id.txt:/etc/certs/vault_secret_id \
     gluufederation/config-init:4.0.0_dev migrate
 ```

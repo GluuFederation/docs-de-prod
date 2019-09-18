@@ -52,6 +52,7 @@ nav:
   - 'oxPassport': 'reference/oxpassport.md'
   - 'NGINX': 'reference/nginx.md'
   - 'Key Rotation': 'reference/key-rotation.md'
+  - 'CacheRefresh Rotation': 'reference/cr-rotate.md'
   - 'Upgrade': 'reference/upgrade.md'
 - 'Operation Guide':
   - 'Preparing the Server': 'operation/server.md'
