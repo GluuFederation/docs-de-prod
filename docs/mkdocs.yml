@@ -12,7 +12,7 @@ repo_url: https://github.com/GluuFederation/docs-de-prod/
 edit_uri: edit/4.0/docs/source
 
 # Configuration
-theme: 
+theme:
     name: material
     palette:
         primary: 'green'
@@ -21,13 +21,13 @@ theme:
     favicon: 'favicon.ico'
 extra:
     version: '4.0'
-    
+
 # Extensions
 markdown_extensions:
 - admonition
 - toc:
      permalink: '#'
-- codehilite     
+- codehilite
 - pymdownx.superfences
 
 # Navigation
@@ -45,6 +45,7 @@ nav:
   - '3rd-Party Containers': 'reference/third-party.md'
   - 'Config Init': 'reference/config-init.md'
   - 'OpenDJ': 'reference/opendj.md'
+  - 'Persistence': 'reference/persistence.md'
   - 'oxAuth': 'reference/oxauth.md'
   - 'oxTrust': 'reference/oxtrust.md'
   - 'oxShibboleth': 'reference/oxshibboleth.md'

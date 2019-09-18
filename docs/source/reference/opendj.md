@@ -2,9 +2,15 @@
 
 Docker image packaging for OpenDJ.
 
-## Version
+## Versions
 
-Currently there's no stable version for Gluu Server Docker Edition v3.1.6, however unstable version is available as `gluufederation/opendj:3.1.6_dev`.
+- Stable: N/A
+- Unstable: `gluufederation/wrends:4.0.0_dev`.
+
+Refer to [Changelog](https://github.com/GluuFederation/docker-opendj/blob/4.0.0/CHANGES.md) for details on new features, bug fixes, or older releases.
+
+!!!Note
+    Starting from v4, `gluufederation/wrends` is a drop-in replacement for older `gluufederation/opendj` image. For older versions, stick with `gluufederation/opendj` instead.
 
 ## Environment Variables
 
@@ -37,66 +43,59 @@ The following environment variables are supported by the container:
 - `GLUU_SECRET_KUBERNETES_CONFIGMAP`: Kubernetes secrets name (default to `gluu`).
 - `GLUU_SECRET_KUBERNETES_USE_KUBE_CONFIG`: Load credentials from `$HOME/.kube/config`, only useful for non-container environment (default to `false`).
 - `GLUU_WAIT_MAX_TIME`: How long the startup "health checks" should run (default to `300` seconds).
-- `GLUU_WAIT_SLEEP_DURATION`: Delay between startup "health checks" (default to `5` seconds).
-- `GLUU_LDAP_INIT`: whether to import initial LDAP entries (possible values are true or false).
-- `GLUU_LDAP_INIT_HOST`: LDAP hostname for initial configuration (only usable when `GLUU_LDAP_INIT` set to true).
-- `GLUU_LDAP_INIT_PORT`: LDAP port for initial configuration (only usable when `GLUU_LDAP_INIT` set to true).
-- `GLUU_CACHE_TYPE`: supported values are `IN_MEMORY`, `REDIS`, `MEMCACHED`, and `NATIVE_PERSISTENCE` (default is `NATIVE_PERSISTENCE`)
-- `GLUU_REDIS_URL`: URL of redis service, format is host:port (optional).
-- `GLUU_REDIS_TYPE`: redis service type, either `STANDALONE` or `CLUSTER` (optional).
-- `GLUU_LDAP_ADDR_INTERFACE`: interface name where the IP will be guessed and registered as OpenDJ host, e.g. `eth0` (will be ignored if `GLUU_LDAP_ADVERTISE_ADDR` is used).
+- `GLUU_WAIT_SLEEP_DURATION`: Delay between startup "health checks" (default to `10` seconds).
+- `GLUU_LDAP_ADDR_INTERFACE`: interface name where the IP will be guessed and registered as OpenDJ host, e.g. eth0 (will be ignored if `GLUU_LDAP_ADVERTISE_ADDR` is used).
 - `GLUU_LDAP_ADVERTISE_ADDR`: the hostname/IP address used as the host of OpenDJ server.
 - `GLUU_CERT_ALT_NAME`: an additional DNS name set as Subject Alt Name in cert. If the value is not an empty string and doesn't match existing Subject Alt Name (or doesn't exist) in existing cert, then new cert will be regenerated and overwrite the one that saved in config backend. This environment variable is __required only if__ oxShibboleth is deployed, to address issue with mismatched `CN` and destination hostname while trying to connect to OpenDJ. Note, any existing containers that connect to OpenDJ must be re-deployed to download new cert.
-- `GLUU_OXTRUST_CONFIG_GENERATION`: whether to generate oxShibboleth configuration or not (default to `false`).
-
-Deprecated environment variables (see `GLUU_CONFIG_CONSUL_*` or `GLUU_CONFIG_KUBERNETES_*` for reference):
-
-- `GLUU_CONSUL_HOST`
-- `GLUU_CONSUL_PORT`
-- `GLUU_CONSUL_CONSISTENCY`
-- `GLUU_CONSUL_SCHEME`
-- `GLUU_CONSUL_VERIFY`
-- `GLUU_CONSUL_CACERT_FILE`
-- `GLUU_CONSUL_CERT_FILE`
-- `GLUU_CONSUL_KEY_FILE`
-- `GLUU_CONSUL_TOKEN_FILE`
-- `GLUU_KUBERNETES_NAMESPACE`
-- `GLUU_KUBERNETES_CONFIGMAP`
 
 ## Initializing LDAP Data
 
-To generate initial data (entries) for LDAP, the container must run using `GLUU_LDAP_INIT=true` and pass along the `GLUU_LDAP_INIT_HOST=service_or_container_name` and `GLUU_LDAP_INIT_PORT=1636` environment variables. For example:
+Starting from v4, the container will not import the initial data into LDAP. Use [Persistence](../persistence/) container to do so.
 
-```
-# docker-compose.yaml
-services:
-  ldap:
-    image: gluufederation/opendj:3.1.6_01
-    environment:
-      - GLUU_CONFIG_ADAPTER=consul
-      - GLUU_SECRET_ADAPTER=vault
-      - GLUU_LDAP_INIT=true
-      - GLUU_LDAP_INIT_HOST=ldap
-      - GLUU_LDAP_INIT_PORT=1636
-    container_name: ldap
+Start by running the container in detached mode:
+
+```sh
+docker run -d \
+    --network container:consul \
+    --name ldap \
+    -e GLUU_CONFIG_ADAPTER=consul \
+    -e GLUU_CONFIG_CONSUL_HOST=consul \
+    -e GLUU_SECRET_ADAPTER=vault \
+    -e GLUU_SECRET_VAULT_HOST=vault \
+    -v /path/to/opendj/config:/opt/opendj/config \
+    -v /path/to/opendj/db:/opt/opendj/db \
+    -v /path/to/opendj/logs:/opt/opendj/logs \
+    -v /path/to/opendj/ldif:/opt/opendj/ldif \
+    -v /path/to/opendj/backup:/opt/opendj/bak \
+    -v /path/to/vault_role_id.txt:/etc/certs/vault_role_id \
+    -v /path/to/vault_secret_id.txt:/etc/certs/vault_secret_id \
+    gluufederation/wrends:4.0.0_dev
 ```
 
-It's important to not scale this service/container, otherwise the data will be overlapped. See the next section for additional OpenDJ containers.
+Afterwards, initialize the data and save it into LDAP:
+
+```sh
+docker run --rm \
+    --network container:consul \
+    --name persistence \
+    -e GLUU_CONFIG_ADAPTER=consul \
+    -e GLUU_CONFIG_CONSUL_HOST=consul \
+    -e GLUU_SECRET_ADAPTER=vault \
+    -e GLUU_SECRET_VAULT_HOST=vault \
+    -e GLUU_PERSISTENCE_TYPE=ldap \
+    -e GLUU_LDAP_URL=ldap:1636 \
+    -v /path/to/vault_role_id.txt:/etc/certs/vault_role_id \
+    -v /path/to/vault_secret_id.txt:/etc/certs/vault_secret_id \
+    gluufederation/persistence:4.0.0_dev
+```
+
+The process may take awhile, check the output of the `persistence` container log.
 
 ## LDAP Replication
 
-Since there should be a single OpenDJ to generate initial data, the other OpenDJ containers must replicate the data from the existing OpenDJ container. For example:
+The replication process is automatically run when the container runs, only if these conditions are met:
 
-```
-# docker-compose-repl.yaml
-services:
-  ldap2:
-    image: gluufederation/opendj:3.1.6_01
-    environment:
-      - GLUU_CONFIG_ADAPTER=consul
-      - GLUU_SECRET_ADAPTER=vault
-      - GLUU_LDAP_INIT=false
-    container_name: ldap2
-```
+1. There are multiple LDAP containers running in the cluster
+2. The `o=gluu`, `o=site`, `o=metric` backends have not been replicated nor have entries
 
-The replication process is automatically run when the container runs. Check the container logs to see the result and optionally run `/opt/opendj/bin/dsreplication status` inside the container.
+Check the LDAP container logs to see the result and optionally run `/opt/opendj/bin/dsreplication status` inside the container.
