@@ -9,9 +9,11 @@ It is important to know that during the first deployment of the OpenDJ container
 
 Below is an example of how to mount custom schema:
 
-    docker run \
-        -v /path/to/78-myAttributes.ldif:/opt/opendj/template/config/schema/78-myAttributes.ldif \
-        gluufederation/opendj:3.1.6_01
+```sh
+docker run \
+    -v /path/to/78-myAttributes.ldif:/opt/opendj/template/config/schema/78-myAttributes.ldif \
+    gluufederation/wrends:4.0.0_dev
+```
 
 As we can see, `78-myAttributes.ldif` is mounted as `/opt/opendj/template/config/schema/78-myAttributes.ldif` inside the container, which eventually will be copied to `/opt/opendj/config/schema/78-myAttributes.ldif` automatically. This custom schema will be loaded by the OpenDJ server upon startup.
 
@@ -20,9 +22,11 @@ As we can see, `78-myAttributes.ldif` is mounted as `/opt/opendj/template/config
 In this scenario, we assume the container has been running and we need to add a new schema named `79-otherAttributes.ldif`.
 Mounting this file into `/opt/opendj/template/config/schema` won't work, as it will not be copied to `/opt/opendj/config/schema` directory inside the container. Instead, we are going to mount the file to `/opt/opendj/config/schema` directly.
 
-    docker run \
-        -v /path/to/79-otherAttributes.ldif:/opt/opendj/config/schema/79-otherAttributes.ldif \
-        gluufederation/opendj:3.1.6_01
+```sh
+docker run \
+    -v /path/to/79-otherAttributes.ldif:/opt/opendj/config/schema/79-otherAttributes.ldif \
+    gluufederation/wrends:4.0.0_dev
+```
 
 !!! Note
     Adding new schema may require restarting the container.
@@ -33,60 +37,70 @@ Mounting this file into `/opt/opendj/template/config/schema` won't work, as it w
 
 Create a config file to store the contents of the `78-myAttributes.ldif` custom schema.
 
-    docker config create custom-ldap-schema 78-myAttributes.ldif
+```sh
+docker config create custom-ldap-schema 78-myAttributes.ldif
+```
 
 Mount the schema (depending on the deployment scenario) into the container:
 
-    # before deployment
-    services:
-      opendj:
-        image: gluufederation/opendj:3.1.6_01
-        configs:
-          - source: custom-ldap-schema
-            target: /opt/opendj/template/config/schema/78-myAttributes.ldif
-
+```yaml
+# before deployment
+services:
+  opendj:
+    image: gluufederation/wrends:4.0.0_dev
     configs:
-      custom-ldap-schema:
-        external: true
+      - source: custom-ldap-schema
+        target: /opt/opendj/template/config/schema/78-myAttributes.ldif
+
+configs:
+  custom-ldap-schema:
+    external: true
+```
 
 Or:
 
-    # after deployment, restart service if needed
-    services:
-      opendj:
-        image: gluufederation/opendj:3.1.6_01
-        configs:
-          - source: custom-ldap-schema
-            target: /opt/opendj/config/schema/78-myAttributes.ldif
-
+```yaml
+# after deployment, restart service if needed
+services:
+  opendj:
+    image: gluufederation/wrends:4.0.0_dev
     configs:
-      custom-ldap-schema:
-        external: true
+      - source: custom-ldap-schema
+        target: /opt/opendj/config/schema/78-myAttributes.ldif
+
+configs:
+  custom-ldap-schema:
+    external: true
+```
 
 ### Using Kubernetes ConfigMaps
 
 Create a config file to store the contents of the `78-myAttributes.ldif` custom schema.
 
-    kubectl create cm opendj-custom-schema --from-file=78-myAttributes.ldif
+```sh
+kubectl create cm opendj-custom-schema --from-file=78-myAttributes.ldif
+```
 
 Mount the schema (depending on deployment scenario) into the container:
 
-    # before deployment
-    apiVersion: v1
-    kind: StatefulSet
-    metadata:
-      name: opendj
-    spec:
-      containers:
-        image: gluufederation/opendj:3.1.6_01
-        volumeMounts:
-          - name: opendj-schema-volume
-            # schema will be mounted under this directory
-            mountPath: /opt/opendj/template/config/schema
-      volumes:
-        - name: opendj-schema-volume
-          configMap:
-            name: opendj-custom-schema
+```yaml
+# before deployment
+apiVersion: v1
+kind: StatefulSet
+metadata:
+  name: opendj
+spec:
+  containers:
+    image: gluufederation/wrends:4.0.0_dev
+    volumeMounts:
+      - name: opendj-schema-volume
+        mountPath: /opt/opendj/template/config/schema/78-myAttributes.ldif
+        subPath: 78-myAttributes.ldif
+  volumes:
+    - name: opendj-schema-volume
+      configMap:
+        name: opendj-custom-schema
+```
 
 Or:
 
@@ -97,11 +111,11 @@ Or:
       name: opendj
     spec:
       containers:
-        image: gluufederation/opendj:3.1.6_01
+        image: gluufederation/wrends:4.0.0_dev
         volumeMounts:
           - name: opendj-schema-volume
-            # schema will be mounted under this directory
-            mountPath: /opt/opendj/config/schema
+            mountPath: /opt/opendj/config/schema/78-myAttributes.ldif
+            subPath: 78-myAttributes.ldif
       volumes:
         - name: opendj-schema-volume
           configMap:

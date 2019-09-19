@@ -6,7 +6,7 @@ For production, we recommend using server with a minimum of 8GB of memory and 80
 
 Each Docker installation may have different storage drivers depending on the host's OS. Check the storage driver used by the Docker daemon using `docker info`. Here's an example of the output:
 
-```
+```text
 Server Version: 18.06.1-ce
 Storage Driver: overlay2
  Backing Filesystem: extfs
@@ -20,7 +20,7 @@ By default, each container is set to have 10GB of disk size. For OpenDJ containe
 
 1.  Set the option globally in `/etc/docker/daemon.json` (this will be applied to all containers).
 
-    ```
+    ```json
     {
         "storage-driver": "devicemapper",
         "storage-opts": [
@@ -33,8 +33,8 @@ By default, each container is set to have 10GB of disk size. For OpenDJ containe
 
 1.  Set the option locally when running the container.
 
-    ```
-    docker run --storage-opts dm.basesize=20G gluufederation/opendj:3.1.6_01
+    ```sh
+    docker run --storage-opts dm.basesize=20G gluufederation/wrends:4.0.0_dev
     ```
 
 Please note that the ability to change the disk size for container depends on [storage driver](https://docs.docker.com/storage/storagedriver/select-storage-driver/).
@@ -43,7 +43,7 @@ Please note that the ability to change the disk size for container depends on [s
 
 By default, the log driver is set to `json-file`, which means that a container's log file is written to the disk under the `/var/lib/docker/containers` directory. As a result, when using the default log driver `json-file`, the log file will grow and eventually fill the disk. To mitigate this issue, the administrator can change the [log driver](https://docs.docker.com/config/containers/logging/configure/) or customize the `log-opts` to rotate the container log by creating `/etc/docker/daemon.json`, if it does not already exist. See the example below:
 
-```
+```json
 {
     "log-driver": "json-file",
     "log-opts": {

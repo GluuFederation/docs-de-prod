@@ -11,7 +11,7 @@ In a Docker environment where each container can have one or more replicas, it i
 
 1.  Create `filebeat.yml` for custom Filebeat configuration:
 
-    ```
+    ```yaml
     filebeat.config:
       modules:
         path: ${path.config}/modules.d/*.yml
@@ -39,7 +39,7 @@ In a Docker environment where each container can have one or more replicas, it i
                   multiline.match: after
             - condition:
                 contains:
-                  docker.container.image: opendj
+                  docker.container.image: wrends
               config:
                 - type: docker
                   containers.ids:
@@ -74,10 +74,10 @@ In a Docker environment where each container can have one or more replicas, it i
     processors:
       # decode the log field (sub JSON document) if JSONencoded, then maps it's fields to elasticsearch fields
       - decode_json_fields:
-            fields: ["log"]
-            target: ""
-            # overwrite existing target elasticsearch fields while decoding json fields
-            overwrite_keys: true
+          fields: ["log"]
+          target: ""
+          # overwrite existing target elasticsearch fields while decoding json fields
+          overwrite_keys: true
       - add_docker_metadata: ~
       - add_cloud_metadata: ~
 
@@ -91,7 +91,7 @@ In a Docker environment where each container can have one or more replicas, it i
 
 1.  Create a Docker manifest file, i.e. `docker-compose.yml`:
 
-    ```
+    ```yaml
     # The following example is based on `docker-compose` manifest file:
     version: "2.3"
 
@@ -144,7 +144,7 @@ In a Docker environment where each container can have one or more replicas, it i
 
 1.  Create `filebeat.yml` for custom Filebeat configuration:
 
-    ```
+    ```yaml
     filebeat.config:
       modules:
         path: ${path.config}/modules.d/*.yml
@@ -172,7 +172,7 @@ In a Docker environment where each container can have one or more replicas, it i
                   multiline.match: after
             - condition:
                 contains:
-                  kubernetes.container.image: opendj
+                  kubernetes.container.image: wrends
               config:
                 - type: docker
                   containers.ids:
@@ -224,7 +224,7 @@ In a Docker environment where each container can have one or more replicas, it i
 
 1.  Create a Kubernetes manifest file, `filebeat-roles.yaml`:
 
-    ```
+    ```yaml
     kind: ClusterRoleBinding
     apiVersion: rbac.authorization.k8s.io/v1
     metadata:
@@ -261,7 +261,7 @@ In a Docker environment where each container can have one or more replicas, it i
 
 1.  Create a Kubernetes manifest file, `elasticsearch.yaml`:
 
-    ```
+    ```yaml
     apiVersion: v1
     kind: Service
     metadata:
@@ -334,7 +334,7 @@ In a Docker environment where each container can have one or more replicas, it i
 
 1.  Create a Kubernetes manifest file, `filebeat-ds.yaml`:
 
-    ```
+    ```yaml
     apiVersion: extensions/v1beta1
     kind: DaemonSet
     metadata:
@@ -387,19 +387,18 @@ In a Docker environment where each container can have one or more replicas, it i
                 name: filebeat-config
             - name: varlibdockercontainers
               hostPath:
-              path: /var/lib/docker/containers
-            # data folder stores a registry of read status for all files, so we don't send everything again on a Filebeat pod restart
+                path: /var/lib/docker/containers
             - name: filebeat-data
               hostPath:
-              path: /data/filebeat/data
-              type: DirectoryOrCreate
+                path: /data/filebeat/data
+                type: DirectoryOrCreate
     ```
 
     Run `kubectl apply -f filebeat-ds.yml` to deploy Filebeat Pod.
 
 1.  Create a Kubernetes manifest file, `kibana.yaml`:
 
-    ```
+    ```yaml
     apiVersion: v1
     kind: Service
       metadata:

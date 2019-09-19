@@ -6,13 +6,14 @@ The role of KeyRotation container is to regenerate `oxauth-keys.jks`. After keys
 
 Below is an example of `docker-compose.yml` to deploy the KeyRotation container:
 
-```
+```yaml
 services:
   key-rotation:
-    image: gluufederation/key-rotation:3.1.6_01
+    image: gluufederation/key-rotation:4.0.0_dev
     environment:
       - GLUU_CONFIG_CONSUL_HOST=consul
       - GLUU_SECRET_VAULT_HOST=vault
+      - GLUU_PERSISTENCE_TYPE=ldap
       - GLUU_LDAP_URL=ldap:1636
       # when will next key rotation occurs (in hours)
       - GLUU_KEY_ROTATION_INTERVAL=48
