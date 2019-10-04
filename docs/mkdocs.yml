@@ -64,9 +64,7 @@ nav:
   - 'Upgrading': 'operation/upgrade.md'
   - 'oxAuth Key Rotation': 'operation/key-rotation.md'
 - 'Deployment Examples':
-  - 'Single Host': 'example/singlehost.md'
+  - 'Single Host (Docker Compose)': 'example/singlehost.md'
   - 'Docker Swarm Mode': 'example/swarm-mode.md'
-  - 'Minikube': 'example/minikube.md'
-  - 'Google Kubernetes Engine': 'example/gke.md'
+  - 'Kubernetes': 'example/kubernetes.md'
   # - 'RHEL': 'example/rhel.md'
-- 'FAQ': 'faq.md'
