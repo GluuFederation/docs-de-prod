@@ -53,6 +53,7 @@ nav:
   - 'NGINX': 'reference/nginx.md'
   - 'Key Rotation': 'reference/key-rotation.md'
   - 'CacheRefresh Rotation': 'reference/cr-rotate.md'
+  - 'Radius': 'reference/radius.md'
   - 'Upgrade': 'reference/upgrade.md'
 - 'Operation Guide':
   - 'Preparing the Server': 'operation/server.md'
