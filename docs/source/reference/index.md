@@ -6,7 +6,7 @@ Size was a major consideration in the base Docker image we used for our containe
 
 Docker containers generally have entrypoint scripts to prepare templates, configure files, run services, or anything else you need to run to properly initialize a container and run the process. For our containers, we pull most of our files and certificates from config and secret backends.
 
-Because there is a heirarchy of function to Gluu Server, startup orders are managed by custom scripts (originally designed by one of the contributors, Torstein Krause Johansen/@skybert), to ensure the containers don't begin their launch processes until the services superior to the container are fully started. However, there is a time limit, so a container dependent upon another container could fail if those "health checks" aren't being met.
+Because there is a heirarchy of function to Gluu Server, the startup order is managed by custom scripts (originally designed by one of the contributors, Torstein Krause Johansen/@skybert), to ensure the containers don't begin their launch processes until the services superior to the container are fully started. However, there is a time limit, so a container dependent upon another container could fail if those "health checks" aren't being met.
 
 ## Networking Considerations
 
