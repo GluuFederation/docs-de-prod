@@ -1,178 +1,230 @@
-# Upgrading to version 3.1.6
+# Upgrading to v4
 
 ## Overview
 
-The Gluu Server Docker Edition cannot be upgraded with a simple apt-get upgrade. This guide outlines the steps required to complete the upgrade from previous versions.
+As v4 introduces non-backward compatibility in terms of data structure, this guide outlines the steps required to complete the upgrade from Gluu Server v3.
 
-## LDAP
+## Exporting Data
 
-### Backup Existing Data
+1.  Make sure to backup existing LDAP data
 
-Before running the upgrade process, make sure to backup existing LDAP data.
+1.  Set environment variable as a placeholder for LDAP server password (for later use):
 
-### Updating Schema
+    ```sh
+    export LDAP_PASSWD=YOUR_PASSWORD_HERE
+    ```
 
-1.  Download the latest [101-ox.ldif](https://github.com/GluuFederation/docker-opendj/raw/3.1.6/schemas/101-ox.ldif) schema.
+1.  Assuming that existing LDAP container called `ldap` has data, export data from each backend:
 
-1.  Depends on the setup, there are various ways to mount the file into container.
-
-    1.  For a single host setup, mount `101-ox.ldif` to OpenDJ container directly. This is an example using `docker-compose.yml`:
-
-        ```yaml
-        services:
-          opendj:
-            image: gluufederation/opendj:3.1.6_02
-            volumes:
-              - /path/to/101-ox.ldif:/opt/opendj/config/schema/101-ox.ldif
-        ```
-
-    1.  For a multi-hosts setup using Docker Swarm Mode, we recommend to put the contents of `101-ox.ldif` into Docker Config:
+    1.  Export `o=gluu`
 
         ```sh
-        docker config create 101-ox /path/to/101-ox.ldif
+        docker exec -ti ldap /opt/opendj/bin/ldapsearch \
+            -Z \
+            -X \
+            -D "cn=directory manager" \
+            -w $LDAP_PASSWD \
+            -p 1636 \
+            -b "o=gluu" \
+            -s sub \
+            'objectClass=*' > gluu.ldif
         ```
 
-        and then mount the file into container:
-
-        ```yaml
-        services:
-          opendj:
-            image: gluufederation/opendj:3.1.6_02
-            configs:
-              - source: 101-ox
-                target: /opt/opendj/config/schema/101-ox.ldif
-
-        configs:
-          101-ox:
-            external: true
-        ```
-
-    1.  For a multi-hosts setup using Kubernetes, put the contents of `101-ox.ldif` into ConfigMaps:
+    1.  Export `o=site`
 
         ```sh
-        kubectl create cm opendj-schema --from-file=/path/to/101-ox.ldif
+        docker exec -ti ldap /opt/opendj/bin/ldapsearch \
+            -Z \
+            -X \
+            -D "cn=directory manager" \
+            -w $LDAP_PASSWD \
+            -p 1636 \
+            -b "o=site" \
+            -s sub \
+            'objectClass=*' > site.ldif
         ```
 
-        and then mount the file into container:
 
-        ```yaml
-        apiVersion: v1
-        kind: StatefulSet
-        metadata:
-          name: opendj
-        spec:
-          containers:
-            image: gluufederation/opendj:3.1.6_02
-            volumeMounts:
-              - name: opendj-schema-volume
-                mountPath: /opt/opendj/config/schema/101-ox.ldif
-                subPath: 101-ox.ldif
-          volumes:
-            - name: opendj-schema-volume
-              configMap:
-                name: opendj-schema
+    1.  Export `o=metric`
+
+        ```sh
+        docker exec -ti ldap /opt/opendj/bin/ldapsearch \
+            -Z \
+            -X \
+            -D "cn=directory manager" \
+            -w $LDAP_PASSWD \
+            -p 1636 \
+            -b "o=metric" \
+            -s sub \
+            'objectClass=*' > metric.ldif
         ```
 
-1.  Restart the container/service to allow changes in schema.
+1.  Unset `LDAP_PASSWD` environment variable
 
-## Upgrading from Docker Edition 3.1.4
+## Migrating Data
 
-The following steps are only required if upgrading to v. 3.1.6 from 3.1.4. If upgrading from 3.1.5, skip down to [Upgrade Container](#upgrade-container)
+1.  Deploy a temporary Wren:DS container; here's an example for Docker Compose:
 
-### Reconfiguring Backends
-
-1.  Resize the `site` backend:
-
-    ```sh
-    docker exec -ti opendj /opt/opendj/bin/dsconfig \
-        --trustAll \
-        --bindDN "cn=directory manager" \
-        --port 4444 \
-        --hostname 0.0.0.0 \
-        set-backend-prop --backend-name site --set db-cache-percent:20
+    ```yaml
+    services:
+      tmp_ldap:
+        image: gluufederation/wrends:4.0.0_dev
+        environment:
+          - GLUU_CONFIG_CONSUL_HOST=consul
+          - GLUU_SECRET_VAULT_HOST=vault
+          - GLUU_CERT_ALT_NAME=ldap
+          - GLUU_LDAP_AUTO_REPLICATE=false
+        container_name: tmp_ldap
+        volumes:
+          - ./volumes/v4/opendj/config:/opt/opendj/config
+          - ./volumes/v4/opendj/ldif:/opt/opendj/ldif
+          - ./volumes/v4/opendj/logs:/opt/opendj/logs
+          - ./volumes/v4/opendj/db:/opt/opendj/db
+          - ./volumes/v4/opendj/flag:/flag
+          - ./volumes/v4/opendj/backup:/opt/opendj/bak
+          - ./vault_role_id.txt:/etc/certs/vault_role_id
+          - ./vault_secret_id.txt:/etc/certs/vault_secret_id
+        restart: unless-stopped
+        labels:
+          - "SERVICE_IGNORE=yes"
     ```
 
-1.  Restart the OpenDJ container/service to free JVM heap memory.
+    !!! Note
+        **DO NOT** mount existing volumes used by `ldap` container; instead mount different volumes into `tmp_ldap` container.
 
-1.  Resize the `userRoot` backend:
-
-    ```sh
-    docker exec -ti opendj /opt/opendj/bin/dsconfig \
-        --trustAll \
-        --bindDN "cn=directory manager" \
-        --port 4444 \
-        --hostname 0.0.0.0 \
-        set-backend-prop --backend-name userRoot --set db-cache-percent:70
-    ```
-
-1.  Create the `metric` backend:
+    Afterwards run the container using the following command
 
     ```sh
-    docker exec -ti opendj /opt/opendj/bin/dsconfig \
-        --trustAll \
-        --bindDN "cn=directory manager" \
-        --port 4444 \
-        --hostname 0.0.0.0 \
-        create-backend \
-            --backend-name metric \
-            --set base-dn:o=metric \
-            --type je \
-            --set enabled:true \
-            --set db-cache-percent:10
+    docker-compose up -d tmp_ldap
     ```
 
-### Kubernetes Secrets
+    and wait until container running completely.
 
-For Kubernetes-based deployment, the `Role` object must be modified to add access to `secrets` API.
+1.  Run `gluufederation/upgrade:4.0.0_dev` to migrate existing LDAP data
 
-Example:
+    ```sh
+    docker run \
+        --rm \
+        --net container:consul \
+        -e GLUU_CONFIG_CONSUL_HOST=consul \
+        -e GLUU_SECRET_VAULT_HOST=vault \
+        -e GLUU_LDAP_URL=tmp_ldap:1636 \
+        -v $PWD/vault_role_id.txt:/etc/certs/vault_role_id \
+        -v $PWD/vault_secret_id.txt:/etc/certs/vault_secret_id \
+        -v $PWD/scripts:/app/scripts \
+        -v $PWD/gluu.ldif:/app/imports/gluu.ldif \
+        -v $PWD/site.ldif:/app/imports/site.ldif \
+        -v $PWD/metric.ldif:/app/imports/metric.ldif \
+        gluufederation/upgrade:4.0.0_dev --source 3.1.6 --target 4.0.0
+    ```
+
+    The migration process may take sometime; please wait until it is completed.
+
+    !!! Note
+        The upgrade process doesn't update custom scripts for oxAuth/oxTrust to avoid overwriting scripts that were modified by users. They must be updated them manually.
+
+3.  Once migration process is completed, remove the `tmp_ldap` container:
+
+    ```sh
+    docker rm -f tmp_ldap
+    ```
+
+## Switching to v4 Containers
+
+Once LDAP data already migrated, upgrade the container version to v4. Here's an example of Docker Compose manifest for v4:
 
 ```yaml
-# config-roles.yaml
-kind: Role
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: gluu-role
-  namespace: default
-rules:
-- apiGroups: [""] # "" refers to the core API group
-  resources: ["configmaps", "secrets"]
-  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
-```
+# use v2.x API to allow `mem_limit` option
+version: "2.4"
 
-Afterwards, run the following command `kubectl apply -f config-roles.yaml`
+services:
+  consul:
+    image: consul
+    command: agent -server -bootstrap -ui
+    hostname: consul-1
+    environment:
+      - CONSUL_BIND_INTERFACE=eth0
+      - CONSUL_CLIENT_INTERFACE=eth0
+    container_name: consul
+    restart: unless-stopped
+    volumes:
+      - ./volumes/consul:/consul/data
+    labels:
+      - "SERVICE_IGNORE=yes"
+    restart: unless-stopped
 
-## Upgrade Container
+  vault:
+    container_name: vault
+    image: vault:1.0.1
+    command: vault server -config=/vault/config
+    volumes:
+      - ./volumes/vault/config:/vault/config
+      - ./volumes/vault/data:/vault/data
+      - ./volumes/vault/logs:/vault/logs
+      - ./vault_gluu_policy.hcl:/vault/config/policy.hcl
+    cap_add:
+      - IPC_LOCK
+    environment:
+      - VAULT_REDIRECT_INTERFACE=eth0
+      - VAULT_CLUSTER_INTERFACE=eth0
+      - VAULT_ADDR=http://0.0.0.0:8200
+      - VAULT_LOCAL_CONFIG={"backend":{"consul":{"address":"consul:8500","path":"vault/"}},"listener":{"tcp":{"address":"0.0.0.0:8200","tls_disable":1}}}
+    restart: unless-stopped
+    depends_on:
+      - consul
+    labels:
+      - "SERVICE_IGNORE=yes"
 
-By running the `gluufederation/upgrade:3.1.6_03` container, the LDAP data will be adjusted to match conventions in 3.1.6.
+  registrator:
+    image: gluufederation/registrator:dev
+    command: registrator -internal -cleanup -resync 30 -retry-attempts 5 -retry-interval 10 consul://consul:8500
+    container_name: registrator
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock
+    restart: unless-stopped
+    depends_on:
+      - consul
 
-### Upgrade container from 3.1.5
+  nginx:
+    image: gluufederation/nginx:4.0.0_dev
+    environment:
+      - GLUU_CONFIG_CONSUL_HOST=consul
+      - GLUU_SECRET_VAULT_HOST=vault
+    ports:
+      - "80:80"
+      - "443:443"
+    container_name: nginx
+    restart: unless-stopped
+    labels:
+      - "SERVICE_IGNORE=yes"
+    volumes:
+      - ./vault_role_id.txt:/etc/certs/vault_role_id
+      - ./vault_secret_id.txt:/etc/certs/vault_secret_id
 
-```sh
-docker run \
-    --rm \
-    --net container:consul \
-    -e GLUU_CONFIG_CONSUL_HOST=consul \
-    -e GLUU_SECRET_VAULT_HOST=vault \
-    -e GLUU_LDAP_URL=ldap:1636 \
-    -v /path/to/vault_role_id.txt:/etc/certs/vault_role_id \
-    -v /path/to/vault_secret_id.txt:/etc/certs/vault_secret_id \
-    gluufederation/upgrade:3.1.6_03 --source 3.1.5 --target 3.1.6
-```
-
-### Upgrade container from 3.1.4
-
-```sh
-docker run \
-    --rm \
-    --net container:consul \
-    -e GLUU_CONFIG_CONSUL_HOST=consul \
-    -e GLUU_SECRET_VAULT_HOST=vault \
-    -e GLUU_LDAP_URL=ldap:1636 \
-    -v /path/to/vault_role_id.txt:/etc/certs/vault_role_id \
-    -v /path/to/vault_secret_id.txt:/etc/certs/vault_secret_id \
-    gluufederation/upgrade:3.1.6_03 --source 3.1.4 --target 3.1.6
+  ldap:
+    image: gluufederation/wrends:4.0.0_dev
+    environment:
+      - GLUU_CONFIG_CONSUL_HOST=consul
+      - GLUU_SECRET_VAULT_HOST=vault
+      # the value must match service name `ldap` because other containers
+      # use this value as LDAP hostname
+      - GLUU_CERT_ALT_NAME=ldap
+      - GLUU_LDAP_ADVERTISE_ADDR=ldap
+      - GLUU_PERSISTENCE_TYPE=ldap
+      - GLUU_PERSISTENCE_LDAP_MAPPING=default
+    container_name: ldap
+    volumes:
+      - ./volumes/v4/opendj/config:/opt/opendj/config
+      - ./volumes/v4/opendj/ldif:/opt/opendj/ldif
+      - ./volumes/v4/opendj/logs:/opt/opendj/logs
+      - ./volumes/v4/opendj/db:/opt/opendj/db
+      - ./volumes/v4/opendj/backup:/opt/opendj/bak
+      - ./vault_role_id.txt:/etc/certs/vault_role_id
+      - ./vault_secret_id.txt:/etc/certs/vault_secret_id
+    restart: unless-stopped
+    labels:
+      - "SERVICE_IGNORE=yes"
 ```
 
 !!! Note
-    The upgrade process doesn't update custom scripts for oxAuth/oxTrust to avoid overwriting a script that was modified by users. They must be updated them manually.
+    Remember to mount correct volumes for `ldap` service. In example above, `volumes/v4/opendj` contains migrated data from v3.
