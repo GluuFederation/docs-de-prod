@@ -68,7 +68,7 @@ As v4 introduces non-backward compatibility in terms of data structure, this gui
     ```yaml
     services:
       tmp_ldap:
-        image: gluufederation/wrends:4.0.0_dev
+        image: gluufederation/wrends:4.0.0_01
         environment:
           - GLUU_CONFIG_CONSUL_HOST=consul
           - GLUU_SECRET_VAULT_HOST=vault
@@ -100,7 +100,7 @@ As v4 introduces non-backward compatibility in terms of data structure, this gui
 
     and wait until container running completely.
 
-1.  Run `gluufederation/upgrade:4.0.0_dev` to migrate existing LDAP data
+1.  Run `gluufederation/upgrade:4.0.0_01` to migrate existing LDAP data
 
     ```sh
     docker run \
@@ -115,7 +115,7 @@ As v4 introduces non-backward compatibility in terms of data structure, this gui
         -v $PWD/gluu.ldif:/app/imports/gluu.ldif \
         -v $PWD/site.ldif:/app/imports/site.ldif \
         -v $PWD/metric.ldif:/app/imports/metric.ldif \
-        gluufederation/upgrade:4.0.0_dev --source 3.1.6 --target 4.0.0
+        gluufederation/upgrade:4.0.0_01 --source 3.1.6 --target 4.0.0
     ```
 
     The migration process may take sometime; please wait until it is completed.
@@ -186,7 +186,7 @@ services:
       - consul
 
   nginx:
-    image: gluufederation/nginx:4.0.0_dev
+    image: gluufederation/nginx:4.0.0_01
     environment:
       - GLUU_CONFIG_CONSUL_HOST=consul
       - GLUU_SECRET_VAULT_HOST=vault
@@ -202,7 +202,7 @@ services:
       - ./vault_secret_id.txt:/etc/certs/vault_secret_id
 
   ldap:
-    image: gluufederation/wrends:4.0.0_dev
+    image: gluufederation/wrends:4.0.0_01
     environment:
       - GLUU_CONFIG_CONSUL_HOST=consul
       - GLUU_SECRET_VAULT_HOST=vault

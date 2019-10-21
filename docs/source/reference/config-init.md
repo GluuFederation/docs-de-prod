@@ -4,7 +4,7 @@ ConfigInit is a special container to load (generate/restore), dump (backup) the 
 
 ## Versions
 
-- Stable: N/A
+- Stable: `gluufederation/config-init:4.0.0_01`
 - Unstable: `gluufederation/config-init:4.0.0_dev`
 
 Refer to [Changelog](https://github.com/GluuFederation/docker-config-init/blob/4.0/CHANGES.md) for details on new features, bug fixes, or older releases.
@@ -82,7 +82,7 @@ The load command can be used either to generate or restore config and secret for
         -v /path/to/host/volume:/opt/config-init/db \
         -v /path/to/vault_role_id.txt:/etc/certs/vault_role_id \
         -v /path/to/vault_secret_id.txt:/etc/certs/vault_secret_id \
-        gluufederation/config-init:4.0.0_dev load
+        gluufederation/config-init:4.0.0_01 load
     ```
 
 -   To restore config and secret from backup of `/path/to/host/volume/config.json` and `/path/to/host/volume/secret.json`, mount the directory as `/opt/config-init/db` directory inside the container:
@@ -98,7 +98,7 @@ The load command can be used either to generate or restore config and secret for
         -v /path/to/host/volume:/opt/config-init/db \
         -v /path/to/vault_role_id.txt:/etc/certs/vault_role_id \
         -v /path/to/vault_secret_id.txt:/etc/certs/vault_secret_id \
-        gluufederation/config-init:4.0.0_dev load
+        gluufederation/config-init:4.0.0_01 load
     ```
 
 ### dump
@@ -118,7 +118,7 @@ docker run \
     -v /path/to/host/volume:/opt/config-init/db \
     -v /path/to/vault_role_id.txt:/etc/certs/vault_role_id \
     -v /path/to/vault_secret_id.txt:/etc/certs/vault_secret_id \
-    gluufederation/config-init:4.0.0_dev dump
+    gluufederation/config-init:4.0.0_01 dump
 ```
 
 ### migrate
@@ -135,5 +135,5 @@ docker run \
     -e GLUU_SECRET_VAULT_HOST=vault \
     -v /path/to/vault_role_id.txt:/etc/certs/vault_role_id \
     -v /path/to/vault_secret_id.txt:/etc/certs/vault_secret_id \
-    gluufederation/config-init:4.0.0_dev migrate
+    gluufederation/config-init:4.0.0_01 migrate
 ```

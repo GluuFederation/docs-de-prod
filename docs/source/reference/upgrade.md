@@ -4,7 +4,7 @@ Upgrade Container for Gluu Server container edition.
 
 ## Versions
 
-- Stable: N/A
+- Stable: `gluufederation/upgrade:4.0.0_01`
 - Unstable: `gluufederation/upgrade:4.0.0_dev`
 
 Refer to [Changelog](https://github.com/GluuFederation/docker-upgrade/blob/4.0/CHANGES.md) for details on new features, bug fixes, or older releases.
@@ -68,6 +68,6 @@ Example:
         -e GLUU_LDAP_URL=ldap:1636 \
         -v /path/to/vault_role_id.txt:/etc/certs/vault_role_id \
         -v /path/to/vault_secret_id.txt:/etc/certs/vault_secret_id \
-        gluufederation/upgrade:4.0.0_dev \
+        gluufederation/upgrade:4.0.0_01 \
             --source 3.1.6 \
             --target 4.0.0
