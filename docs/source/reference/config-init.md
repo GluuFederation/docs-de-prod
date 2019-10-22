@@ -1,13 +1,13 @@
 ## Overview
 
-ConfigInit is a special container to load (generate/restore), dump (backup) the config and secrets.
+ConfigInit is a special container used to load (generate/restore) and dump (backup) the configuration and secrets.
 
 ## Versions
 
 - Stable: `gluufederation/config-init:4.0.0_01`
 - Unstable: `gluufederation/config-init:4.0.0_dev`
 
-Refer to [Changelog](https://github.com/GluuFederation/docker-config-init/blob/4.0/CHANGES.md) for details on new features, bug fixes, or older releases.
+Refer to the [Changelog](https://github.com/GluuFederation/docker-config-init/blob/4.0/CHANGES.md) for details on new features, bug fixes, or older releases.
 
 ## Environment Variables
 
@@ -32,7 +32,7 @@ The following environment variables are supported by the container:
 - `GLUU_SECRET_VAULT_PORT`: port of Vault (default to `8200`).
 - `GLUU_SECRET_VAULT_VERIFY`: whether to verify cert or not (default to `false`).
 - `GLUU_SECRET_VAULT_ROLE_ID_FILE`: path to file contains Vault AppRole role ID (default to `/etc/certs/vault_role_id`).
-- `GLUU_SECRET_VAULT_SECRET_ID_FILE`: path to file contains Vault Approle secret ID (default to `/etc/certs/vault_secret_id`).
+- `GLUU_SECRET_VAULT_SECRET_ID_FILE`: path to file contains Vault AppRole secret ID (default to `/etc/certs/vault_secret_id`).
 - `GLUU_SECRET_VAULT_CERT_FILE`: path to Vault cert file (default to `/etc/certs/vault_client.crt`).
 - `GLUU_SECRET_VAULT_KEY_FILE`: path to Vault key file (default to `/etc/certs/vault_client.key`).
 - `GLUU_SECRET_VAULT_CACERT_FILE`: path to Vault CA cert file (default to `/etc/certs/vault_ca.crt`). This file will be used if it exists and `GLUU_SECRET_VAULT_VERIFY` set to `true`.
@@ -55,7 +55,7 @@ The following commands are supported by the container:
 
 The load command can be used either to generate or restore config and secret for the cluster.
 
--   To generate initial config and secret, create `/path/to/host/volume/generate.json` similar to example below:
+-   To generate the initial configuration and secret, create `/path/to/host/volume/generate.json` similar to example below:
 
     ```json
     {
@@ -85,7 +85,7 @@ The load command can be used either to generate or restore config and secret for
         gluufederation/config-init:4.0.0_01 load
     ```
 
--   To restore config and secret from backup of `/path/to/host/volume/config.json` and `/path/to/host/volume/secret.json`, mount the directory as `/opt/config-init/db` directory inside the container:
+-   To restore configuration and secrets from a backup of `/path/to/host/volume/config.json` and `/path/to/host/volume/secret.json`, mount the directory as `/opt/config-init/db` inside the container:
 
     ```sh
     docker run \
@@ -103,7 +103,7 @@ The load command can be used either to generate or restore config and secret for
 
 ### dump
 
-The dump command will dump all config and secret from the backends saved into `/opt/config-init/db/config.json` and `/opt/config-init/db/secret.json` files.
+The dump command will dump all configuration and secrets from the backends saved into the `/opt/config-init/db/config.json` and `/opt/config-init/db/secret.json` files.
 
 Please note that to dump this file into the host, mount a volume to the `/opt/config-init/db` directory as seen in the following example:
 
@@ -123,7 +123,7 @@ docker run \
 
 ### migrate
 
-The migrate command exports secret that previously saved in config backend into secret backend.
+The migrate command exports secrets that were previously saved in the configuration backend into the secret backend.
 
 ```sh
 docker run \
