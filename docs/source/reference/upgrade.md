@@ -1,6 +1,6 @@
 ## Overview
 
-Upgrade Container for Gluu Server container edition.
+Upgrade Container for Gluu Server Docker Edition.
 
 ## Versions
 
