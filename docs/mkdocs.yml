@@ -40,7 +40,7 @@ nav:
 - ' ': 'https:/gluu.org/docs'
 - ' ': 'https:/gluu.org/docs'
 - 'Introduction': 'index.md'
-- 'What's new in v4': '4.x-intro.md'
+- 'Whats new in v4': '4.x-intro.md'
 - 'Technical Reference':
   - 'Build Logic': 'reference/index.md'
   - '3rd-Party Containers': 'reference/third-party.md'
