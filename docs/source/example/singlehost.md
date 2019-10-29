@@ -44,8 +44,8 @@ List of supported services:
 | `oxauth`            | `SVC_OXAUTH`           | no        | yes     |
 | `oxtrust`           | `SVC_OXTRUST`          | no        | yes     |
 | `ldap`              | `SVC_LDAP`             | no        | yes     |
-| `oxpassport`        | `SVC_OXPASSPORT`       | no        | yes     |
-| `oxshibboleth`      | `SVC_OXSHIBBOLETH`     | no        | yes     |
+| `oxpassport`        | `SVC_OXPASSPORT`       | no        | no      |
+| `oxshibboleth`      | `SVC_OXSHIBBOLETH`     | no        | no      |
 | `redis`             | `SVC_REDIS`            | no        | no      |
 | `radius`            | `SVC_RADIUS`           | no        | no      |
 | `vault` auto-unseal | `SVC_VAULT_AUTOUNSEAL` | no        | no      |
