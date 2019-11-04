@@ -9,9 +9,9 @@ The following is a thorough explanation of the process we used to make launching
 -  Download Manifests
 
     ```sh
-    wget https://github.com/GluuFederation/community-edition-containers/archive/4.0.0.zip \
-        && unzip 4.0.0.zip
-    cd community-edition-containers-4.0.0/examples/single-host
+    wget https://github.com/GluuFederation/community-edition-containers/archive/4.0.zip \
+        && unzip 4.0.zip
+    cd community-edition-containers-4.0/examples/single-host
     chmod +x run_all.sh
     ```
 

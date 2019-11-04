@@ -9,9 +9,9 @@ What follows is an explanation of the process we used to deploy clustered Gluu S
 -   Download Manifests
 
     ```sh
-    wget -q https://github.com/GluuFederation/enterprise-edition/archive/4.0.0.zip
-    unzip 4.0.0.zip
-    cd enterprise-edition-4.0.0/examples/swarm/
+    wget -q https://github.com/GluuFederation/enterprise-edition/archive/4.0.zip \
+        && unzip 4.0.zip
+    cd enterprise-edition-4.0/examples/swarm/
     ```
 
 -   For **OpenStack** users, take a look at [these](./#notes-for-openstack-users) notes before moving forward

@@ -11,8 +11,8 @@ Note the following points:
 
 ## Versions
 
-- Stable: `gluufederation/nginx:4.0.0_01`.
-- Unstable: `gluufederation/nginx:4.0.0_dev`.
+- Stable: `gluufederation/nginx:4.0.1_01`.
+- Unstable: `gluufederation/nginx:4.0.1_dev`.
 
 Refer to [Changelog](https://github.com/GluuFederation/docker-nginx/blob/4.0/CHANGES.md) for details on new features, bug fixes, or older releases.
 

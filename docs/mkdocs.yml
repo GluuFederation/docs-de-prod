@@ -45,7 +45,7 @@ nav:
   - 'Build Logic': 'reference/index.md'
   - '3rd-Party Containers': 'reference/third-party.md'
   - 'Config Init': 'reference/config-init.md'
-  - 'OpenDJ': 'reference/opendj.md'
+  - 'OpenDJ/Wren:DS': 'reference/opendj.md'
   - 'Persistence': 'reference/persistence.md'
   - 'oxAuth': 'reference/oxauth.md'
   - 'oxTrust': 'reference/oxtrust.md'

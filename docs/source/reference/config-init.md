@@ -4,8 +4,8 @@ ConfigInit is a special container used to load (generate/restore) and dump (back
 
 ## Versions
 
-- Stable: `gluufederation/config-init:4.0.0_01`
-- Unstable: `gluufederation/config-init:4.0.0_dev`
+- Stable: `gluufederation/config-init:4.0.1_01`
+- Unstable: `gluufederation/config-init:4.0.1_dev`
 
 Refer to the [Changelog](https://github.com/GluuFederation/docker-config-init/blob/4.0/CHANGES.md) for details on new features, bug fixes, or older releases.
 
@@ -82,7 +82,7 @@ The load command can be used either to generate or restore config and secret for
         -v /path/to/host/volume:/opt/config-init/db \
         -v /path/to/vault_role_id.txt:/etc/certs/vault_role_id \
         -v /path/to/vault_secret_id.txt:/etc/certs/vault_secret_id \
-        gluufederation/config-init:4.0.0_01 load
+        gluufederation/config-init:4.0.1_01 load
     ```
 
 -   To restore configuration and secrets from a backup of `/path/to/host/volume/config.json` and `/path/to/host/volume/secret.json`, mount the directory as `/opt/config-init/db` inside the container:
@@ -98,7 +98,7 @@ The load command can be used either to generate or restore config and secret for
         -v /path/to/host/volume:/opt/config-init/db \
         -v /path/to/vault_role_id.txt:/etc/certs/vault_role_id \
         -v /path/to/vault_secret_id.txt:/etc/certs/vault_secret_id \
-        gluufederation/config-init:4.0.0_01 load
+        gluufederation/config-init:4.0.1_01 load
     ```
 
 ### dump
@@ -118,7 +118,7 @@ docker run \
     -v /path/to/host/volume:/opt/config-init/db \
     -v /path/to/vault_role_id.txt:/etc/certs/vault_role_id \
     -v /path/to/vault_secret_id.txt:/etc/certs/vault_secret_id \
-    gluufederation/config-init:4.0.0_01 dump
+    gluufederation/config-init:4.0.1_01 dump
 ```
 
 ### migrate
@@ -135,5 +135,5 @@ docker run \
     -e GLUU_SECRET_VAULT_HOST=vault \
     -v /path/to/vault_role_id.txt:/etc/certs/vault_role_id \
     -v /path/to/vault_secret_id.txt:/etc/certs/vault_secret_id \
-    gluufederation/config-init:4.0.0_01 migrate
+    gluufederation/config-init:4.0.1_01 migrate
 ```
