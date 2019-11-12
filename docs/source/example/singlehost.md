@@ -78,7 +78,7 @@ services:
     container_name: my-oxauth
 ```
 
-For reference on multiple Compose file, please take a look at https://docs.docker.com/compose/extends/#multiple-compose-files.
+For reference, review the Docker docs for [multiple compose files](https://docs.docker.com/compose/extends/#multiple-compose-files).
 
 ### Choosing Persistence Backends
 
