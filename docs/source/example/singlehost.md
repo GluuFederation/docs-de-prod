@@ -93,7 +93,7 @@ To choose persistence backend, create `settings.sh` (if not exist) and set the c
 ```python
 PERSISTENCE_TYPE="couchbase"    # Couchbase will be selected
 PERSISTENCE_LDAP_MAPPING="user" # store user mapping in LDAP
-COUCBASE_USER="admin"           # Couchbase user
+COUCHBASE_USER="admin"          # Couchbase user
 COUCHBASE_URL="192.168.100.4"   # Host or IP address of Couchbase
 ```
 
