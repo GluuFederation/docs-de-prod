@@ -1,6 +1,6 @@
 ## Overview
 
-This operational guide is for a Gluu Server DE deployment that uses `vault` as the `GLUU_SECRET_ADAPTER` backend.
+This operational guide is for a Gluu Server deployment that uses `vault` as the `GLUU_SECRET_ADAPTER` backend.
 If using a Kubernetes deployment, this guide is optional.
 
 ## Choosing a Storage Backend
@@ -192,6 +192,16 @@ docker exec -ti vault vault login -no-print
 
 When prompted for a token, enter the `<random-token>` value that you noted in the last step.
 
+## Enabling Secret Engine
+
+Gluu Server containers only support Vault's [KV v1](https://www.vaultproject.io/docs/secrets/kv/kv-v1.html).
+
+Starting from Vault 1.1.0, secret engine must be enabled manually, for example:
+
+```sh
+docker run vault vault secrets enable -version=1 -path=secret kv
+```
+
 ## Enabling Custom Policy
 
 As we have _mounted_ a custom policy file, we need to enable it:
@@ -202,7 +212,7 @@ docker exec vault vault policy write gluu /vault/config/policy.hcl
 
 ## Enabling AppRole Auth
 
-[AppRole](https://www.vaultproject.io/docs/auth/approle.html) auth is used by Gluu Server DE containers to access Vault secrets, so we need to enable and map the policy onto it:
+[AppRole](https://www.vaultproject.io/docs/auth/approle.html) auth is used by Gluu Server containers to access Vault secrets, so we need to enable and map the policy onto it:
 
 ```sh
 docker exec vault vault auth enable approle
@@ -234,7 +244,7 @@ docker exec vault vault write -f -field=secret_id auth/approle/role/gluu/secret-
 Save the output as `vault_secret_id.txt` to a file (and `docker secret` or Kubernetes `secrets` if needed).
 
 !!! Note
-    The RoleID and SecretID values are required by all Gluu Server DE containers.
+    The RoleID and SecretID values are required by all Gluu Server containers.
 
 ## Unsealing Vault Manually
 

@@ -94,13 +94,14 @@ To choose persistence backend, create `settings.sh` (if not exist) and set the c
 PERSISTENCE_TYPE="couchbase"    # Couchbase will be selected
 PERSISTENCE_LDAP_MAPPING="user" # store user mapping in LDAP
 COUCHBASE_USER="admin"          # Couchbase user
-COUCHBASE_URL="192.168.100.4"   # Host or IP address of Couchbase
+COUCHBASE_URL="192.168.100.4"   # Hosts or IP addresses (comma-separated) of Couchbase
 ```
 
-If `couchbase` or `hybrid` is selected, there are 2 additional steps required to satisfy dependencies:
+If `couchbase` or `hybrid` is selected, there are additional steps required to satisfy dependencies:
 
 - put Couchbase cluster certificate into `couchbase.crt` file
 - put Couchbase password into `couchbase_password` file
+- Couchbase cluster must have `data`, `index`, and `query` services at minimum
 
 ### Using Vault auto-unseal
 

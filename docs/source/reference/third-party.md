@@ -23,4 +23,4 @@ To use the Vault container within Gluu Server Docker Edition, the user needs to 
 
 Due to the design of Docker networking where the container IP gets recycled dynamically, the [Registrator](http://gliderlabs.github.io/registrator/latest/) container is used for registering and deregistering oxAuth, oxTrust, oxShibboleth, and oxPassport container IPs. With the help of Registrator, the Nginx container will route the traffic to available oxAuth/oxTrust/oxShibboleth/oxPassport backends.
 
-To connect to Consul container that deployed using HTTPS scheme, please use the `gluufederation/registrator:dev` image instead.
+To connect to Consul container that deployed using HTTPS scheme, please use the `gliderlabs/registrator:master` image instead.

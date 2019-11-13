@@ -68,7 +68,7 @@ As v4 introduces non-backward compatibility in terms of data structure, this gui
     ```yaml
     services:
       tmp_ldap:
-        image: gluufederation/wrends:4.0.1_01
+        image: gluufederation/wrends:4.0.1_02
         environment:
           - GLUU_CONFIG_CONSUL_HOST=consul
           - GLUU_SECRET_VAULT_HOST=vault
@@ -176,7 +176,7 @@ services:
       - "SERVICE_IGNORE=yes"
 
   registrator:
-    image: gluufederation/registrator:dev
+    image: gliderlabs/registrator:master
     command: registrator -internal -cleanup -resync 30 -retry-attempts 5 -retry-interval 10 consul://consul:8500
     container_name: registrator
     volumes:
@@ -186,7 +186,7 @@ services:
       - consul
 
   nginx:
-    image: gluufederation/nginx:4.0.1_01
+    image: gluufederation/nginx:4.0.1_02
     environment:
       - GLUU_CONFIG_CONSUL_HOST=consul
       - GLUU_SECRET_VAULT_HOST=vault
@@ -202,7 +202,7 @@ services:
       - ./vault_secret_id.txt:/etc/certs/vault_secret_id
 
   ldap:
-    image: gluufederation/wrends:4.0.1_01
+    image: gluufederation/wrends:4.0.1_02
     environment:
       - GLUU_CONFIG_CONSUL_HOST=consul
       - GLUU_SECRET_VAULT_HOST=vault

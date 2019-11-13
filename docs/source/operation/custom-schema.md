@@ -12,7 +12,7 @@ Below is an example of how to mount custom schema:
 ```sh
 docker run \
     -v /path/to/78-myAttributes.ldif:/opt/opendj/template/config/schema/78-myAttributes.ldif \
-    gluufederation/wrends:4.0.1_01
+    gluufederation/wrends:4.0.1_02
 ```
 
 As we can see, `78-myAttributes.ldif` is mounted as `/opt/opendj/template/config/schema/78-myAttributes.ldif` inside the container, which eventually will be copied to `/opt/opendj/config/schema/78-myAttributes.ldif` automatically. This custom schema will be loaded by the OpenDJ server upon startup.
@@ -25,7 +25,7 @@ Mounting this file into `/opt/opendj/template/config/schema` won't work, as it w
 ```sh
 docker run \
     -v /path/to/79-otherAttributes.ldif:/opt/opendj/config/schema/79-otherAttributes.ldif \
-    gluufederation/wrends:4.0.1_01
+    gluufederation/wrends:4.0.1_02
 ```
 
 !!! Note
@@ -47,7 +47,7 @@ Mount the schema (depending on the deployment scenario) into the container:
 # before deployment
 services:
   opendj:
-    image: gluufederation/wrends:4.0.1_01
+    image: gluufederation/wrends:4.0.1_02
     configs:
       - source: custom-ldap-schema
         target: /opt/opendj/template/config/schema/78-myAttributes.ldif
@@ -63,7 +63,7 @@ Or:
 # after deployment, restart service if needed
 services:
   opendj:
-    image: gluufederation/wrends:4.0.1_01
+    image: gluufederation/wrends:4.0.1_02
     configs:
       - source: custom-ldap-schema
         target: /opt/opendj/config/schema/78-myAttributes.ldif
@@ -91,7 +91,7 @@ metadata:
   name: opendj
 spec:
   containers:
-    image: gluufederation/wrends:4.0.1_01
+    image: gluufederation/wrends:4.0.1_02
     volumeMounts:
       - name: opendj-schema-volume
         mountPath: /opt/opendj/template/config/schema/78-myAttributes.ldif
@@ -111,7 +111,7 @@ Or:
       name: opendj
     spec:
       containers:
-        image: gluufederation/wrends:4.0.1_01
+        image: gluufederation/wrends:4.0.1_02
         volumeMounts:
           - name: opendj-schema-volume
             mountPath: /opt/opendj/config/schema/78-myAttributes.ldif
