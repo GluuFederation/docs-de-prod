@@ -9,7 +9,7 @@ Below is an example of `docker-compose.yml` to deploy the KeyRotation container:
 ```yaml
 services:
   key-rotation:
-    image: gluufederation/key-rotation:4.0.1_04
+    image: gluufederation/key-rotation:4.0.1_05
     environment:
       - GLUU_CONFIG_CONSUL_HOST=consul
       - GLUU_SECRET_VAULT_HOST=vault

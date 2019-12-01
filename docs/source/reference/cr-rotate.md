@@ -63,7 +63,7 @@ The following environment variables are supported by the container:
     ```sh
     docker run \
         --label APP_NAME=oxtrust \
-        gluufederation/oxtrust:4.0.1_04
+        gluufederation/oxtrust:4.0.1_05
     ```
 
     Example for Kubernetes:

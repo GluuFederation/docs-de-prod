@@ -4,7 +4,7 @@ Persistence is a special container to load initial data for LDAP or Couchbase.
 
 ## Versions
 
-- Stable: `gluufederation/persistence:4.0.1_04`.
+- Stable: `gluufederation/persistence:4.0.1_05`.
 - Unstable: `gluufederation/persistence:4.0.1_dev`.
 
 Refer to [Changelog](https://github.com/GluuFederation/docker-persistence/blob/4.0/CHANGES.md) for details on new features, bug fixes, or older releases.
@@ -53,6 +53,13 @@ The following environment variables are supported by the container:
 - `GLUU_COUCHBASE_USER`: Username of Couchbase server (default to `admin`); required if `GLUU_PERSISTENCE_TYPE` is set to `couchbase` or `hybrid`.
 - `GLUU_COUCHBASE_CERT_FILE`: Couchbase root certificate location (default to `/etc/certs/couchbase.crt`); required if `GLUU_PERSISTENCE_TYPE` is set to `couchbase` or `hybrid`.
 - `GLUU_COUCHBASE_PASSWORD_FILE`: Path to file contains Couchbase password (default to `/etc/gluu/conf/couchbase_password`); required if `GLUU_PERSISTENCE_TYPE` is set to `couchbase` or `hybrid`.
+- `GLUU_OXTRUST_API_ENABLED`: Enable oxTrust API (default to `false`).
+- `GLUU_OXTRUST_API_TEST_MODE`: Enable oxTrust API test mode; not recommended for production (default to `false`). If set to `false`, UMA mode is activated. See [oxTrust API docs](https://gluu.org/docs/oxtrust-api/4.0/) for reference.
+- `GLUU_CASA_ENABLED`: Enable Casa-related features; custom scripts, ACR, UI menu, etc. (default to `false`).
+- `GLUU_PASSPORT_ENABLED`: Enable Passport-related features; custom scripts, ACR, UI menu, etc. (default to `false`).
+- `GLUU_RADIUS_ENABLED`: Enable Radius-related features; UI menu, etc. (default to `false`).
+- `GLUU_PASSPORT_ENABLED`: Enable Passport-related features; custom scripts, ACR, UI menu, etc. (default to `false`).
+- `GLUU_SAML_ENABLED`: Enable SAML-related features; UI menu, etc. (default to `false`).
 
 ## Initializing Data
 
@@ -92,7 +99,7 @@ docker run --rm \
     -e GLUU_LDAP_URL=ldap:1636 \
     -v /path/to/vault_role_id.txt:/etc/certs/vault_role_id \
     -v /path/to/vault_secret_id.txt:/etc/certs/vault_secret_id \
-    gluufederation/persistence:4.0.1_04
+    gluufederation/persistence:4.0.1_05
 ```
 
 The process may take awhile, check the output of the `persistence` container log.
@@ -128,7 +135,7 @@ docker run --rm \
     -v /path/to/couchbase_password:/etc/gluu/conf/couchbase_password \
     -v /path/to/vault_role_id.txt:/etc/certs/vault_role_id \
     -v /path/to/vault_secret_id.txt:/etc/certs/vault_secret_id \
-    gluufederation/persistence:4.0.1_04
+    gluufederation/persistence:4.0.1_05
 ```
 
 The process may take awhile, check the output of the `persistence` container log.
@@ -192,5 +199,5 @@ Hybrid is a mix of LDAP and Couchbase persistence backend. To initialize data fo
         -v /path/to/couchbase_password:/etc/gluu/conf/couchbase_password \
         -v /path/to/vault_role_id.txt:/etc/certs/vault_role_id \
         -v /path/to/vault_secret_id.txt:/etc/certs/vault_secret_id \
-        gluufederation/persistence:4.0.1_04
+        gluufederation/persistence:4.0.1_05
     ```
