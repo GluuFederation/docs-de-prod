@@ -3,16 +3,16 @@
 The following sections are guides on how to access oxTrust API using within Gluu Server container deployment.
 See [oxTrust API docs](https://gluu.org/docs/oxtrust-api/4.0/) for reference.
 
-## Available API Modes
-
-The oxTrust API has two modes that administrators can configure according to need.
-
 ## Prerequisites
 
 1. `gluufederation/config-init:4.0.1_05` image (test mode client is introduced).
 1. `gluufederation/persistence:4.0.1_05` image (enable oxTrust API upon deployment).
 1. `gluufederation/oxauth:4.0.1_05` image.
 1. `gluufederation/oxtrust:4.0.1_05` image.
+
+## Available API Modes
+
+The oxTrust API has two modes that administrators can configure according to need.
 
 ### Test Mode
 
