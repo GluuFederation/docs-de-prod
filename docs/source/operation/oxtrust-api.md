@@ -116,7 +116,7 @@ The oxTrust API has two modes that administrators can configure according to nee
 1.  Make request to oxTrust API (in this example, we're going to use `https://demoexample.gluu.org` URL), for example:
 
     ```sh
-    curl -k https://demoexample.gluu.org/identity/restv1/api/v1/groups
+    curl -k -I https://demoexample.gluu.org/identity/restv1/api/v1/groups
     ```
 
     The request is rejected due to unauthenticated client and the response headers will be similar as the following:
