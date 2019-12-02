@@ -36,8 +36,15 @@ The oxTrust API has two modes that administrators can configure according to nee
         -v $PWD/vault_secret_id.txt:/etc/certs/vault_secret_id \
         gluufederation/persistence:4.0.1_05
     ```
-
-    Alternatively, enable the features using oxTrust UI.
+    
+    If using kubernetes `create.sh` answer yes to both the following prompts: 
+    
+    ```sh
+    Enable oxTrust Api         [N]?[Y/N]                               y
+    Enable oxTrust Test Mode [N]?[Y/N]                                 y
+    ```
+    
+    Alternatively, enable the features using oxTrust UI. 
 
 1.  Obtain Test mode client credentials from config and secret backends.
 
@@ -110,7 +117,13 @@ The oxTrust API has two modes that administrators can configure according to nee
         -v $PWD/vault_secret_id.txt:/etc/certs/vault_secret_id \
         gluufederation/persistence:4.0.1_05
     ```
-
+    
+    If using kubernetes `create.sh` answer `Y` to enabling `oxTrust API` and `N` to enabling `Test Mode`.
+    
+    ```sh
+    Enable oxTrust Api         [N]?[Y/N]                               y
+    Enable oxTrust Test Mode [N]?[Y/N]                                 N
+    ```
     Alternatively, enable the features using oxTrust UI.
 
 1.  Make request to oxTrust API (in this example, we're going to use `https://demoexample.gluu.org` URL), for example:
@@ -134,6 +147,15 @@ The oxTrust API has two modes that administrators can configure according to nee
     docker cp oxauth:/etc/certs/api-rp.jks api-rp.jks \
         && docker cp oxauth:/etc/certs/api-rp-keys.json api-rp-keys.json
     ```
+    
+    In kubernetes get the oxauth pod name and use the following commands:
+  
+      ```sh
+    kubectl cp oxauth-acsacsd2123:etc/certs/api-rp.jks api-rp.jks \
+        && kubectl cp oxauth-acsacsd2123:etc/certs/api-rp-keys.json api-rp-keys.json
+    ```
+    
+
 
 1.  Determine algorithm for signing JWT string, i.e. `RS256`.
 
