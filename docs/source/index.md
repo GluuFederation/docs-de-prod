@@ -1,9 +1,10 @@
 # Gluu Server Docker Edition (DE)
-## Overview
-The Gluu Server now supports installation via Linux containers. This documentation is primarily focused on utilizing Docker, but it's possible to use these containers with other container engines, such as rkt.
-
 !!! Attention
     In 2020, Docker Edition (DE) will be renamed to Enterprise Edition (EE). More great enhancements, features, and improvements are on the way!
+
+
+## Overview
+The Gluu Server supports installation via Kubernetes. 
 
 ## Features
 - Consistent Environments
