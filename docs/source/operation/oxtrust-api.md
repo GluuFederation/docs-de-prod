@@ -282,6 +282,7 @@ The oxTrust API has two modes that administrators can configure according to nee
         -d client_id='0008-76f0b100-6d68-4f21-96ca-c6e49d30094b' \
         -d client_assertion_type='urn:ietf:params:oauth:client-assertion-type:jwt-bearer' \
         -d client_assertion='eyJhbGciOiJSUzI1NiIs.RiLZyW2yYdF4P0QD0oY9zjBfsFwFSpSCRUe.3WnaETMtAIPpXQhry6SYFR1tFv1t4XO14o1qVA'
+        -d scope=`oxtrust-api-read oxtrust-api-write`
     ```
 
     The response example:
